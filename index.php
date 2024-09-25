@@ -22,11 +22,9 @@
         <?php include 'sidebar/sidebar.php'; ?>
     </nav>
     
-    <!-- Home Section -->
     <section class="home-section">
         <header>
             <div class="home-logo">
-                <i class="uil uil-estate"></i>
                 <span class="dashboard">Dashboard</span>
             </div>
 
