@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
 
     <!-- Import Icon Boxicon -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     
     <!-- Link ke CSS Sidebar dan Home Section -->
     <link rel="stylesheet" href="css/sidebar.css">
@@ -22,22 +22,36 @@
         <?php include 'sidebar/sidebar.php'; ?>
     </nav>
     
+    <!-- Home Section -->
     <section class="home-section">
         <header>
             <div class="home-logo">
+                <i class='bx bx-menu'></i>
                 <span class="dashboard">Dashboard</span>
             </div>
-
             <div class="search-box">
                 <i class='bx bx-search'></i>
                 <input type="text" placeholder="Cari...">
             </div>
-
             <div class="profile">
                 <img src="images/logo.jpg" alt="Profile Picture">
                 <span class="admin_name">Naraya</span>
+                <i class='bx bxs-chevron-down'></i>
             </div>
         </header>
+
+        <!-- Home Content -->
+        <div class="home-content">
+            <div class="overview-boxes">
+                <div class="box">
+                    <div class="left-side">
+                        <div class="box-topic">Pelanggan</div>
+                        <div class="number">3000</div>
+                    </div>
+                    <i class='bx bx-user icon'></i> <!-- Gunakan kelas tambahan seperti 'icon' -->
+                </div>
+            </div>
+        </div>
     </section>
 
 </body>
