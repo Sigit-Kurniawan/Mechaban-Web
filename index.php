@@ -7,21 +7,17 @@
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Mechaban</title>
 </head>
 
 <body>
-
     <div class="background">
         <div class="container">
             <header>
                 <div class="logo">
                     <img src="assets/img/Logo.png" alt="Mechaban Logo">
                     <span class="logo-text">Mechaban</span>
-
                 </div>
                 <nav>
                     <ul>
@@ -64,7 +60,6 @@
             <div class="whatsapp-icon">
                 <img src="assets/img/wa.png" alt="Whatsapp Icon">
             </div>
-
         </div>
     </div>
 
@@ -75,7 +70,6 @@
                     <h1 class="card-title">Fitur Andalan</h1>
                     <p class="title-desc">Fitur-fitur andalan kami di <span class="mechaban">Mechaban</span></p>
                 </div>
-
                 <div class="card-content">
                     <div class="card-fitur">
                         <img src="assets/img/card/home-servis.png" class="img-card">
@@ -96,7 +90,6 @@
                 </div>
             </div>
         </section>
-
     </div>
 
     <div class="container">
@@ -117,9 +110,7 @@
                 <!-- Tambahkan gambar merk mobil lainnya sesuai kebutuhan -->
             </div>
         </section>
-
     </div>
-
 
     <script src="assets/js/main.js"></script>
 </body>
