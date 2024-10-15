@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="icon" href="assets/img/Logo.png" type="image/png">
     <title>Mechaban</title>
 </head>
 
@@ -63,6 +66,7 @@
         </div>
     </div>
 
+    <!--Fitur Andalan-->
     <div class="card-container">
         <section class="card-section">
             <div class="card">
@@ -83,7 +87,7 @@
                         </p>
                     </div>
                     <div class="card-fitur">
-                        <img src="assets/img/card/reminder-service.png" class="img-card">
+                        <img src="assets/img/card/reminder-servis.png" class="img-card">
                         <h2 class="name-card">Reminder Service</h2>
                         <p class="name-card-desc">Mendapatkan pengingat rutin untuk service mobil via aplikasi</p>
                     </div>
@@ -92,25 +96,153 @@
         </section>
     </div>
 
-    <div class="container">
-        <!--Section Merk-->
-        <section class="merk">
-            <h2>Merk Mobil yang Dilayani</h2>
-            <div class="merk-gallery">
-                <img src="assets/img/logomobil/honda.png" alt="Honda" class="merk-logo">
-                <img src="assets/img/logomobil/toyota.png" alt="Toyota" class="merk-logo">
-                <img src="assets/img/logomobil/mitsubishi.png" alt="Mitsubishi" class="merk-logo">
-                <img src="assets/img/logomobil/nissan.png" alt="Nissan" class="merk-logo">
-                <img src="assets/img/logomobil/mazda.png" alt="BMW" class="merk-logo">
-                <img src="assets/img/logomobil/lexus.png" alt="BMW" class="merk-logo">
-                <img src="assets/img/logomobil/suzuki.png" alt="BMW" class="merk-logo">
-                <img src="assets/img/logomobil/bmw.png" alt="BMW" class="merk-logo">
-                <img src="assets/img/logomobil/audi.png" alt="BMW" class="merk-logo">
-                <img src="assets/img/logomobil/chevrolet.png" alt="Chevrolet" class="merk-logo">
-                <!-- Tambahkan gambar merk mobil lainnya sesuai kebutuhan -->
+
+    <!--Mengapa harus Mechaban-->
+    <div class="card-container">
+        <section class="card-section">
+            <div class="card">
+                <div class="card-head">
+                    <h1 class="card-title-2">Mengapa Harus Booking di Mechaban?</h1>
+                </div>
+                <div class="card-content">
+                    <div class="card-fitur">
+                        <img src="assets/img/card/harga-terjangkau.png" class="img-card">
+                        <h2 class="name-card-2">Harga terjangkau dan transparan</h2>
+                        <p class="name-card-desc">Mengetahui harga sebelum ke bengkel</p>
+                    </div>
+                    <div class="card-fitur">
+                        <img src="assets/img/card/garansi.png" class="img-card">
+                        <h2 class="name-card-2">Jaminan Garansi Selama 1 Bulan</h2>
+                        <p class="name-card-desc">Terdapat garansi perbaikan setelah 1 bulan diperbaiki</p>
+                    </div>
+                    <div class="card-fitur">
+                        <img src="assets/img/card/payment.png" class="img-card">
+                        <h2 class="name-card-2">Fleksibilitas Pembayaran</h2>
+                        <p class="name-card-desc">Pembayaran bisa melalui online maupun langsung di bengkel</p>
+                    </div>
+                    <div class="card-fitur">
+                        <img src="assets/img/card/lokasi.png" class="img-card">
+                        <h2 class="name-card-2">Memantau Lokasi Montir</h2>
+                        <p class="name-card-desc">Mampu melacak lokasi montir di perjalanan</p>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
+
+    <!--Merk yang kami layani-->
+    <div class="card-container">
+        <section class="card-section">
+            <div class="card" id="merk">
+                <div class="card-head">
+                    <h1 class="card-title-2">Merek-Merek Terkenal yang Kami Layani</h1>
+                </div>
+
+                <div class="merk-galeri">
+                    <img src="assets/img/logomobil/honda.png" alt="Honda" class="merk-logo">
+                    <img src="assets/img/logomobil/toyota.png" alt="Toyota" class="merk-logo">
+                    <img src="assets/img/logomobil/mitsubishi.png" alt="Mitsubishi" class="merk-logo">
+                    <img src="assets/img/logomobil/nissan.png" alt="Nissan" class="merk-logo">
+                    <img src="assets/img/logomobil/mazda.png" alt="BMW" class="merk-logo">
+                    <img src="assets/img/logomobil/lexus.png" alt="BMW" class="merk-logo">
+                    <img src="assets/img/logomobil/suzuki.png" alt="BMW" class="merk-logo">
+                    <img src="assets/img/logomobil/bmw.png" alt="BMW" class="merk-logo">
+                    <img src="assets/img/logomobil/audi.png" alt="BMW" class="merk-logo">
+                    <img src="assets/img/logomobil/chevrolet.png" alt="Chevrolet" class="merk-logo">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!--FAQ-->
+    <div class="card-container">
+        <section class="card-section">
+            <div class="card">
+                <div class="card-head">
+                    <h2 class="card-title">Frequently Asked Question (FAQ)</h2>
+                    <p class="title-desc">Pertanyaan-pertanyaan yang sering ditanyakan oleh pengguna tentang <span
+                            class="mechaban">Mechaban</spanc>
+                    </p>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-header">Bagaimana cara mendaftar di Mechaban?</button>
+                        <div class="accordion-content">
+                            <p>This is the content for section 1.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header">Bagaimana cara mendaftar di Mechaban?</button>
+                        <div class="accordion-content">
+                            <p>This is the content for section 2.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header">Bagaimana cara mendaftar di Mechaban?</button>
+                        <div class="accordion-content">
+                            <p>This is the content for section 3.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+
+
+    <!--Iklan-->
+    <div class="card-container">
+        <div class="iklan-hp" id="iklan">
+            <div class="iklan-content">
+                <h1>Dapatkan fitur lebih dari Mechaban di dalam genggaman</h1>
+                <p>Di dalam aplikasi memiliki fitur memanajemen mobil dan menyimpan hasil inspeksi mobil.</p>
+            </div>
+            <div class="gambar-hp">
+                <img src="assets/img/hp.png" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!--Footer-->
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Kolom 1: Logo dan Gambar -->
+                <div class="col-md-4">
+                    <div class="logo">
+                        <img src="assets/img/Logo.png" alt="Mechaban Logo">
+                        <span class="logo-text">Mechaban</span>
+                    </div>
+                    <img src="path/to/map-image.png" alt="Map" class="footer-map">
+                </div>
+
+                <!-- Kolom 2: Link Cepat -->
+                <div class="col-md-4">
+                    <h4>Halaman</h4>
+                    <ul>
+                        <li><a href="#">Beranda</a></li>
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kolom 3: Informasi Bisnis -->
+                <div class="col-md-4">
+                    <h4>Informasi Bisnis</h4>
+                    <p>Jalan Meliwis, No. 45, RT. 02, RW. 02</p>
+                    <p>Dus. Sawahan, Desa Genteng Kulon, Kec. Genteng, Kab. Banyuwangi</p>
+
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Mechaban | &copy; 2024</p>
+        </div>
+    </footer>
+
 
     <script src="assets/js/main.js"></script>
 </body>

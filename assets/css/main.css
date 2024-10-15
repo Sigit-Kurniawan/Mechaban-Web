@@ -71,21 +71,6 @@ nav a {
   font-size: 3em;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-  }
-
-  nav ul {
-    flex-direction: column;
-  }
-
-  nav li {
-    margin: 10px 0;
-  }
-}
-
 /* Whatsapp Icon */
 .whatsapp-icon {
   position: fixed;
@@ -238,7 +223,7 @@ nav a {
 }
 
 .card-section {
-  margin: 10rem 0;
+  margin: 5rem 0;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -247,8 +232,8 @@ nav a {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  /* width: 1500px; */
-  height: 500px;
+  width: 1500px;
+  height: 600px;
   transition: transform 0.3s ease;
 }
 
@@ -274,6 +259,12 @@ nav a {
 
 .mechaban {
   color: var(--primary);
+}
+
+.card-title-2 {
+  font-size: 2em;
+  color: var(--primary);
+  margin-bottom: 80px;
 }
 
 /*Isi cardview*/
@@ -309,6 +300,13 @@ nav a {
   font-size: 28px;
 }
 
+.name-card-2 {
+  margin-top: 8px;
+  color: var(--primary);
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+
 .name-card-desc {
   font-size: 1em;
   margin-bottom: 15px;
@@ -318,31 +316,205 @@ nav a {
 }
 
 /*Merk Section*/
-.merk {
-  padding: 20px;
+#merk {
+  height: 500px;
 }
 
-.merk-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around; /* Mengatur jarak antar gambar */
-  width: 100%; /* Memastikan galeri mengambil lebar penuh */
+.merk-galeri {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 20px;
+  padding: 40px, 20px;
+  justify-items: center;
+  align-items: center;
 }
 
 .merk-logo {
-  width: 100px; /* Mengatur lebar setiap logo agar sama */
-  height: 100px; /* Mengatur tinggi setiap logo agar sama */
-  object-fit: contain; /* Memastikan gambar tetap dalam rasio */
-  margin: 36px 10px; /* Jarak antar gambar: 20px di atas dan bawah, 10px di kiri dan kanan */
-  flex: 1 1 15%; /* Memastikan fleksibilitas pada ukuran gambar */
+  max-width: 100px;
+  height: auto;
 }
 
-/* Media query untuk tampilan yang lebih baik pada layar kecil */
-@media (max-width: 768px) {
-  .merk-logo {
-    width: 30%; /* Mengatur lebar lebih besar pada layar kecil */
-    max-width: 80px; /* Mengatur ukuran maksimal untuk layar kecil */
+@media screen and (min-width: 1201px) {
+  .merk-galeri {
+    grid-template-columns: repeat(
+      5,
+      1fr
+    ); /* Pada layar besar, tampilkan 5 logo per baris */
   }
 }
 
-/*Cara Kerja Section*/
+/*FAQ*/
+.accordion {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.accordion-item {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  margin-bottom: 8px;
+  margin-top: 32px;
+}
+
+.accordion-header {
+  background-color: white;
+  color: black;
+  padding: 15px;
+  border: none;
+  width: 600px;
+  text-align: left;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-content {
+  display: none;
+  padding: 15px;
+  background-color: #fff;
+}
+
+.accordion-content p {
+  margin: 0;
+}
+
+/*Iklan*/
+#iklan-section {
+  margin-top: 200px;
+  display: flex;
+  justify-content: center;
+}
+#iklan {
+  width: 1200px;
+  height: 350px;
+  display: flex;
+}
+
+.iklan-content {
+  background-image: url("../img/bg-iklan.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 70%;
+  margin-top: 100px;
+  color: white;
+}
+
+.iklan-content h1 {
+  font-size: 32px;
+  margin-left: 32px;
+  margin-bottom: 0%;
+}
+
+.iklan-content p {
+  font-size: 20px;
+  padding: 10px;
+  margin-left: 28px;
+}
+
+.gambar-hp {
+  width: 35%; /* Mengatur lebar gambar agar tidak terlalu besar */
+  height: auto;
+  margin-right: 10rem;
+  z-index: 10;
+}
+
+/*Footer*/
+/* Styling untuk footer */
+footer {
+  background-color: #0697f2;
+  color: #fff;
+  padding: 40px 0;
+  width: 100%;
+  min-height: 500px; /* Menetapkan tinggi minimal footer */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+footer .container-fluid {
+  flex-grow: 1;
+  max-width: 100%;
+  padding: 0 40px;
+  display: flex;
+  justify-content: center; /* Pusatkan konten dalam container */
+  align-items: center;
+}
+
+footer .row {
+  display: flex;
+  justify-content: space-evenly; /* Sejajarkan kolom dengan ruang yang sama di antaranya */
+  align-items: center; /* Vertikal align heading agar sejajar dengan konten Mechaban */
+  width: 80%; /* Kolom hanya memenuhi 80% dari lebar total */
+  height: 80%; /* Membuat konten row memenuhi 80% dari tinggi footer */
+  flex-wrap: wrap;
+  text-align: left; /* Mengatur teks tetap rata kiri */
+}
+
+footer .col-md-4 {
+  flex: 1;
+  max-width: 33.33%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Pusatkan vertikal elemen di setiap kolom */
+  align-items: flex-start; /* Agar konten tetap rata kiri dalam kolom */
+}
+
+.footer-logo {
+  max-width: 100px;
+  margin-bottom: 20px;
+}
+
+.footer-map {
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+footer h4 {
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+}
+
+footer ul li {
+  margin-bottom: 15px;
+}
+
+footer ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+footer p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.footer-bottom {
+  background-color: #005bb5;
+  padding: 20px;
+  text-align: center;
+  color: #ccc;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.iklan-hp {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 1500px;
+  height: 600px;
+  transition: transform 0.3s ease;
+}
