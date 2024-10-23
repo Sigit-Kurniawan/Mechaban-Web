@@ -3,121 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Web</title>
-
-    <!-- Import Icon Unicons -->
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-
-    <!-- Import Icon Boxicon -->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Admin</title>
 
     <link rel="stylesheet" href="assets/css/style.css">
-
 </head>
 <body>
-    <div class="sidebar">
-        <?php 
-            if (file_exists('sidebar.php')) {
-                include 'sidebar.php';
-            } else {
-                echo '<p>Sidebar tidak ditemukan.</p>';
-            }
-        ?>
-    </div>
+    <div class="container">
+    <?php include_once 'sidebar.php'; ?>
+    
 
-    <main class="main-content" role="main">
-        <section class="home-section">
-            <header>
-                <div class="sidebar-button" aria-label="Toggle sidebar">
-                    <i class='bx bx-menu'></i>
-                    <h2 class="dashboard">Dashboard</h2>
+        <div class="main">
+            <div class="header">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
                 </div>
-                <div class="search-box">
-                    <i class='bx bx-search'></i>
-                    <input type="text" placeholder="Cari...">
+                <!-- ----search---- -->
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="Search here.....">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
                 </div>
-                <div class="profile">
-                    <img src="assets/images/logo.jpg" alt="Profile Picture">
-                    <span class="admin_name">Naraya</span>
-                    <i class='bx bxs-chevron-down'></i>
+                <!-- ----user img---- -->
+                <div class="user">
+                    <img src="assets/images/user.jpg">
                 </div>
-            </header>
-            
-            <div class="content">
-                <div class="row">
-                    <div class="col-12">
-                        <h1 class="mb-4">Selamat Datang di Dashboard Admin</h1>
+            </div>
+
+            <div class="cardbox">
+                <div class="card">
+                    <div>
+                        <div class="number">1,504</div>
+                        <div class="cardname">Daily Views</div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Pelanggan</h5>
-                                <p class="card-text">150</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Reservasi Aktif</h5>
-                                <p class="card-text">5</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Reservasi Selesai</h5>
-                                <p class="card-text">10</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Pendapatan Hari Ini</h5>
-                                <p class="card-text">Rp.500.000</p>
-                            </div>
-                        </div>
+                    <div class="iconBx">
+                        <ion-icon name="eye-outline"></ion-icon>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 mb-4">
-                        <div class="recent-activity">
-                            <h2>Aktivitas sebelumnya</h2>
-                            <ul>
-                                <li>Montir Saleh mengisi reservasi baru.</li>
-                                <li>Montir Antasari Login.</li>
-                                <li>Reservasi dikonfirmasi.</li>
-                            </ul>
-                        </div>
+
+                <div class="card">
+                    <div>
+                        <div class="number">1,504</div>
+                        <div class="cardname">Daily Views</div>
+                    </div>
+                    <div class="iconBx">
+                        <ion-icon name="eye-outline"></ion-icon>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 mb-4">
-                        <div class="quick-actions">
-                            <h2>Quick Actions</h2>
-                            <button class="btn btn-primary">Add New User</button>
-                            <button class="btn btn-success">Create New Reservation</button>
-                        </div>
+
+                <div class="card">
+                    <div>
+                        <div class="number">1,504</div>
+                        <div class="cardname">Daily Views</div>
                     </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="chart-placeholder">
-                            <h2>Revenue Chart</h2>
-                            <p>[Chart will go here]</p>
-                        </div>
+                    <div class="iconBx">
+                        <ion-icon name="eye-outline"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="number">1,504</div>
+                        <div class="cardname">Daily Views</div>
+                    </div>
+                    <div class="iconBx">
+                        <ion-icon name="eye-outline"></ion-icon>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="assets/js/script.js"></script> 
+            <div class="details">
+                <div class="recentOrder">
+                    <div class="cardHeader">
+                        <h2>Recent Order</h2>
+                        <a href="#" class="btn">View All</a>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Nama</td>
+                                <td>Harga</td>
+                                <td>Pembayaran</td>
+                                <td>Status</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Star Refrigerator</td>
+                                <td>Rp1.200.000</td>
+                                <td>Terbayar</td>
+                                <td><span class="status">Perbaikan</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Star Refrigerator</td>
+                                <td>Rp1.200.000</td>
+                                <td>Terbayar</td>
+                                <td><span class="status">Perbaikan</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Star Refrigerator</td>
+                                <td>Rp1.200.000</td>
+                                <td>Terbayar</td>
+                                <td><span class="status">Perbaikan</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Star Refrigerator</td>
+                                <td>Rp1.200.000</td>
+                                <td>Terbayar</td>
+                                <td><span class="status">Perbaikan</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Star Refrigerator</td>
+                                <td>Rp1.200.000</td>
+                                <td>Terbayar</td>
+                                <td><span class="status">Perbaikan</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="recentCustomers">
+                    <div class="cardHeader">
+                        <h2>Recent Customers</h2>
+                    </div>
+                    <table>
+                        <tr>
+                            <td width="60px"><div class="imgBx"><img src="assets/images/user.jpg"></div></td>
+                            <td><h4>David<br><span>Italy</span></h4></td>
+                        </tr>
+
+                        <tr>
+                            <td width="60px"><div class="imgBx"><img src="assets/images/user.jpg"></div></td>
+                            <td><h4>David<br><span>Italy</span></h4></td>
+                        </tr>
+
+                        <tr>
+                            <td width="60px"><div class="imgBx"><img src="assets/images/user.jpg"></div></td>
+                            <td><h4>David<br><span>Italy</span></h4></td>
+                        </tr>
+
+                        <tr>
+                            <td width="60px"><div class="imgBx"><img src="assets/images/user.jpg"></div></td>
+                            <td><h4>David<br><span>Italy</span></h4></td>
+                        </tr>
+
+                        <tr>
+                            <td width="60px"><div class="imgBx"><img src="assets/images/user.jpg"></div></td>
+                            <td><h4>David<br><span>Italy</span></h4></td>
+                        </tr>
+
+                        <tr>
+                            <td width="60px"><div class="imgBx"><img src="assets/images/user.jpg"></div></td>
+                            <td><h4>David<br><span>Italy</span></h4></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

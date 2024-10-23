@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Mechaban</title>
 
-    <!-- External Stylesheet Link -->
-    <link rel="stylesheet" href="login.css">
-
     <!-- Boxicons Icon Library -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+    <!-- External Stylesheet Link -->
+    <link rel="stylesheet" href="assets/css/login.css">
+    
 </head>
 <body>
     <div class="wrapper">
-        <form action="" method="post">
+        <form action="assets/Api/login.php" method="post">
             <h1>Login</h1>
 
             <!-- Username Input -->
