@@ -27,7 +27,7 @@
                         <li><a href="#">Beranda</a></li>
                         <li><a href="#">Tentang Kami</a></li>
                         <li><a href="#">FAQ</a></li>
-                        <li><button class="masuk-btn">Masuk</button></li>
+                        <li><a href="login.php" class="masuk-btn">Masuk</a></li>
                     </ul>
                 </nav>
             </header>
