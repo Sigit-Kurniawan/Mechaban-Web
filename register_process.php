@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Validasi role
-    $valid_roles = ['Admin', 'Montir', 'Customer'];
+    $valid_roles = ['admin', 'montir', 'customer'];
     if (!in_array($role, $valid_roles)) {
         echo "Role tidak valid.";
         exit;
@@ -41,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt) {
                 mysqli_stmt_bind_param($stmt, "sssss", $name, $email, $no_hp, $hashed_password, $role);
                 if (mysqli_stmt_execute($stmt)) {
-                    echo "Register berhasil";
+                    header("Location: login.php");
+                    exit();
                 } else {
                     throw new Exception("Gagal mengeksekusi query: " . mysqli_stmt_error($stmt));
                 }
@@ -52,6 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo $e->getMessage();
         }
     }
-    mysqli_close($conn);
 }
-?>
+
+mysqli_close($conn);

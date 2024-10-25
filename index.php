@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,7 +31,15 @@
                         <li><a href="#">Beranda</a></li>
                         <li><a href="#">Tentang Kami</a></li>
                         <li><a href="#">FAQ</a></li>
-                        <li><a href="login.php" class="masuk-btn">Masuk</a></li>
+                        <?php if (isset($_SESSION["login"])): ?>
+                            <li><a href="<?php if ($_SESSION['role'] == "customer") {
+                                                echo "dashboard-cus.php";
+                                            } else if ($_SESSION['role'] == "admin") {
+                                                echo "dashboard-admin.php";
+                                            }; ?> " class="masuk-btn">Dashboard</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php" class="masuk-btn">Masuk</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
             </header>

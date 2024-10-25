@@ -2,6 +2,5 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location: login.php"); // Redirect ke halaman login
+header("Location: index.php"); // Redirect ke halaman login
 exit();
-?>

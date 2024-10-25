@@ -2,7 +2,7 @@
 session_start();
 include("koneksi.php");
 
-if (isset($_POST["login"])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
     $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
 
@@ -13,27 +13,26 @@ if (isset($_POST["login"])) {
     $result = mysqli_stmt_get_result($stmt);
     $user = mysqli_fetch_assoc($result);
 
-
-
     if ($user) {
         if (password_verify($password, $user['password'])) {
-            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['name'] = $user['name'];
             $_SESSION['role'] = $user['role'];
 
             $_SESSION['login'] = true;
-            // header("Location: ..");
-            // exit;
+            header("Location: index.php");
+            exit;
 
-            if ($user['role'] === 'Admin') {
-                header("Location: dashboard-admin.php");
-                exit();
-            } elseif ($user['role'] === 'Customer') {
-                header("Location: dashboard-cus.php");
-                exit();
-            }
+            // if ($user['role'] === 'admin') {
+            //     header("Location: dashboard-admin.php");
+            //     exit();
+            // } elseif ($user['role'] === 'customer') {
+            //     header("Location: dashboard-cus.php");
+            //     exit();
+            // }
         } else {
             echo "Email atau password salah";
         }
-        mysqli_close($conn);
     }
 }
+
+mysqli_close($conn);

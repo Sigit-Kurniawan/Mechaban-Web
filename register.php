@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (isset($_SESSION["login"])) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,9 +28,7 @@
                 </div>
             </div>
 
-
             <div class="card-content">
-
                 <form action="register_process.php" method="POST">
                     <div class="form-group">
                         <label for="name">Nama</label>
@@ -38,6 +44,7 @@
                         <label for="no_hp">No. Hp</label>
                         <input type="text" id="no_hp" name="no_hp" placeholder=" Masukkan no. hp anda">
                     </div>
+
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" id="password" name="password" placeholder="Buat password anda ">
@@ -49,12 +56,11 @@
                     <div class="form-group">
                         <label for="role" id="role">Role</label>
                         <select name="role" class="role">
-                            <option value="Admin">Admin</option>
-                            <option value="Montir">Montir</option>
-                            <option value="Customer">Customer</option>
+                            <option value="admin">Admin</option>
+                            <option value="montir">Montir</option>
+                            <option value="customer">Customer</option>
                         </select>
                     </div>
-
 
                     <button type="submit">Register</button>
 
@@ -62,10 +68,7 @@
                         <p>Sudah punya akun? <a href="login.php"> Login</a></p>
                     </div>
                 </form>
-
             </div>
-
-
         </div>
     </div>
 

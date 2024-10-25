@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (isset($_SESSION["login"])) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,8 +47,6 @@
                         <p>Belum punya akun? <a href="register.php"> Register</a></p>
                     </div>
                 </form>
-
-
 
             </div>
         </div>
