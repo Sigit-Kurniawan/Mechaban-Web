@@ -2,7 +2,7 @@
             <ul>
                     <li>
                     <a href="#">
-                        <span class="icon"><img src="assets/images/logo.png" alt="logo" class="logo"></span>
+                        <span class="icon"><img src="../assets/img/logo.png" alt="logo" class="logo"></span>
                         <span class="brand">Mechaban</span>
                     </a>
                 </li>
@@ -13,20 +13,20 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="cube-outline"></ion-icon></span>
-                        <span class="title">Customers</span>
+                    <a href="mobil/mobil.php">
+                        <span class="icon"><ion-icon name="car-sport-outline"></ion-icon></ion-icon></span>
+                        <span class="title">Mobil</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <span class="icon"><ion-icon name="cube-outline"></ion-icon></span>
-                        <span class="title">Message</span>
+                        <span class="icon"><ion-icon name="accessibility-outline"></ion-icon></span>
+                        <span class="title">Aktivitas</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <span class="icon"><ion-icon name="cube-outline"></ion-icon></span>
+                        <span class="icon"><ion-icon name="help-outline"></ion-icon></ion-icon></span>
                         <span class="title">Help</span>
                     </a>
                 </li>
@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="../logout.php">
                         <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
                         <span class="title">Log Out</span>
                     </a>

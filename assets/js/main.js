@@ -25,3 +25,9 @@ list.forEach(item => {
         this.classList.remove('hovered');
     });
 });
+
+document.querySelector('.toggle').addEventListener('click', () => {
+    document.querySelector('.navigation').classList.toggle('active');
+    document.querySelector('.main').classList.toggle('active');
+});
+

@@ -1,17 +1,27 @@
+<?php
+session_start();
+if (!isset($_SESSION["login"])) {
+    header("Location: login.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
+
+    <link rel="icon" href="../assets/images/logo.png" type="image/png">
+    <title>Mechaban</title>
 
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
 <body>
     <div class="container">
-        <?php include_once 'sidebar.php'; ?>
+        <?php include_once 'sidebar_cus.php'; ?>
 
 
         <div class="main">
@@ -27,19 +37,31 @@
                     </label>
                 </div>
                 <!-- ----user img---- -->
+
+
                 <div class="user">
-                    <img src="../assets/images/user.jpg">
+                    <div class="user-img-container">
+                        <img src="../assets/images/user.jpg" alt="User Profile" class="user-img">
+                        <div class="user-status"></div>
+                    </div>
+                    <div class="user-info">
+                        <div class="username">
+                            <span class="name"><?php echo $_SESSION["name"]; ?></span>
+                            <span class="role"><?php echo $_SESSION["role"]; ?></span>
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
             <div class="cardbox">
                 <div class="card">
                     <div>
                         <div class="number">1,504</div>
-                        <div class="cardname">Daily Views</div>
+                        <div class="cardname">Mobil</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
+                        <ion-icon name="car-sport-outline"></ion-icon>
                     </div>
                 </div>
 
@@ -53,31 +75,21 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div>
-                        <div class="number">1,504</div>
-                        <div class="cardname">Daily Views</div>
-                    </div>
+                <div class="button">
                     <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
+                        <ion-icon name="car-sport-outline"></ion-icon>
                     </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="number">1,504</div>
-                        <div class="cardname">Daily Views</div>
-                    </div>
-                    <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </div>
+                    <a href="#">
+                        <button class="btn-reservasi">Reservasi Sekarang</button>
+                    </a>
                 </div>
             </div>
+
 
             <div class="details">
                 <div class="recentOrder">
                     <div class="cardHeader">
-                        <h2>Recent Order</h2>
+                        <h2>Riwayat Transaksi</h2>
                         <a href="#" class="btn">View All</a>
                     </div>
                     <table>
@@ -195,7 +207,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-    <script src="assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
 </body>
 
 </html>

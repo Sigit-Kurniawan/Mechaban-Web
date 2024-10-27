@@ -38,7 +38,7 @@ body {
 }
 
 .navigation.active{
-    width: 70px;
+    width: 75px;
 }
 
 .navigation ul {
@@ -168,8 +168,8 @@ body {
 }
 
 .main.active {
-    width: calc(100% - 70px);
-    left: 70px;
+    width: calc(100% - 75px);
+    left: 75px;
 }
 
 .header {
@@ -188,8 +188,8 @@ body {
 }
 
 .main.active .header {
-    left: 70px;
-    width: calc(100% - 70px);
+    left: 75px;
+    width: calc(100% - 75px);
 }
 
 .toggle{
@@ -233,30 +233,120 @@ body {
     font-size: 1.2em;
 }
 
-.user{
-    position: relative;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
+/* User profile section styling */
+.user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
     cursor: pointer;
 }
 
-.user img{
-    position: absolute;
-    top: 0;
-    left: 0;
+.user:hover {
+    background-color: var(--grey);
+}
+
+/* User image container */
+.user-img-container {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--blue);
+    box-shadow: 0 2px 8px rgba(5, 151, 242, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-img-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(5, 151, 242, 0.25);
+}
+
+/* User image */
+.user-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
 }
+
+/* User info section */
+.user-info {
+    margin-left: 4px;
+}
+
+.username {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.username .name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--black1);
+}
+
+.username .role {
+    font-size: 0.85rem;
+    color: var(--black2);
+    font-weight: 400;
+}
+
+/* Online status indicator */
+.user-status {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background-color: #22c55e; /* Green for online status */
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .user {
+        padding: 6px 8px;
+    }
+    
+    .user-img-container {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .username .name {
+        font-size: 0.9rem;
+    }
+    
+    .username .role {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-img-container {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .user-status {
+        width: 10px;
+        height: 10px;
+    }
+}
+
 
 .cardbox {
     position: relative;
     width: 100%;
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
     grid-gap: 30px;
     margin-top: 20px; 
 }
@@ -267,39 +357,70 @@ body {
     padding: 20px; 
     border-radius: 20px;
     display: flex;
+    flex-direction: column; 
     justify-content: space-between; 
     cursor: pointer;
-    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-    transition: box-shadow 0.3s ease; 
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease; 
 }
 
-.cardbox .card .number{
-    position: relative;
+.cardbox .card:hover {
+    background: #287bff;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); 
+    transform: translateY(-5px); /* Slight lift on hover */
+}
+
+.cardbox .number {
     font-weight: 500;
     font-size: 2.5em;
     color: #287bff;
 }
 
-.cardbox .card .cardname{
+.cardbox .cardname {
     color: #999;
     font-size: 1.1em;
     margin-top: 5px;
 }
 
-.cardbox .card .iconBx{
+.cardbox .iconBx {
     font-size: 3.5em;
     color: #999;
 }
 
-.cardbox .card:hover {
-    background: #287bff;
-    box-shadow: 0 7px 30px rgba(0, 0, 0, 0.15); 
+.cardbox .btn-reservasi {
+    background: #287bff; 
+    color: #fff; 
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 10px; 
+    font-size: 1em; 
+    font-weight: bold; 
+    cursor: pointer; 
+    text-align: center; 
+    transition: background 0.3s ease, transform 0.2s ease; 
+    margin-top: 15px; 
+}
+
+.cardbox .btn-reservasi:hover {
+    background: #1d5cbf; 
+    transform: scale(1.05); 
 }
 
 .cardbox .card:hover .number,
 .cardbox .card:hover .cardname,
-.cardbox .card:hover .iconBx{
+.cardbox .card:hover .iconBx {
     color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cardbox {
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* Stacks cards on smaller screens */
+    }
+
+    .cardbox .btn-reservasi {
+        width: 100%; /* Full width button on smaller screens */
+    }
 }
 
 .details {
@@ -543,8 +664,8 @@ body {
 
     .main.active,
     .main.active .header {
-        left: 70px;
-        width: calc(100% - 70px);
+        left: 75px;
+        width: calc(100% - 75px);
     }
 }
 

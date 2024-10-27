@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,27 +14,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 
-    <link rel="icon" href="assets/images/Logo.png" type="image/png">
+    <link rel="icon" href="assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
 </head>
 
 <body>
     <div class="background">
         <div class="container">
-                <header>
-                    <div class="logo">
-                        <img src="assets/images/Logo.png" alt="Mechaban Logo">
-                        <span class="logo-text">Mechaban</span>
-                    </div>
-                    <nav>
-                        <ul>
-                            <li><a href="#">Beranda</a></li>
-                            <li><a href="#">Tentang Kami</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="menu/halaman_login.php"><button class="masuk-btn">Masuk</button></a></li>
-                        </ul>
-                    </nav>
-                </header>
+            <header>
+                <div class="logo">
+                    <img src="assets/img/logo.png" alt="Mechaban Logo">
+                    <span class="logo-text">Mechaban</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Beranda</a></li>
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <?php if (isset($_SESSION["login"])): ?>
+                            <li><a href="<?php if ($_SESSION['role'] == "customer") {
+                                                echo "menu_cus/home_cus.php";
+                                            } else if ($_SESSION['role'] == "admin") {
+                                                echo "menu_admin/home_admin.php";
+                                            }; ?> " class="masuk-btn">Dashboard</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php" class="masuk-btn">Masuk</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
+            </header>
 
             <!-- Hero Section -->
             <section class="hero" id="hero">
@@ -40,19 +52,19 @@
                         <button class="booking-btn">Booking Sekarang</button>
                         <div class="download">
                             <h2>Tersedia juga di</h2>
-                            <img src="assets/images/playstore.png" alt="Google Play Badge">
+                            <img src="assets/img/playstore.png" alt="Google Play Badge">
                         </div>
                     </div>
                     <div class="col-7 hero-image">
                         <div class="hero-slider">
                             <div class="slide">
-                                <img src="assets/images/bengkel1.png" alt="Mobil di bengkel">
+                                <img src="assets/img/bengkel1.png" alt="Mobil di bengkel">
                             </div>
                             <div class="slide">
-                                <img src="assets/images/bengkel2.png" alt="Mekanik Mechaban">
+                                <img src="assets/img/bengkel2.png" alt="Mekanik Mechaban">
                             </div>
                             <div class="slide">
-                                <img src="assets/images/bengkel3.png" alt="Mekanik Mechaban">
+                                <img src="assets/img/bengkel3.png" alt="Mekanik Mechaban">
                             </div>
                             <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
                             <a class="next" onclick="changeSlide(1)">&#10095;</a>
@@ -61,7 +73,7 @@
                 </div>
             </section>
             <div class="whatsapp-icon">
-                <img src="assets/images/wa.png" alt="Whatsapp Icon">
+                <img src="assets/img/wa.png" alt="Whatsapp Icon">
             </div>
         </div>
     </div>
@@ -76,18 +88,18 @@
                 </div>
                 <div class="card-content">
                     <div class="card-fitur">
-                        <img src="assets/images/card/home-servis.png" class="img-card">
+                        <img src="assets/img/card/home-servis.png" class="img-card">
                         <h2 class="name-card">Home Service</h2>
                         <p class="name-card-desc">Booking layanan secara online dari rumah</p>
                     </div>
                     <div class="card-fitur">
-                        <img src="assets/images/card/inspection-booking.png" class="img-card">
+                        <img src="assets/img/card/inspection-booking.png" class="img-card">
                         <h2 class="name-card">Inspection Booking</h2>
                         <p class="name-card-desc">Menginspeksi masalah pada mobil pelanggan secara detail via aplikasi
                         </p>
                     </div>
                     <div class="card-fitur">
-                        <img src="assets/images/card/reminder-servis.png" class="img-card">
+                        <img src="assets/img/card/reminder-servis.png" class="img-card">
                         <h2 class="name-card">Reminder Service</h2>
                         <p class="name-card-desc">Mendapatkan pengingat rutin untuk service mobil via aplikasi</p>
                     </div>
@@ -106,22 +118,22 @@
                 </div>
                 <div class="card-content">
                     <div class="card-fitur">
-                        <img src="assets/images/card/harga-terjangkau.png" class="img-card">
+                        <img src="assets/img/card/harga-terjangkau.png" class="img-card">
                         <h2 class="name-card-2">Harga terjangkau dan transparan</h2>
                         <p class="name-card-desc">Mengetahui harga sebelum ke bengkel</p>
                     </div>
                     <div class="card-fitur">
-                        <img src="assets/images/card/garansi.png" class="img-card">
+                        <img src="assets/img/card/garansi.png" class="img-card">
                         <h2 class="name-card-2">Jaminan Garansi Selama 1 Bulan</h2>
                         <p class="name-card-desc">Terdapat garansi perbaikan setelah 1 bulan diperbaiki</p>
                     </div>
                     <div class="card-fitur">
-                        <img src="assets/images/card/payment.png" class="img-card">
+                        <img src="assets/img/card/payment.png" class="img-card">
                         <h2 class="name-card-2">Fleksibilitas Pembayaran</h2>
                         <p class="name-card-desc">Pembayaran bisa melalui online maupun langsung di bengkel</p>
                     </div>
                     <div class="card-fitur">
-                        <img src="assets/images/card/lokasi.png" class="img-card">
+                        <img src="assets/img/card/lokasi.png" class="img-card">
                         <h2 class="name-card-2">Memantau Lokasi Montir</h2>
                         <p class="name-card-desc">Mampu melacak lokasi montir di perjalanan</p>
                     </div>
@@ -139,16 +151,16 @@
                 </div>
 
                 <div class="merk-galeri">
-                    <img src="assets/images/logomobil/honda.png" alt="Honda" class="merk-logo">
-                    <img src="assets/images/logomobil/toyota.png" alt="Toyota" class="merk-logo">
-                    <img src="assets/images/logomobil/mitsubishi.png" alt="Mitsubishi" class="merk-logo">
-                    <img src="assets/images/logomobil/nissan.png" alt="Nissan" class="merk-logo">
-                    <img src="assets/images/logomobil/mazda.png" alt="BMW" class="merk-logo">
-                    <img src="assets/images/logomobil/lexus.png" alt="BMW" class="merk-logo">
-                    <img src="assets/images/logomobil/suzuki.png" alt="BMW" class="merk-logo">
-                    <img src="assets/images/logomobil/bmw.png" alt="BMW" class="merk-logo">
-                    <img src="assets/images/logomobil/audi.png" alt="BMW" class="merk-logo">
-                    <img src="assets/images/logomobil/chevrolet.png" alt="Chevrolet" class="merk-logo">
+                    <img src="assets/img/logomobil/honda.png" alt="Honda" class="merk-logo">
+                    <img src="assets/img/logomobil/toyota.png" alt="Toyota" class="merk-logo">
+                    <img src="assets/img/logomobil/mitsubishi.png" alt="Mitsubishi" class="merk-logo">
+                    <img src="assets/img/logomobil/nissan.png" alt="Nissan" class="merk-logo">
+                    <img src="assets/img/logomobil/mazda.png" alt="BMW" class="merk-logo">
+                    <img src="assets/img/logomobil/lexus.png" alt="BMW" class="merk-logo">
+                    <img src="assets/img/logomobil/suzuki.png" alt="BMW" class="merk-logo">
+                    <img src="assets/img/logomobil/bmw.png" alt="BMW" class="merk-logo">
+                    <img src="assets/img/logomobil/audi.png" alt="BMW" class="merk-logo">
+                    <img src="assets/img/logomobil/chevrolet.png" alt="Chevrolet" class="merk-logo">
                 </div>
             </div>
         </section>
@@ -201,7 +213,7 @@
                 <p>Di dalam aplikasi memiliki fitur memanajemen mobil dan menyimpan hasil inspeksi mobil.</p>
             </div>
             <div class="gambar-hp">
-                <img src="assets/images/hp.png" alt="">
+                <img src="assets/img/hp.png" alt="">
             </div>
         </div>
     </div>
@@ -213,7 +225,7 @@
                 <!-- Kolom 1: Logo dan Gambar -->
                 <div class="col-md-4">
                     <div class="logo">
-                        <img src="assets/images/Logo.png" alt="Mechaban Logo">
+                        <img src="assets/img/logo.png" alt="Mechaban Logo">
                         <span class="logo-text">Mechaban</span>
                     </div>
                     <img src="path/to/map-image.png" alt="Map" class="footer-map">
@@ -244,7 +256,7 @@
     </footer>
 
 
-    <script src="assets/js/landing_page.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>

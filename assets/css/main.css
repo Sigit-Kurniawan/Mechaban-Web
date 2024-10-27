@@ -45,7 +45,6 @@ nav ul {
   padding: 0;
   display: flex;
   align-items: center; /* Agar elemen dalam nav berada di tengah secara vertikal */
-  gap: 20px;
 }
 
 nav li {
@@ -56,30 +55,20 @@ nav a {
   text-decoration: none;
   color: white;
   font-weight: 600;
-  font-size: 1.5em;
-}
-
-nav ul li {
-  list-style: none;
+  font-size: 3em;
 }
 
 /* Masuk Button */
 .masuk-btn {
   background-color: white;
   color: var(--primary);
-  padding: 0.5rem 1.5rem; /* Adjusted padding for better alignment */
+  padding: 1.25rem 3rem;
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  /* margin-left: 30px; Agar tombol masuk sejajar dengan item lainnya */
   font-weight: 600;
-  font-size: 1.5em; /* Adjusted size to fit better in the navigation */
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
-}
-
-/* Optional hover effect */
-.masuk-btn:hover {
-  background-color: var(--primary);
-  color: white;
+  font-size: 3em;
 }
 
 /* Whatsapp Icon */
