@@ -13,7 +13,7 @@ if (!isset($_SESSION["login"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" href="../assets/images/logo.png" type="image/png">
+    <link rel="icon" href="../assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
 
     <link rel="stylesheet" href="../assets/css/style.css">
@@ -25,34 +25,7 @@ if (!isset($_SESSION["login"])) {
 
 
         <div class="main">
-            <div class="header">
-                <div class="toggle">
-                    <ion-icon name="menu-outline"></ion-icon>
-                </div>
-                <!-- ----search---- -->
-                <div class="search">
-                    <label>
-                        <input type="text" placeholder="Search here.....">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
-                <!-- ----user img---- -->
-
-
-                <div class="user">
-                    <div class="user-img-container">
-                        <img src="../assets/images/user.jpg" alt="User Profile" class="user-img">
-                        <div class="user-status"></div>
-                    </div>
-                    <div class="user-info">
-                        <div class="username">
-                            <span class="name"><?php echo $_SESSION["name"]; ?></span>
-                            <span class="role"><?php echo $_SESSION["role"]; ?></span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+        <?php include 'header.php' ?>
 
             <div class="cardbox">
                 <div class="card">
@@ -76,9 +49,6 @@ if (!isset($_SESSION["login"])) {
                 </div>
 
                 <div class="button">
-                    <div class="iconBx">
-                        <ion-icon name="car-sport-outline"></ion-icon>
-                    </div>
                     <a href="#">
                         <button class="btn-reservasi">Reservasi Sekarang</button>
                     </a>

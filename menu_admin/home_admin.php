@@ -12,6 +12,8 @@ if (!isset($_SESSION["login"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
     <link rel="icon" href="../assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
 
@@ -24,28 +26,7 @@ if (!isset($_SESSION["login"])) {
 
 
         <div class="main">
-            <div class="header">
-                <div class="toggle">
-                    <ion-icon name="menu-outline"></ion-icon>
-                </div>
-                <!-- ----search---- -->
-                <div class="search">
-                    <label>
-                        <input type="text" placeholder="Search here.....">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
-                <!-- ----user img---- -->
-                <div class="user">
-                    <img src="../assets/img/user.jpg" alt="User Image">
-                    <div class="user-info">
-                        <div class="username">
-                            <span class="name"><?php echo $_SESSION["name"]; ?></span>
-                            <span class="role"><?php echo $_SESSION["role"]; ?></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php include 'header.php' ?>
 
             <div class="cardbox">
                 <div class="card">

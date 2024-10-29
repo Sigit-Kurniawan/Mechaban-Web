@@ -1,0 +1,226 @@
+.view {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: var(--white);
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.view .montir-view {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    background: var(--white);
+    padding: 20px;
+    border-radius: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+
+.cardHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.cardHeader h2{
+    font-weight: 600;       
+    color: var(--blue);
+}
+
+.cardHeader .btn{
+    position: relative;
+    padding: 5px 10px;
+    background: var(--blue);
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 6px;
+}
+
+.view table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.view table thead td{
+    font-weight: 600;
+}
+
+.view .montir-view table tr{
+    color: var(--black1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.view .montir-view table tr td{
+    padding: 10px;
+}
+
+.view .montir-view table tr td:last-child{
+    text-align: center;
+}
+
+.view .montir-view table tr:last-child{
+    border-bottom: none;
+    text-align: center;
+}
+
+.view .montir-view table tr td:nth-child(2){
+    text-align: center;
+}
+
+.view .montir-view table tr td:nth-child(3){
+    text-align: center;
+}
+.view .montir-view table tr td:nth-child(4){
+    text-align: center;
+}
+
+.view .montir-view table tbody tr:hover{
+    background: var(--blue);
+    color: var(--white);
+}
+
+.btn-edit{
+    position: relative;
+    padding: 5px 10px;
+    background: #0268a8;
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 6px;
+}
+
+.btn-hapus{
+    position: relative;
+    padding: 5px 10px;
+    background: rgb(222, 0, 0);
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 6px;
+}
+
+.montir-tambah {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.montir-tambah .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.formLabel {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.formLabel label {
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 5px;
+}
+
+.formLabel input[type="text"],
+.formLabel input[type="password"],
+.formLabel input[type="email"] {
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.formLabel input[type="text"]:focus,
+.formLabel input[type="password"]:focus,
+.formLabel input[type="email"]:focus {
+    border-color: var(--blue);
+}
+
+.errors {
+    padding: 10px;
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid red;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.errors p {
+    color: red;
+    font-size: 0.9rem;
+}
+
+.input .btn {
+    background-color: var(--blue);
+    color: var(--white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.input .btn:hover {
+    background-color: #005a8a;
+}
+
+.view button {
+    background-color: var(--blue);
+    color: white;
+}
+
+
+ /* The Modal (background) */
+ .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  } 
+
+  .montir-tambah h2{
+    font-weight: 600;       
+    color: var(--blue);
+    margin-bottom: 4px;
+}
