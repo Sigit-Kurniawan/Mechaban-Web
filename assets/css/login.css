@@ -1,9 +1,8 @@
 body {
-  height: 100%;
   margin: 0;
   /* display: flex;
-  justify-content: center;
-  align-items: center; */
+    justify-content: center;
+    align-items: center; */
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
 }
@@ -22,6 +21,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   width: 100%;
+  height: auto;
 }
 
 .card-head {
@@ -33,11 +33,12 @@ body {
   font-size: 24px;
   font-weight: bold;
   color: #0697f2;
+  margin-top: 5px;
 }
 
 .head-logo {
-  width: 55px;
-  height: 40px;
+  width: 60px;
+  height: 30px;
 }
 
 .card-content {
@@ -46,7 +47,11 @@ body {
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 16px;
 }
 
 input[type="text"],
@@ -58,7 +63,7 @@ select {
   border: 1px solid #cccccc;
   border-radius: 4px;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 button {
@@ -80,13 +85,27 @@ button:hover {
 .teks {
   text-align: center;
   margin-top: 10px;
+  font-size: 16px;
+  margin-bottom: 0;
 }
 
 .teks a {
   color: #007bff;
 }
 
-.teks-password {
+.teks-span {
   color: #4b4b4b;
+  font-size: 12px;
+}
+
+/* handling error */
+.alert {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  text-align: center;
   font-size: 12px;
 }

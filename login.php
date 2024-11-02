@@ -14,7 +14,7 @@ if (isset($_SESSION["login"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="assets/css/login.css">
-    <link rel="icon" href="assets/img/Logo.png" type="image/png">
+    <link rel="icon" href="assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
 </head>
 
@@ -23,14 +23,23 @@ if (isset($_SESSION["login"])) {
         <div class="card">
             <div class="card-head">
                 <div class="head-bg">
-                    <img src="assets\img\logo2.png" alt="Logo" class="head-logo">
+                    <img src="assets/img/logo2.png" alt="Logo" class="head-logo">
                     <h2 class="head-title">Login</h2>
                 </div>
             </div>
 
             <div class="card-content">
+                <!-- Tampilkan pesan error jika terjadi kesalahan -->
+                <?php
+                if (isset($_GET['error'])):
+                    $error = intval($_GET['error']);
+                    if ($error === 1) {
+                        echo '<div class="alert">Email atau password salah.</div>';
+                    }
+                endif;
+                ?>
 
-                <form action="login_process.php" method="POST">
+                <form action="Api/login_process.php" method="POST">
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="text" id="email" name="email" placeholder="Masukkan email anda">

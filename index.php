@@ -14,7 +14,7 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 
-    <link rel="icon" href="assets/img/Logo.png" type="image/png">
+    <link rel="icon" href="assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
 </head>
 
@@ -23,20 +23,22 @@ session_start();
         <div class="container">
             <header>
                 <div class="logo">
-                    <img src="assets/img/Logo.png" alt="Mechaban Logo">
+                    <img src="assets/img/logo.png" alt="Mechaban Logo">
                     <span class="logo-text">Mechaban</span>
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="#">Beranda</a></li>
-                        <li><a href="#">Tentang Kami</a></li>
-                        <li><a href="#">FAQ</a></li>
+
+                        <li><a href="#hero">Beranda</a></li>
+                        <li><a href="#mengapa-mechaban">Tentang Kami</a></li>
+                        <li><a href="#faq">FAQ</a></li>
                         <?php if (isset($_SESSION["login"])): ?>
                             <li><a href="<?php if ($_SESSION['role'] == "customer") {
-                                                echo "dashboard-cus.php";
-                                            } else if ($_SESSION['role'] == "admin") {
-                                                echo "dashboard-admin.php";
-                                            }; ?> " class="masuk-btn">Dashboard</a></li>
+                                echo "menu_cus/home_cus.php";
+                            } else if ($_SESSION['role'] == "admin") {
+                                echo "menu_admin/home_admin.php";
+                            }
+                            ; ?> " class="masuk-btn">Dashboard</a></li>
                         <?php else: ?>
                             <li><a href="login.php" class="masuk-btn">Masuk</a></li>
                         <?php endif; ?>
@@ -78,9 +80,49 @@ session_start();
         </div>
     </div>
 
+
+    <!-- Layanan Kami -->
+    <div class="card-container">
+        <section class="card-section" id="layanan-kami">
+            <div class="card">
+                <div class="card-head">
+                    <h1 class="card-title-2" id="title-layanan">Layanan Kami</h1>
+                </div>
+                <div class="card-content">
+                    <div class="card-layanan">
+                        <img src="assets/img/layanan/mesin.png" alt="mesin" class="img-layanan">
+                        <h2 class="name-card-2">Mesin</h2>
+                    </div>
+                    <div class="card-layanan">
+                        <img src="assets/img/layanan/ban.png" alt="ban" class="img-layanan">
+                        <h2 class="name-card-2">Ban</h2>
+                    </div>
+                    <div class="card-layanan">
+                        <img src="assets/img/layanan/rem.png" alt="rem" class="img-layanan">
+                        <h2 class="name-card-2">Rem</h2>
+                    </div>
+                    <div class="card-layanan">
+                        <img src="assets/img/layanan/oli.png" alt="oli" class="img-layanan">
+                        <h2 class="name-card-2">Oli</h2>
+                    </div>
+                    <div class="card-layanan">
+                        <img src="assets/img/layanan/kaki-kaki.png" alt="kaki2" class="img-layanan">
+                        <h2 class=" name-card-2">Kaki-Kaki</h2>
+                    </div>
+                    <div class="card-layanan">
+                        <img src="assets/img/layanan/berkala.png" alt="berkala" class="img-layanan">
+                        <h2 class="name-card-2">Berkala</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
     <!--Fitur Andalan-->
     <div class="card-container">
-        <section class="card-section">
+        <section class="card-section" id="fitur-andalan">
             <div class="card">
                 <div class="card-head">
                     <h1 class="card-title">Fitur Andalan</h1>
@@ -111,7 +153,7 @@ session_start();
 
     <!--Mengapa harus Mechaban-->
     <div class="card-container">
-        <section class="card-section">
+        <section class="card-section" id="mengapa-mechaban">
             <div class="card">
                 <div class="card-head">
                     <h1 class="card-title-2">Mengapa Harus Booking di Mechaban?</h1>
@@ -144,7 +186,7 @@ session_start();
 
     <!--Merk yang kami layani-->
     <div class="card-container">
-        <section class="card-section">
+        <section class="card-section" id="merk">
             <div class="card" id="merk">
                 <div class="card-head">
                     <h1 class="card-title-2">Merek-Merek Terkenal yang Kami Layani</h1>
@@ -168,7 +210,7 @@ session_start();
 
     <!--FAQ-->
     <div class="card-container">
-        <section class="card-section">
+        <section class="card-section" id="faq">
             <div class="card">
                 <div class="card-head">
                     <h2 class="card-title">Frequently Asked Question (FAQ)</h2>
@@ -177,26 +219,40 @@ session_start();
                     </p>
                 </div>
                 <div class="accordion">
+
                     <div class="accordion-item">
-                        <button class="accordion-header">Bagaimana cara mendaftar di Mechaban?</button>
+                        <button class="accordion-header">Apa itu di Mechaban?
+                            <img src="assets\img\panah_faq.png" clas="panah-faq">
+                        </button>
+
                         <div class="accordion-content">
-                            <p>This is the content for section 1.</p>
+                            <p>Mechaban merupakan aplikasi servis mobil online yang dapat membantu dan mempermudah
+                                proses servis mobil Anda. Dengan Mechaban, Anda dapat melakukan booking servis secara
+                                online dan memilih jenis servis yang diperlukan. Dengan Mechaban anda tidak perlu
+                                repot-repot datang ke bengkel, anda hanya perlu menunggu di rumah.</p>
                         </div>
                     </div>
 
                     <div class="accordion-item">
-                        <button class="accordion-header">Bagaimana cara mendaftar di Mechaban?</button>
+                        <button class="accordion-header">Bagaimana cara mendaftar di Mechaban?
+                            <img src="assets\img\panah_faq.png" clas="panah-faq">
+                        </button>
+                        <div class="accordion-content">
+                            <p>Silakan klik Masuk pada navbar di atas dan pilih Register. Anda juga dapat mendaftarkan
+                                diri di aplikasi mobile Mechaban</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            Bagaimana cara booking servis di Mechaban?
+                            <img src="assets\img\panah_faq.png" clas="panah-faq">
+                        </button>
                         <div class="accordion-content">
                             <p>This is the content for section 2.</p>
                         </div>
                     </div>
 
-                    <div class="accordion-item">
-                        <button class="accordion-header">Bagaimana cara mendaftar di Mechaban?</button>
-                        <div class="accordion-content">
-                            <p>This is the content for section 3.</p>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -209,8 +265,9 @@ session_start();
     <div class="card-container">
         <div class="iklan-hp" id="iklan">
             <div class="iklan-content">
-                <h1>Dapatkan fitur lebih dari Mechaban di dalam genggaman</h1>
-                <p>Di dalam aplikasi memiliki fitur memanajemen mobil dan menyimpan hasil inspeksi mobil.</p>
+                <h1 class="teks-iklan">Dapatkan fitur lebih dari Mechaban di dalam genggaman</h1>
+                <p class="teks-iklan">Di dalam aplikasi memiliki fitur memanajemen mobil dan menyimpan hasil inspeksi
+                    mobil.</p>
             </div>
             <div class="gambar-hp">
                 <img src="assets/img/hp.png" alt="">
@@ -218,22 +275,39 @@ session_start();
         </div>
     </div>
 
+
+
+    <!-- Booking sekarang -->
+    <div class="card-container">
+        <div class="booking-sekarang" id="booking-sekarang">
+            <span>Tunggu apa lagi? Yuk </span><button class="booking-btn">Booking Sekarang</button>
+
+        </div>
+    </div>
+
+
+
+
+
+
     <!--Footer-->
     <footer>
         <div class="container-fluid">
             <div class="row">
-                <!-- Kolom 1: Logo dan Gambar -->
+                <!-- Kolom 1: Logo dan Lokasi -->
                 <div class="col-md-4">
-                    <div class="logo">
-                        <img src="assets/img/Logo.png" alt="Mechaban Logo">
+                    <div class="head-footer">
+                        <img src="assets/img/logo.png" alt="Mechaban Logo">
                         <span class="logo-text">Mechaban</span>
                     </div>
-                    <img src="path/to/map-image.png" alt="Map" class="footer-map">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15789.429274349659!2d114.13384924547573!3d-8.366466972177113!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd15545503ba621%3A0x246ebdd1553c5b2e!2sBengkel%20MW%20Marchaban!5e0!3m2!1sen!2sid!4v1730480167263!5m2!1sen!2sid"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
 
                 <!-- Kolom 2: Link Cepat -->
                 <div class="col-md-4">
-                    <h4>Halaman</h4>
+                    <h4 class="halaman">Halaman</h4>
                     <ul>
                         <li><a href="#">Beranda</a></li>
                         <li><a href="#">Tentang Kami</a></li>
@@ -256,7 +330,7 @@ session_start();
     </footer>
 
 
-    <script src="assets/js/main.js"></script>
+    <script src="C:\laragon\www\Mechaban-Web\assets\js\landing_page.js"></script>
 </body>
 
 </html>
