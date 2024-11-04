@@ -1,0 +1,238 @@
+.view {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    padding: 20px;
+    background: var(--white);
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.view .montir-view {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    background: var(--white);
+    padding: 20px;
+    border-radius: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+
+.cardHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.cardHeader h2{
+    font-weight: 600;       
+    color: var(--blue);
+}
+
+.cardHeader .btn-tambah {
+    position: relative;
+    padding: 5px 10px;
+    background: var(--blue);
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 6px;
+    font-size: 1.1em;
+}
+
+.view table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.view table thead td{
+    font-weight: 600;
+}
+
+.view .montir-view table tr{
+    color: var(--black1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.view .montir-view table tr td{
+    padding: 10px;
+}
+
+.view .montir-view table tr td:last-child{
+    text-align: center;
+}
+
+.view .montir-view table tr:last-child{
+    border-bottom: none;
+    text-align: center;
+}
+
+.view .montir-view table tr td:nth-child(2){
+    text-align: center;
+}
+
+.view .montir-view table tr td:nth-child(3){
+    text-align: center;
+}
+.view .montir-view table tr td:nth-child(4){
+    text-align: center;
+}
+
+.view .montir-view table tbody tr:hover{
+    background: var(--blue);
+    color: var(--white);
+}
+
+.btn-edit{
+    position: relative;
+    padding: 5px 10px;
+    background: #0268a8;
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 6px;
+}
+
+.btn-hapus{
+    position: relative;
+    padding: 5px 10px;
+    background: rgb(222, 0, 0);
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 6px;
+}
+
+/* Container styling */
+.container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f5f7;
+}
+
+/* Sidebar styling */
+.container .sidebar {
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+/* Main content styling */
+.main {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+}
+
+/* Form styling */
+.form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form label.form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+}
+
+.form .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form .form-control:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button styling */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 10px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Additional styling for the 'Batal' button */
+.btn-batal {
+    background-color: #6c757d;
+}
+
+.btn-batal:hover {
+    background-color: #5a6268;
+}
+
+.delete-confirmation {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.delete-confirmation h2 {
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+
+.montir-details {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.montir-details p {
+    margin: 8px 0;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-cancel {
+    background: #6c757d;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}

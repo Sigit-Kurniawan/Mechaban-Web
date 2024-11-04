@@ -25,7 +25,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/project3/menu_admin/aktivitas/aktivitas.php">
                         <span class="icon"><ion-icon name="receipt-outline"></ion-icon></span>
                         <span class="title">Aktivitas</span>
                     </a>
