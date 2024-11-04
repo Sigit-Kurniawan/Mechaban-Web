@@ -97,24 +97,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['simpan'])) {
                                 <form action="" method="post">
                                     <div class="formLabel">
                                         <label for="id_montir">ID</label>
-                                        <input type="text" name="id_montir" id="fId" placeholder="Id.." value="<?php echo htmlspecialchars($id_montir); ?>">
+                                        <input type="text" name="id_montir" id="fId" placeholder="Id.."
+                                            value="<?php echo htmlspecialchars($id_montir); ?>">
                                     </div>
                                     <div class="formLabel">
                                         <label for="nama_montir">Nama</label>
-                                        <input type="text" name="nama_montir" id="nama_montir" placeholder="Nama" value="<?php echo htmlspecialchars($nama_montir); ?>">
+                                        <input type="text" name="nama_montir" id="nama_montir" placeholder="Nama"
+                                            value="<?php echo htmlspecialchars($nama_montir); ?>">
                                     </div>
                                     <div class="formLabel">
                                         <label for="no_hp">No HP</label>
-                                        <input type="text" name="no_hp" id="no_hp" placeholder="No HP" value="<?php echo htmlspecialchars($no_hp); ?>">
+                                        <input type="text" name="no_hp" id="no_hp" placeholder="No HP"
+                                            value="<?php echo htmlspecialchars($no_hp); ?>">
                                     </div>
                                     <div class="formLabel">
                                         <label for="password">Password</label>
                                         <input type="password" name="password" id="password" placeholder="Password">
-                                        <span>Password must be at least 8 characters, including uppercase letters, numbers, and symbols (@$!%*?&).</span>
+                                        <span>Password must be at least 8 characters, including uppercase letters,
+                                            numbers, and symbols (@$!%*?&).</span>
                                     </div>
                                     <div class="formLabel">
                                         <label for="email">Email</label>
-                                        <input type="email" name="email" id="email" placeholder="Email" value="<?php echo htmlspecialchars($email); ?>">
+                                        <input type="email" name="email" id="email" placeholder="Email"
+                                            value="<?php echo htmlspecialchars($email); ?>">
                                     </div>
                                     <div class="input">
                                         <input type="submit" name="simpan" value="Save Data" class="btn">
@@ -153,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['simpan'])) {
                                     $no_hp = htmlspecialchars($r2['no_hp']);
                                     $password = htmlspecialchars($r2['password']);
                                     $email = htmlspecialchars($r2['email']);
-                            ?>
+                                    ?>
                                     <tr>
                                         <td><?php echo $id_montir; ?></td>
                                         <td><?php echo $nama_montir; ?></td>
@@ -165,7 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['simpan'])) {
                                             <a href="#" class="btn-hapus">Delete</a>
                                         </td>
                                     </tr>
-                            <?php
+                                    <?php
                                 }
                             } else {
                                 echo "<tr><td colspan='6'>No data found</td></tr>";

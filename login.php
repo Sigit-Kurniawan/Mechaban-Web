@@ -29,11 +29,15 @@ if (isset($_SESSION["login"])) {
             </div>
 
             <div class="card-content">
-                <?php if (isset($_GET['error'])): ?>
-                    <div class="alert alert-error">
-                        Email atau password salah
-                    </div>
-                <?php endif; ?>
+                <!-- Tampilkan pesan error jika terjadi kesalahan -->
+                <?php
+                if (isset($_GET['error'])):
+                    $error = intval($_GET['error']);
+                    if ($error === 1) {
+                        echo '<div class="alert">Email atau password salah.</div>';
+                    }
+                endif;
+                ?>
 
                 <form action="Api/login_process.php" method="POST">
                     <div class="form-group">

@@ -21,11 +21,11 @@ if (!isset($_SESSION["login"])) {
 
 <body>
     <div class="container">
-        <?php include_once 'sidebar_cus.php'; ?>
+        <?php include_once 'sidebar.php'; ?>
 
 
         <div class="main">
-        <?php include 'header.php' ?>
+            <?php include 'header.php' ?>
 
             <div class="cardbox">
                 <div class="card">

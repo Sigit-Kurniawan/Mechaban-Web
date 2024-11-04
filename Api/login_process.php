@@ -27,6 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['name'] = $user['name'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['login'] = true;
+        $_SESSION['email'] = $user['email'];
+
+        // Debug: Verify if email session is set
+        if (!isset($_SESSION['email'])) {
+            echo "Session email tidak berhasil diset.";
+            exit();
+        }
 
         // Redirect based on user role
         if ($user['role'] === 'admin') {
