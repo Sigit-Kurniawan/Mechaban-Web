@@ -26,9 +26,9 @@ include  '../../Api/koneksi.php';
         <div class="main">
             <div class="form">
 
-                <form action="assets/proses.php" method="post">
+                <form action="proses.php" method="post">
                     <div>
-                        <label class="form-label">ID</label>
+                        <label class="form-label">Email</label>
                         <input type="text" class="form-control" name="tid" required>
                     </div>
                     <div>
@@ -43,10 +43,16 @@ include  '../../Api/koneksi.php';
                         <label class="form-label">Password</label>
                         <input type="password" class="form-control" name="tpassword" required>
                     </div>
-                    <div>
+                    <!-- <div>
+                        <label for="role" id="role">Role</label>
+                        <select name="role" class="role">s
+                            <option value="customer">Montir</option>
+                        </select>
+                    </div> -->
+                    <!-- <div>
                         <label class="form-label">Email</label>
                         <input type="email" class="form-control" name="temail" required>
-                    </div>
+                    </div> -->
                     <div>
                         <button type="submit" class="btn" name="bsimpan">Simpan</button>
                         <a href="montir.php" class="btn-cancel">Batal</a>

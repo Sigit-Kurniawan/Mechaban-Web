@@ -9,20 +9,27 @@ if (!isset($_SESSION["login"])) {
 
 if (isset($_POST['bsimpan'])) {
     // Get form data
-    $id = $_POST['tid'];
+    $email = $_POST['tid'];
     $nama = $_POST['tnama'];
     $no_hp = $_POST['tno_hp'];
-    $password = $_POST['tpassword'];
-    $email = $_POST['temail'];
+    $password = $_POST['tpassword']; // Password stored without hashing
 
+    // Check if email already exists
     $checkEmail = mysqli_query($conn, "SELECT * FROM account WHERE email = '$email'");
-    if (mysqli_num_rows($checkEmail) > 0) {
-        $simpan = mysqli_query($conn, "INSERT INTO montir (id_montir, nama_montir, no_hp, password, email)
-                                          VALUES ('$id', '$nama', '$no_hp', '$password', '$email')");
 
+    if (mysqli_num_rows($checkEmail) == 0) { // Only insert if email does not exist
+        $simpan = mysqli_query($conn, "INSERT INTO account (email, name, no_hp, password, role)
+                                    VALUES ('$email', '$nama', '$no_hp', '$password', 'montir')");
         if ($simpan) {
-            echo "Data saved successfully.";
+            echo "<script>
+                    alert('Data saved successfully.');
+                    window.location.href = 'montir.php';
+                  </script>";
+        } else {
+            echo "<script>alert('Failed to save data.');</script>";
         }
+    } else {
+        echo "<script>alert('Email already exists.');</script>";
     }
 }
 
@@ -33,11 +40,11 @@ if (isset($_POST['bupdate'])) {
     $password = $_POST['tpassword'];
     $emailUpdate = $_POST['temailupdate'];
 
-    // Jika password baru tidak kosong, gunakan password baru, jika tidak, gunakan password lama
+    // If new password is provided, use it; otherwise, use the old password
     if (!empty($_POST['tpassword'])) {
-        $password = password_hash($_POST['tpassword'], PASSWORD_DEFAULT); // Lakukan hashing pada password baru
+        $password = $_POST['tpassword']; // Store password without hashing
     } else {
-        $password = $_POST['old_password']; // Menggunakan password lama yang sudah diambil dari database sebelumnya
+        $password = $_POST['old_password']; // Use the existing password
     }
 
     $query = "UPDATE account SET 
@@ -46,10 +53,10 @@ if (isset($_POST['bupdate'])) {
               no_hp = ?,
               password = ?
               WHERE email = ?";
-              
+
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "sssss", $emailUpdate, $nama, $no_hp, $password, $email);
-    
+
     $result = mysqli_stmt_execute($stmt);
 
     if ($result) {
@@ -60,36 +67,29 @@ if (isset($_POST['bupdate'])) {
     }
 }
 
-
-
 if (isset($_POST['bdelete'])) {
-    $id = $_POST['tid'];
+    $email = $_POST['tid'];
 
-    $check_query = "SELECT id_montir FROM montir WHERE id_montir = ?";
+    $check_query = "SELECT email FROM account WHERE email = ? AND role = 'montir'";
     $check_stmt = mysqli_prepare($conn, $check_query);
-    mysqli_stmt_bind_param($check_stmt, "s", $id);
+    mysqli_stmt_bind_param($check_stmt, "s", $email);
     mysqli_stmt_execute($check_stmt);
     $check_result = mysqli_stmt_get_result($check_stmt);
-    
+
     if (mysqli_num_rows($check_result) > 0) {
-
-        $delete_query = "DELETE FROM montir WHERE id_montir = ?";
+        $delete_query = "DELETE FROM account WHERE email = ? AND role = 'montir'";
         $delete_stmt = mysqli_prepare($conn, $delete_query);
-        mysqli_stmt_bind_param($delete_stmt, "s", $id);
+        mysqli_stmt_bind_param($delete_stmt, "s", $email);
         $delete_result = mysqli_stmt_execute($delete_stmt);
-        
-        if ($delete_result) {
 
+        if ($delete_result) {
             header("Location: montir.php");
             exit();
         } else {
-
             echo "Error deleting record: " . mysqli_error($conn);
         }
     } else {
-
         echo "Record not found";
     }
 }
-
 ?>

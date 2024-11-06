@@ -35,12 +35,10 @@ include  '../../Api/koneksi.php';
                     <table>
                         <thead>
                             <tr>
-                                <th>No.</th>
-                                <th>ID</th>
+                                <th>Email</th>
                                 <th>Nama</th>
                                 <th>No. HP</th>
                                 <th>Password</th>
-                                <th>Email</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>

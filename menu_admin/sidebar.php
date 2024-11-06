@@ -13,7 +13,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/project3/menu_admin/customers/customers.php">
                         <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
                         <span class="title">Customers</span>
                     </a>
@@ -34,12 +34,6 @@
                     <a href="#">
                         <span class="icon"><ion-icon name="documents-outline"></ion-icon></span>
                         <span class="title">Laporan</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="help-outline"></ion-icon></span>
-                        <span class="title">Help</span>
                     </a>
                 </li>
                 <li>

@@ -11,11 +11,11 @@
     </div>
     <!-- ----user img---- -->
     <div class="user">
-        <div class="user-img-container">
+    <div class="user-img-container">
             <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
                 <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
             <?php else: ?>
-                <img src="project3/assets/img/user.png" alt="Default User Picture">
+                <img src="/project3/assets/img/user.png" alt="Default User Picture" class="user-img">
             <?php endif; ?>
 
             <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>

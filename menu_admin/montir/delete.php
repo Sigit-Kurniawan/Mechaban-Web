@@ -7,12 +7,12 @@ if (!isset($_SESSION["login"])) {
 
 include '../../Api/koneksi.php';
 
-// Get montir data based on ID
+// Get montir data based on email (which is used as ID)
 if (isset($_GET['id'])) {
-    $id_montir = $_GET['id'];
-    $query = "SELECT * FROM montir WHERE id_montir = ?";
+    $email = $_GET['id'];
+    $query = "SELECT * FROM account WHERE email = ? AND role = 'montir'";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "s", $id_montir);
+    mysqli_stmt_bind_param($stmt, "s", $email);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     $data = mysqli_fetch_assoc($result);
@@ -45,15 +45,14 @@ if (isset($_GET['id'])) {
             <div class="delete-confirmation">
                 <h2>Konfirmasi Penghapusan</h2>
                 <div class="montir-details">
-                    <p><strong>ID:</strong> <?php echo htmlspecialchars($data['id_montir']); ?></p>
-                    <p><strong>Nama:</strong> <?php echo htmlspecialchars($data['nama_montir']); ?></p>
                     <p><strong>Email:</strong> <?php echo htmlspecialchars($data['email']); ?></p>
+                    <p><strong>Nama:</strong> <?php echo htmlspecialchars($data['name']); ?></p>
                     <p><strong>No. HP:</strong> <?php echo htmlspecialchars($data['no_hp']); ?></p>
                 </div>
                 <p>Apakah Anda yakin ingin menghapus data montir ini?</p>
                 <div class="button-group">
                     <form action="proses.php" method="post">
-                        <input type="hidden" name="tid" value="<?php echo htmlspecialchars($data['id_montir']); ?>">
+                        <input type="hidden" name="tid" value="<?php echo htmlspecialchars($data['email']); ?>">
                         <button type="submit" name="bdelete" class="btn-delete">Hapus</button>
                     </form>
                     <a href="montir.php" class="btn-cancel">Batal</a>
