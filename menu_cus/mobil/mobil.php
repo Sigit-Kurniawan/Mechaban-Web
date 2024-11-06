@@ -16,13 +16,12 @@ include_once('../../Api/koneksi.php');
 // Mendapatkan email customer dari sesi
 $email_customer = $_SESSION["email"];
 
-// Mendapatkan input pencarian
-$search_term = isset($_POST['search']) ? $_POST['search'] : '';
+
 
 // Memproses form jika tombol simpan ditekan
 $errors = [];
 if (isset($_POST['simpan'])) {
-    $nopol = $_POST['nopol'];
+    $nopol = str_replace(' ', '', $_POST['nopol']); // Menghapus semua spasi sebelum menyimpan
     $merk = $_POST['merk'];
     $type = $_POST['type'];
     $transmition = $_POST['transmition'];
@@ -40,9 +39,12 @@ if (isset($_POST['simpan'])) {
             $stmt->bind_param("ssssss", $nopol, $merk, $type, $transmition, $year, $edit_nopol);
 
             if ($stmt->execute()) {
-                echo "<script>alert('Data mobil berhasil diedit!');</script>";
+                header("Location: mobil.php?success=edit");
+
+                exit();
             } else {
                 $errors[] = "Gagal mengedit data: " . $stmt->error;
+
             }
             $stmt->close();
         } else {
@@ -65,9 +67,11 @@ if (isset($_POST['simpan'])) {
                 $stmt->bind_param("ssssss", $nopol, $merk, $type, $transmition, $year, $email_customer);
 
                 if ($stmt->execute()) {
-                    echo "<script>alert('Data mobil berhasil disimpan!');</script>";
+                    header("Location: mobil.php?success=save");
+                    exit();
                 } else {
                     $errors[] = "Gagal menyimpan data: " . $stmt->error;
+
                 }
                 $stmt->close();
             }
@@ -84,22 +88,53 @@ if (isset($_GET['delete_nopol'])) {
     $delete_stmt->bind_param("ss", $nopol_to_delete, $email_customer);
 
     if ($delete_stmt->execute()) {
-        echo "<script>alert('Data mobil berhasil dihapus!');</script>";
+        header("Location: mobil.php?success=delete");
+        exit();
     } else {
         echo "<script>alert('Gagal menghapus data: " . $delete_stmt->error . "');</script>";
+
     }
     $delete_stmt->close();
 }
 
+
+
 // Query untuk menampilkan data mobil berdasarkan email customer yang login
-$query = "SELECT nopol, merk, type, transmition, year 
-          FROM car 
-          WHERE email_customer = ?";
+$query = "SELECT nopol, merk, type, transmition, year
+FROM car
+WHERE email_customer = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $email_customer);
 $stmt->execute();
 $result = $stmt->get_result();
+
+
+// Query untuk pencarian 
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+$query = "SELECT nopol, merk, type, transmition, year FROM car WHERE email_customer = ?";
+if (!empty($search)) {
+    // $search_param = strtoupper(substr($search, 0, 2)) . '%';
+    $query .= " AND (nopol LIKE ? OR merk LIKE ?)";
+}
+
+$stmt = $conn->prepare($query);
+
+if (!empty($search)) {
+    $search_param = '%' . $search . '%';
+    $stmt->bind_param("sss", $email_customer, $search_param, $search_param);
+} else {
+    $stmt->bind_param("s", $email_customer);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
+
+
+
+
 
 <!-- Form HTML dan Tampilan Data Mobil -->
 <!DOCTYPE html>
@@ -115,8 +150,17 @@ $result = $stmt->get_result();
 </head>
 
 <body>
+
+    <div id="notificationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p id="notificationMessage"></p>
+        </div>
+    </div>
+
+
     <div class="container">
-        <?php include_once '../sidebar.php'; ?>
+        <?php include '../sidebar.php'; ?>
         <div class="main">
             <?php include '../header.php'; ?>
 
@@ -133,7 +177,8 @@ $result = $stmt->get_result();
                                 <form id="formMobil" action="" method="post">
                                     <div class="formLabel">
                                         <label for="nopol">Nopol</label>
-                                        <input type="text" name="nopol" id="nopol" placeholder="Nopol" required>
+                                        <input type="text" name="nopol" id="nopol"
+                                            placeholder="Nopol. Contoh : AB 1234 C" required>
                                     </div>
                                     <div class="formLabel">
                                         <label for="merk">Merk</label>
@@ -165,6 +210,7 @@ $result = $stmt->get_result();
                     </div>
                 </div>
 
+
                 <div class="mobil-view">
                     <div class="cardHeader">
                         <h2>Mobil</h2>
@@ -183,7 +229,26 @@ $result = $stmt->get_result();
                         <tbody>
                             <?php while ($row = $result->fetch_assoc()): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($row['nopol']); ?></td>
+                                    <td>
+                                        <?php
+                                        $nopol = htmlspecialchars($row['nopol']);
+
+                                        // Memisahkan kode wilayah, nomor, dan huruf terakhir
+                                        if (preg_match('/^([A-Z]+)(\d+)([A-Z]+)$/', $nopol, $matches)) {
+                                            $kode_wilayah = $matches[1];
+                                            $nomor = $matches[2];
+                                            $huruf_terakhir = $matches[3];
+
+                                            // Formatkan nopol
+                                            $formatted_nopol = strtoupper($kode_wilayah) . ' ' . $nomor . ' ' . strtoupper($huruf_terakhir);
+                                            echo $formatted_nopol;
+                                        } else {
+                                            echo "Format Nopol tidak valid";
+                                        }
+                                        ?>
+                                    </td>
+
+
                                     <td><?php echo htmlspecialchars($row['merk']); ?></td>
                                     <td><?php echo htmlspecialchars($row['type']); ?></td>
                                     <td><?php echo htmlspecialchars($row['transmition']); ?></td>
@@ -203,6 +268,8 @@ $result = $stmt->get_result();
                     </table>
                 </div>
             </div>
+
+
         </div>
     </div>
 

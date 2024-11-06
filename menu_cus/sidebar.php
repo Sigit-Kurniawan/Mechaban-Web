@@ -2,8 +2,7 @@
     <ul>
         <li>
             <a href="#">
-                <span class="icon"><img src="C:\laragon\www\Mechaban-Web\assets\img\logo.png" alt="logo"
-                        class="logo"></span>
+                <span class="icon"><img src="../assets/img/logo.png" alt="logo" class="logo"></span>
                 <span class="brand">Mechaban</span>
             </a>
         </li>
@@ -14,7 +13,7 @@
             </a>
         </li>
         <li>
-            <a href="../mobil/mobil.php">
+            <a href="mobil/mobil.php">
                 <span class="icon"><ion-icon name="car-sport-outline"></ion-icon></ion-icon></span>
                 <span class="title">Mobil</span>
             </a>
@@ -26,19 +25,20 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="../help/help.php">
                 <span class="icon"><ion-icon name="help-outline"></ion-icon></ion-icon></span>
                 <span class="title">Help</span>
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="../setting/setting.php">
                 <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
                 <span class="title">Setting</span>
             </a>
         </li>
         <li>
             <a href="/Mechaban-Web/logout.php">
+                <!-- <img src="../../assets/img/sidebar/logout.svg" class="gambar-sidebar" alt=""> -->
                 <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
                 <span class="title">Log Out</span>
             </a>
