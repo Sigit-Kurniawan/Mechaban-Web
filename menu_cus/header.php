@@ -4,17 +4,23 @@
     </div>
     <!-- ----search---- -->
     <div class="search">
-        <label>
-            <input type="text" placeholder="Search here.....">
-            <ion-icon name="search-outline"></ion-icon>
-        </label>
+        <form action="mobil.php" method="GET"> <!-- Form menuju ke halaman yang sama -->
+            <label>
+                <input type="text" name="search" placeholder="Search here....."
+                    value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                <ion-icon name="search-outline"></ion-icon>
+            </label>
+        </form>
     </div>
     <!-- ----user img---- -->
     <div class="user">
         <div class="user-img-container">
-            <img src="<?php echo $_SESSION["photo"]; ?>">
+            <img class="user-img"
+                src="<?php echo !empty($_SESSION['photo']) ? $_SESSION['photo'] : '../assets/img/user_profile.png'; ?>"
+                alt="User Profile Picture">
             <div class="user-status"></div>
         </div>
+
         <div class="user-info">
             <div class="username">
                 <span class="name"><?php echo $_SESSION["name"]; ?></span>
