@@ -3,11 +3,12 @@ html {
   font-size: 8px;
   --primary: #0697f2;
   --container: #f0f1f2;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat";
 }
 
 .container {
@@ -66,7 +67,6 @@ nav a {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  /* margin-left: 30px; Agar tombol masuk sejajar dengan item lainnya */
   font-weight: 600;
   font-size: 3em;
 }
@@ -86,14 +86,18 @@ nav a {
 /* Hero Section */
 
 .hero {
+  position: relative;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   padding: 50px 0;
+  padding-bottom: 100px;
 }
 
 .background {
+  position: relative;
+  padding-bottom: 100px;
   background-image: url("../img/bg.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -131,9 +135,9 @@ nav a {
 .booking-btn {
   background-color: white;
   color: var(--primary);
-  padding: 20px 40px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   margin-top: 20px;
   font-size: 24px;
@@ -145,7 +149,6 @@ nav a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   max-width: 80%;
 }
 
@@ -168,6 +171,10 @@ nav a {
   width: 100%;
   height: 100%;
   object-fit: contain; /* Agar gambar menutupi slide tanpa distorsi */
+}
+
+.active {
+  display: block; /* Hanya menampilkan slide yang aktif */
 }
 
 .prev,
@@ -315,6 +322,54 @@ nav a {
   padding: 10px;
 }
 
+/*Layanan Kami section*/
+#layanan-kami {
+  position: absolute;
+  top: 90%;
+  z-index: 1;
+}
+
+#layanan-kami .card {
+  height: 100%;
+}
+
+#title-layanan {
+  margin-bottom: 8px;
+}
+
+#layanan-kami .card-content {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  padding: 50px;
+}
+
+.card-layanan {
+  width: 150px;
+  height: 150px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-layanan h2 {
+  font-weight: normal;
+  color: black;
+  font-size: 20px;
+}
+
+.img-layanan {
+  justify-content: center;
+  width: auto;
+  height: 70px;
+  object-fit: cover;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+#fitur-andalan {
+  position: relative;
+  margin-top: 35vh;
+}
+
 /*Merk Section*/
 #merk {
   height: 500px;
@@ -351,170 +406,225 @@ nav a {
 
 .accordion-item {
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   padding: 8px;
   margin-bottom: 8px;
   margin-top: 32px;
 }
 
 .accordion-header {
+  display: flex;
+  align-items: center;
   background-color: white;
   color: black;
-  padding: 15px;
   border: none;
-  width: 600px;
-  text-align: left;
+  padding: 15px;
+  width: 100%;
+  justify-content: space-between;
+  /* text-align: left; */
   font-size: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.panah-faq {
+  margin-left: auto;
+  width: 15px;
+  height: auto;
+  transition: transform 0.3s ease;
 }
 
 .accordion-content {
   display: none;
   padding: 15px;
   background-color: #fff;
+  font-size: 18px;
+  text-align: left;
+  border-top: 1px solid #ddd;
+  border-radius: 0 0 10px 10px;
 }
 
 .accordion-content p {
   margin: 0;
+  font-family: "Montserrat";
+  font-size: 16px;
+}
+
+.accordion-item.active .accordion-content {
+  display: block;
+}
+
+.accordion-item.active .panah-faq {
+  transform: rotate(180deg);
 }
 
 /*Iklan*/
-#iklan-section {
-  margin-top: 200px;
-  display: flex;
-  justify-content: center;
-}
-#iklan {
+
+.iklan-hp {
+  position: relative;
   width: 1200px;
-  height: 350px;
+  height: 420px;
   display: flex;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  margin-bottom: 10vh;
+  /* background-color: #ccc; */
+  border-radius: 10px;
 }
 
 .iklan-content {
   background-image: url("../img/bg-iklan.png");
   background-size: cover;
   background-repeat: no-repeat;
-  width: 100%;
-  height: 70%;
-  margin-top: 100px;
+  flex: 1;
+  height: 60%;
+  border-radius: 10px;
+  margin-top: 150px;
   color: white;
+  padding: 20px;
+  z-index: 1; /*agar iklan-content ada di bawah gambar-hp*/
 }
 
 .iklan-content h1 {
   font-size: 32px;
-  margin-left: 32px;
-  margin-bottom: 0%;
+  margin-right: 20%;
+  margin-top: 15px;
+  padding: 20px;
+  margin-bottom: 0;
 }
 
 .iklan-content p {
   font-size: 20px;
-  padding: 10px;
-  margin-left: 28px;
+  padding: 20px;
+  margin-top: 0;
+  margin-right: 25%;
 }
 
 .gambar-hp {
-  width: 35%; /* Mengatur lebar gambar agar tidak terlalu besar */
+  position: absolute; /*agar mengambang*/
+  right: 10%;
+  top: 0;
+  width: 15%;
   height: auto;
-  margin-right: 10rem;
   z-index: 10;
 }
 
-/*Footer*/
-/* Styling untuk footer */
-footer {
-  background-color: #0697f2;
-  color: #fff;
-  padding: 40px 0;
-  width: 100%;
-  min-height: 500px; /* Menetapkan tinggi minimal footer */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+/* Booking Sekarang */
+.booking-sekarang {
+  margin-bottom: 10vh;
 }
-
-footer .container-fluid {
-  flex-grow: 1;
-  max-width: 100%;
-  padding: 0 40px;
-  display: flex;
-  justify-content: center; /* Pusatkan konten dalam container */
-  align-items: center;
-}
-
-footer .row {
-  display: flex;
-  justify-content: space-evenly; /* Sejajarkan kolom dengan ruang yang sama di antaranya */
-  align-items: center; /* Vertikal align heading agar sejajar dengan konten Mechaban */
-  width: 80%; /* Kolom hanya memenuhi 80% dari lebar total */
-  height: 80%; /* Membuat konten row memenuhi 80% dari tinggi footer */
-  flex-wrap: wrap;
-  text-align: left; /* Mengatur teks tetap rata kiri */
-}
-
-footer .col-md-4 {
-  flex: 1;
-  max-width: 33.33%;
-  padding: 0 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Pusatkan vertikal elemen di setiap kolom */
-  align-items: flex-start; /* Agar konten tetap rata kiri dalam kolom */
-}
-
-.footer-logo {
-  max-width: 100px;
-  margin-bottom: 20px;
-}
-
-.footer-map {
-  max-width: 100%;
-  border-radius: 5px;
-}
-
-footer h4 {
+.booking-sekarang span {
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
+}
+
+.booking-sekarang button {
+  background-color: #0697f2;
+  color: white;
   font-size: 24px;
 }
 
-footer ul {
-  list-style: none;
+/*Footer*/
+
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Mengatur ruang di antara elemen */
+  padding: 20px 0; /* Padding atas dan bawah */
+  background-color: #0697f2; /* Warna latar belakang footer */
+  color: white; /* Warna teks footer */
+}
+
+.container-fluid {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.col-md-4 {
+  flex: 1;
+  padding: 10px;
+}
+
+.head-footer {
+  display: flex;
+  align-items: center;
+}
+
+.head-footer img {
+  width: 60px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Gaya iframe untuk peta */
+iframe {
+  width: 100%;
+  height: 200px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.col-md-4 h4 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  margin-top: 0px;
+}
+
+.halaman {
+  margin-left: 30%;
+}
+
+/* Gaya untuk daftar tautan */
+.col-md-4 ul {
+  font-size: 18px;
+  list-style-type: none; /* Menghapus bullet list */
   padding: 0;
-  margin: 0;
-  font-size: 18px;
+  margin-top: 15px;
+  margin-left: 30%;
 }
 
-footer ul li {
-  margin-bottom: 15px;
+li {
+  margin: 8px 0;
 }
 
-footer ul li a {
-  color: #fff;
+li a {
+  color: white;
   text-decoration: none;
-  font-size: 18px;
 }
 
-footer p {
-  margin: 0;
-  font-size: 18px;
+li a:hover {
+  text-decoration: underline;
 }
 
+/* Gaya untuk informasi bisnis */
+.col-md-4 p {
+  font-size: 18px;
+  margin: 5px 0;
+  margin-top: 15px;
+}
+
+/* Styling untuk bagian bawah footer */
 .footer-bottom {
-  background-color: #005bb5;
-  padding: 20px;
+  margin-bottom: 0;
   text-align: center;
-  color: #ccc;
-  font-size: 18px;
-  margin-top: 20px;
+  padding: 20px; /* Ruang atas dan bawah */
+  background-color: #1550d0;
 }
 
-.iklan-hp {
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 1500px;
-  height: 600px;
-  transition: transform 0.3s ease;
+/* Gaya untuk teks hak cipta */
+.footer-bottom p {
+  margin: 0; /* Menghapus margin */
+  font-size: 14px; /* Ukuran font untuk hak cipta */
 }

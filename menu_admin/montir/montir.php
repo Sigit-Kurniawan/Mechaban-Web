@@ -27,6 +27,61 @@ include  '../../Api/koneksi.php';
             <?php include '../header.php'; ?>
 
             <div class="view">
+
+                <button id="myBtn">Tambah Montir</button>
+
+                <div id="myModal" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="montir-tambah">
+                            <h2>Form Tambah Montir</h2>
+                            <div class="form">
+                                <?php if ($errors): ?>
+                                    <div class="errors">
+                                        <?php foreach ($errors as $error): ?>
+                                            <p><?php echo $error; ?></p>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+                                <form action="" method="post">
+                                    <div class="formLabel">
+                                        <label for="id_montir">ID</label>
+                                        <input type="text" name="id_montir" id="fId" placeholder="Id.."
+                                            value="<?php echo htmlspecialchars($id_montir); ?>">
+                                    </div>
+                                    <div class="formLabel">
+                                        <label for="nama_montir">Nama</label>
+                                        <input type="text" name="nama_montir" id="nama_montir" placeholder="Nama"
+                                            value="<?php echo htmlspecialchars($nama_montir); ?>">
+                                    </div>
+                                    <div class="formLabel">
+                                        <label for="no_hp">No HP</label>
+                                        <input type="text" name="no_hp" id="no_hp" placeholder="No HP"
+                                            value="<?php echo htmlspecialchars($no_hp); ?>">
+                                    </div>
+                                    <div class="formLabel">
+                                        <label for="password">Password</label>
+                                        <input type="password" name="password" id="password" placeholder="Password">
+                                        <span>Password must be at least 8 characters, including uppercase letters,
+                                            numbers, and symbols (@$!%*?&).</span>
+                                    </div>
+                                    <div class="formLabel">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email" id="email" placeholder="Email"
+                                            value="<?php echo htmlspecialchars($email); ?>">
+                                    </div>
+                                    <div class="input">
+                                        <input type="submit" name="simpan" value="Save Data" class="btn">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="montir-view">
                     <div class="cardHeader">
                         <h2>Montir</h2>
@@ -56,6 +111,7 @@ include  '../../Api/koneksi.php';
                                     $nama_montir = htmlspecialchars($r2['name']);
                                     $no_hp = htmlspecialchars($r2['no_hp']);
                                     $password = htmlspecialchars($r2['password']);
+
                                     // $email = htmlspecialchars($r2['email']);
                             ?>
                                     <tr>
@@ -69,7 +125,7 @@ include  '../../Api/koneksi.php';
                                             <a href="delete.php?id=<?php echo $id_montir; ?>" class="btn-hapus">Hapus</a>
                                         </td>
                                     </tr>
-                            <?php
+                                    <?php
                                 }
                             } else {
                                 echo "<tr><td colspan='7'>No data found</td></tr>";
