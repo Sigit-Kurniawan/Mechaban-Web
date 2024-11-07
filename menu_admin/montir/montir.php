@@ -4,59 +4,9 @@ if (!isset($_SESSION["login"])) {
     header("Location: login.php");
     exit();
 }
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-if (!file_exists('../../Api/koneksi.php')) {
-    die("Database connection file not found.");
-}
-include_once('../../Api/koneksi.php');
-
-$id_montir = $nama_montir = $no_hp = $password = $email = "";
-$errors = [];
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['simpan'])) {
-    $id_montir = $_POST['id_montir'];
-    $nama_montir = $_POST['nama_montir'];
-    $no_hp = $_POST['no_hp'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
-
-    // Basic validation
-    if (strlen($password) < 8 || !preg_match("/[A-Z]/", $password) || !preg_match("/[0-9]/", $password) || !preg_match("/[@$!%*?&]/", $password)) {
-        $errors[] = "Password must be at least 8 characters, including uppercase letters, numbers, and symbols.";
-    }
-
-    // Check if email exists in `account` table
-    $check_email_query = $conn->prepare("SELECT * FROM account WHERE email = ?");
-    $check_email_query->bind_param("s", $email);
-    $check_email_query->execute();
-    $result = $check_email_query->get_result();
-
-    if ($result->num_rows == 0) {
-        $errors[] = "The email must exist in the account table.";
-    } else if (empty($errors)) {
-        // Insert only if the email exists in the account table and no other errors are present
-        $stmt = $conn->prepare("INSERT INTO montir (id_montir, nama_montir, no_hp, password, email) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $id_montir, $nama_montir, $no_hp, $password, $email);
-        $stmt->execute();
-        $stmt->close();
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    }
-    $check_email_query->close();
-
-
-    if (empty($errors)) {
-        $stmt = $conn->prepare("INSERT INTO montir (id_montir, nama_montir, no_hp, password, email) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $id_montir, $nama_montir, $no_hp, $password, $email);
-        $stmt->execute();
-        $stmt->close();
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    }
-}
+?>
+<?php
+include  '../../Api/koneksi.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['simpan'])) {
     <link rel="icon" href="/project3/assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="montir.css">
+    <link rel="stylesheet" href="assets/montir.css">
 </head>
 
 <body>
@@ -77,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['simpan'])) {
             <?php include '../header.php'; ?>
 
             <div class="view">
+
                 <button id="myBtn">Tambah Montir</button>
 
                 <div id="myModal" class="modal">
@@ -134,50 +85,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['simpan'])) {
                 <div class="montir-view">
                     <div class="cardHeader">
                         <h2>Montir</h2>
+                        <button><a href="tambah.php" class="btn-tambah">Tambah</a></button>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Password</th>
                                 <th>Email</th>
-                                <th>Actions</th>
+                                <th>Nama</th>
+                                <th>No. HP</th>
+                                <th>Password</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql4 = "SELECT * FROM montir ORDER BY id_montir DESC";
+                            // Initialize the counter
+                            $no = 1;
+
+                            $sql4 = "SELECT * FROM account WHERE role = 'montir' ORDER BY email DESC";
                             $q2 = mysqli_query($conn, $sql4);
 
                             if ($q2) {
                                 while ($r2 = mysqli_fetch_array($q2)) {
-                                    $id_montir = htmlspecialchars($r2['id_montir']);
-                                    $nama_montir = htmlspecialchars($r2['nama_montir']);
+                                    $id_montir = htmlspecialchars($r2['email']);
+                                    $nama_montir = htmlspecialchars($r2['name']);
                                     $no_hp = htmlspecialchars($r2['no_hp']);
                                     $password = htmlspecialchars($r2['password']);
-                                    $email = htmlspecialchars($r2['email']);
-                                    ?>
+
+                                    // $email = htmlspecialchars($r2['email']);
+                            ?>
                                     <tr>
                                         <td><?php echo $id_montir; ?></td>
                                         <td><?php echo $nama_montir; ?></td>
                                         <td><?php echo $no_hp; ?></td>
                                         <td><?php echo $password; ?></td>
-                                        <td><?php echo $email; ?></td>
+                                        
                                         <td>
-                                            <a href="#" class="btn-edit">Edit</a>
-                                            <a href="#" class="btn-hapus">Delete</a>
+                                            <a href="edit.php?id=<?php echo $id_montir; ?>" class="btn-edit">Edit</a>
+                                            <a href="delete.php?id=<?php echo $id_montir; ?>" class="btn-hapus">Hapus</a>
                                         </td>
                                     </tr>
                                     <?php
                                 }
                             } else {
-                                echo "<tr><td colspan='6'>No data found</td></tr>";
+                                echo "<tr><td colspan='7'>No data found</td></tr>";
                             }
                             ?>
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
@@ -186,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['simpan'])) {
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-    <script src="montir.js"></script>
+    <script src="assets/montir.js"></script>
     <script src="../../assets/js/main.js"></script>
 </body>
 

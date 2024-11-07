@@ -14,11 +14,15 @@
     </div>
     <!-- ----user img---- -->
     <div class="user">
+      
         <div class="user-img-container">
-            <img class="user-img"
-                src="<?php echo !empty($_SESSION['photo']) ? $_SESSION['photo'] : '../assets/img/user_profile.png'; ?>"
-                alt="User Profile Picture">
-            <div class="user-status"></div>
+            <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
+                <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
+            <?php else: ?>
+                <img src="/project3/assets/img/user.png" alt="Default User Picture" class="user-img">
+            <?php endif; ?>
+
+            <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
         </div>
 
         <div class="user-info">
