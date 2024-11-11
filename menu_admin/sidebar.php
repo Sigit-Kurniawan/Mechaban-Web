@@ -19,7 +19,7 @@
             </a>
         </li>
         <li>
-            <a href="/project3/menu_admin/montir/montir.php">
+            <a href="montir/montir.php">
                 <span class="icon"><ion-icon name="construct-outline"></ion-icon></span>
                 <span class="title">Montir</span>
             </a>
@@ -49,7 +49,7 @@
             </a>
         </li>
         <li>
-            <a href="..\logout.php">
+            <a href="\Mechaban-Web\logout.php">
                 <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
                 <span class="title">Log Out</span>
             </a>
