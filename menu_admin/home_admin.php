@@ -32,7 +32,7 @@ if (!isset($_SESSION["login"])) {
                 <div class="card">
                     <div>
                         <div class="number">1,504</div>
-                        <div class="cardname">Daily Views</div>
+                        <div class="cardname">Customers</div>
                     </div>
                     <div class="iconBx">
                         <ion-icon name="eye-outline"></ion-icon>
@@ -42,7 +42,7 @@ if (!isset($_SESSION["login"])) {
                 <div class="card">
                     <div>
                         <div class="number">1,504</div>
-                        <div class="cardname">Daily Views</div>
+                        <div class="cardname">Montir</div>
                     </div>
                     <div class="iconBx">
                         <ion-icon name="eye-outline"></ion-icon>
