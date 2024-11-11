@@ -29,7 +29,10 @@ if (isset($_SESSION["login"])) {
             </div>
 
             <div class="card-content">
-                <!-- Tampilkan pesan error jika terjadi kesalahan -->
+                <?php if (isset($_GET['account_deleted']) && $_GET['account_deleted'] == 'true'): ?>
+                    <p>Akun Anda telah berhasil dihapus.</p>
+                <?php endif; ?>
+
                 <?php
                 if (isset($_GET['error'])):
                     $error = intval($_GET['error']);

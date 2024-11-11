@@ -41,6 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->execute()) {
         // Update nama di session
         $_SESSION["name"] = $name;
+        $_SESSION["email"] = $email; //update session ke email baru
+
         header("Location: setting.php?success=save");
         exit();
     } else {

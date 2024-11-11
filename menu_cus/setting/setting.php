@@ -76,7 +76,6 @@ $conn->close();
                         </div>
 
 
-
                         <div class="form-group">
                             <label for="name">Nama</label>
                             <input type="text" id="name" class="input-field"
@@ -95,7 +94,13 @@ $conn->close();
                                 value="<?php echo htmlspecialchars($user['no_hp']); ?>" disabled>
                         </div>
 
-                        <button class="edit-akun" id="myBtn">Edit Akun</button>
+                        <div class="button-container">
+                            <button class="edit-akun" id="myBtn">Edit Akun</button>
+                            <form action="delete_account.php" method="post"
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun?');">
+                                <button type="submit" class="delete-account-btn">Hapus Akun</button>
+                            </form>
+                        </div>
 
                     </div>
                 </div>

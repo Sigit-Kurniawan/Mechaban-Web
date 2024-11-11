@@ -529,10 +529,10 @@ nav a {
 footer {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Mengatur ruang di antara elemen */
-  padding: 20px 0; /* Padding atas dan bawah */
-  background-color: #0697f2; /* Warna latar belakang footer */
-  color: white; /* Warna teks footer */
+  justify-content: space-between;
+  padding: 20px 0;
+  background-color: #0697f2;
+  color: white;
 }
 
 .container-fluid {
