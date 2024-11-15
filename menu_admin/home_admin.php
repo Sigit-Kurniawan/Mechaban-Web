@@ -13,7 +13,7 @@ if (!isset($_SESSION["login"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    
+
     <link rel="icon" href="../assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
 
@@ -35,7 +35,7 @@ if (!isset($_SESSION["login"])) {
                         <div class="cardname">Customers</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
+                        <ion-icon name="people-outline"></ion-icon>
                     </div>
                 </div>
 
@@ -45,27 +45,27 @@ if (!isset($_SESSION["login"])) {
                         <div class="cardname">Montir</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
+                        <ion-icon name="construct-outline"></ion-icon>
                     </div>
                 </div>
 
                 <div class="card">
                     <div>
                         <div class="number">1,504</div>
-                        <div class="cardname">Daily Views</div>
+                        <div class="cardname">Aktivitas</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
+                        <ion-icon name="receipt-outline"></ion-icon>
                     </div>
                 </div>
 
                 <div class="card">
                     <div>
                         <div class="number">1,504</div>
-                        <div class="cardname">Daily Views</div>
+                        <div class="cardname">Laporan</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
+                        <ion-icon name="documents-outline"></ion-icon>
                     </div>
                 </div>
             </div>
@@ -131,7 +131,13 @@ if (!isset($_SESSION["login"])) {
                     <table>
                         <tr>
                             <td width="60px">
-                                <div class="imgBx"><img src="../assets/images/user.jpg"></div>
+                                <div class="user-img-container">
+                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
+                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
+                                    <?php else: ?>
+                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
+                                    <?php endif; ?>
+                                </div>
                             </td>
                             <td>
                                 <h4>David<br><span>Italy</span></h4>
@@ -140,7 +146,13 @@ if (!isset($_SESSION["login"])) {
 
                         <tr>
                             <td width="60px">
-                                <div class="imgBx"><img src="../assets/images/user.jpg"></div>
+                                <div class="user-img-container">
+                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
+                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
+                                    <?php else: ?>
+                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
+                                    <?php endif; ?>
+                                </div>
                             </td>
                             <td>
                                 <h4>David<br><span>Italy</span></h4>
@@ -149,7 +161,13 @@ if (!isset($_SESSION["login"])) {
 
                         <tr>
                             <td width="60px">
-                                <div class="imgBx"><img src="../assets/images/user.jpg"></div>
+                                <div class="user-img-container">
+                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
+                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
+                                    <?php else: ?>
+                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
+                                    <?php endif; ?>
+                                </div>
                             </td>
                             <td>
                                 <h4>David<br><span>Italy</span></h4>
@@ -158,7 +176,13 @@ if (!isset($_SESSION["login"])) {
 
                         <tr>
                             <td width="60px">
-                                <div class="imgBx"><img src="../assets/images/user.jpg"></div>
+                                <div class="user-img-container">
+                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
+                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
+                                    <?php else: ?>
+                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
+                                    <?php endif; ?>
+                                </div>
                             </td>
                             <td>
                                 <h4>David<br><span>Italy</span></h4>
@@ -167,7 +191,13 @@ if (!isset($_SESSION["login"])) {
 
                         <tr>
                             <td width="60px">
-                                <div class="imgBx"><img src="../assets/images/user.jpg"></div>
+                                <div class="user-img-container">
+                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
+                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
+                                    <?php else: ?>
+                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
+                                    <?php endif; ?>
+                                </div>
                             </td>
                             <td>
                                 <h4>David<br><span>Italy</span></h4>
@@ -176,7 +206,13 @@ if (!isset($_SESSION["login"])) {
 
                         <tr>
                             <td width="60px">
-                                <div class="imgBx"><img src="../assets/images/user.jpg"></div>
+                                <div class="user-img-container">
+                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
+                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
+                                    <?php else: ?>
+                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
+                                    <?php endif; ?>
+                                </div>
                             </td>
                             <td>
                                 <h4>David<br><span>Italy</span></h4>
