@@ -1,47 +1,279 @@
-/* The Modal (background) */
+/* Main View Container */
+.view {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: var(--white);
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    min-height: 100vh;
+}
+
+/* Customer List Container */
+.cus-view {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    background: var(--white);
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Table Styles */
+.cus-view table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed;
+}
+
+.cus-view table thead tr {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.cus-view table thead th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.cus-view table tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.cus-view table tbody tr:hover {
+    background-color: rgba(0, 82, 175, 0.05);
+}
+
+.cus-view table tbody td {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+/* Column widths */
+.cus-view table th:nth-child(1),
+.cus-view table td:nth-child(1) { width: 8%; }  /* No */
+.cus-view table th:nth-child(2),
+.cus-view table td:nth-child(2) { width: 25%; } /* Email */
+.cus-view table th:nth-child(3),
+.cus-view table td:nth-child(3) { width: 25%; } /* Name */
+.cus-view table th:nth-child(4),
+.cus-view table td:nth-child(4) { width: 20%; } /* Phone */
+.cus-view table th:nth-child(5),
+.cus-view table td:nth-child(5) { width: 22%; } /* Actions */
+
+/* Modal Styles */
 .modal {
     display: none;
-    /* Hidden by default */
     position: fixed;
-    /* Stay in place */
-    z-index: 1;
-    /* Sit on top */
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
-    /* Full width */
     height: 100%;
-    /* Full height */
     overflow: auto;
-    /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0);
-    /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/ opacity */
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
 }
 
-/* Modal Content/Box */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    /* Could be more or less, depending on screen size */
+    background-color: var(--white);
+    margin: 5% auto;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation: slideIn 0.3s ease;
 }
 
-/* The Close Button */
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Close Button */
 .close {
+    position: absolute;
+    right: 25px;
+    top: 15px;
     color: #aaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
+.close:hover {
+    color: var(--blue);
+}
+
+/* Form Styles */
+.cus-tambah {
+    padding: 20px 0;
+}
+
+.cus-tambah h2 {
+    color: var(--blue);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formLabel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formLabel label {
+    font-weight: 500;
+    color: var(--black1);
+}
+
+.formLabel input {
+    padding: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.formLabel input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(0, 82, 175, 0.1);
+    outline: none;
+}
+
+/* Button Styles */
+#myBtn {
+    background-color: var(--blue);
+    color: var(--white);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+    align-self: flex-start;
+}
+
+#myBtn:hover {
+    background-color: #0052af;
+}
+
+.btn-simpan {
+    background-color: var(--blue);
+    color: var(--white);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-simpan:hover {
+    background-color: #0052af;
+}
+
+/* Action Buttons */
+.btn-edit, .btn-hapus {
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+}
+
+.btn-edit {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.btn-edit:hover {
+    background-color: #0052af;
+}
+
+.btn-hapus {
+    background-color: #dc3545;
+    color: var(--white);
+}
+
+.btn-hapus:hover {
+    background-color: #c82333;
+}
+
+.tambah-cus {
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+/* Error Messages */
+.errors {
+    background-color: #fff3f3;
+    border: 1px solid #dc3545;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.errors p {
+    color: #dc3545;
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+/* Password Hint */
+.password-hint {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+
+    .cus-view {
+        overflow-x: auto;
+    }
+
+    .cus-view table {
+        min-width: 600px;
+    }
+
+    .btn-edit, .btn-hapus {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
 }
