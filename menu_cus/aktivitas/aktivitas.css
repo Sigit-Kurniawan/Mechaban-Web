@@ -1,0 +1,78 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: var(--white);
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  margin-bottom: 20px;
+  min-height: 100vh;
+}
+
+.booking-sedang-proses,
+.booking-selesai {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 50px;
+  background: var(--white);
+  padding: 20px;
+  border-radius: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+/* .mobil-view h2 {
+  margin-bottom: 15px;
+} */
+
+.judul {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cardHeader h2 {
+  font-weight: 600;
+  color: v#0597f2;
+}
+
+.view table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  table-layout: fixed; /* Memastikan kolom memiliki lebar tetap */
+}
+
+.view table thead td {
+  font-weight: 600;
+  text-align: center; /* Rata tengah untuk header */
+}
+
+.view table tbody tr {
+  color: var(--black1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.view table tbody tr td {
+  padding: 10px;
+  text-align: center; /* Rata tengah untuk semua kolom */
+  word-wrap: break-word; /* Memastikan teks panjang tetap di dalam kolom */
+}
+
+.btn-batal {
+  position: relative;
+  padding: 5px 10px;
+  background: rgb(222, 0, 0);
+  text-decoration: none;
+  color: var(--white);
+  border-radius: 6px;
+}
+
+.btn-detail {
+  position: relative;
+  padding: 5px 10px;
+  background: #0268a8;
+  text-decoration: none;
+  color: var(--white);
+  border-radius: 6px;
+}
