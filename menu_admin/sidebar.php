@@ -13,7 +13,7 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="/Mechaban-Web/menu_admin/customers/customers.php">
                 <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
                 <span class="title">Customers</span>
             </a>
@@ -43,13 +43,13 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="/Mechaban-Web/menu_admin/setting/setting.php">
                 <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
                 <span class="title">Setting</span>
             </a>
         </li>
         <li>
-            <a href="../../logout.php">
+            <a href="/Mechaban-Web/logout.php">
                 <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
                 <span class="title">Log Out</span>
             </a>

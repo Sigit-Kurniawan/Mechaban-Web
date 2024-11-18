@@ -1,0 +1,225 @@
+.view {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: var(--white);
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    min-height: 100vh;
+  }
+  
+  .view .montir-view {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    background: var(--white);
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .montir-view h2 {
+    margin-bottom: 15px;
+  }
+  
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .cardHeader h2 {
+    font-weight: 600;
+    color: var(--blue);
+  }
+  
+  .view table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed;
+  }
+  
+  .view table thead td {
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .view table tbody tr {
+    color: var(--black1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .view table tbody tr td {
+    padding: 10px;
+    text-align: center;
+    word-wrap: break-word;
+  }
+  
+  /* Column widths */
+  .view table tbody tr td:nth-child(1) { width: 30%; } /* Email */
+  .view table tbody tr td:nth-child(2) { width: 25%; } /* Nama */
+  .view table tbody tr td:nth-child(3) { width: 20%; } /* No HP */
+  .view table tbody tr td:nth-child(4) { width: 25%; } /* Aksi */
+  
+  .view .montir-view table tbody tr:hover {
+    background: var(--blue);
+    color: var(--white);
+  }
+  
+  .btn-edit {
+    padding: 5px 10px;
+    background: #0268a8;
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 6px;
+    margin-right: 5px;
+  }
+  
+  .btn-hapus {
+    padding: 5px 10px;
+    background: rgb(222, 0, 0);
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 6px;
+  }
+  
+  .montir-tambah {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .tambah-montir {
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: var(--blue);
+    color: var(--white);
+    cursor: pointer;
+  }
+  
+  .tambah-montir:hover {
+    background-color: #005a8a;
+  }
+
+  .btn-simpan {
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: var(--blue);
+    color: var(--white);
+    cursor: pointer;
+  }
+  
+  .btn-simpan:hover {
+    background-color: #005a8a;
+  }
+  
+  .montir-tambah .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .formLabel {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  .formLabel label {
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 5px;
+  }
+  
+  .formLabel input[type="text"],
+  .formLabel input[type="email"],
+  .formLabel input[type="password"],
+  select {
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .formLabel input:focus,
+  select:focus {
+    border-color: var(--blue);
+  }
+  
+  .password-hint {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 4px;
+  }
+  
+  .errors {
+    padding: 10px;
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid red;
+    border-radius: 6px;
+    margin-bottom: 15px;
+  }
+  
+  .errors p {
+    color: red;
+    font-size: 0.9rem;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 10px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .montir-tambah h2 {
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 4px;
+  }

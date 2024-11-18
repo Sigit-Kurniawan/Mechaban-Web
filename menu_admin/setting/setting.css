@@ -1,0 +1,225 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: var(--white);
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  margin-bottom: 20px;
+  min-height: 100vh;
+}
+
+.view .akun-view {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  background: var(--white);
+  padding: 20px;
+  border-radius: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.akun-view h2 {
+  margin-bottom: 15px;
+}
+
+.akun-edit {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+/* .edit-akun {
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 15px;
+} */
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+/* Tombol Edit Akun */
+.edit-akun {
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 15px;
+  background-color: #0697f2;
+  color: white;
+}
+
+.edit-akun:hover {
+  background-color: #005a8a;
+}
+
+/* Tombol Hapus Akun */
+.delete-account-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+  font-size: 16px;
+  height: 40px;
+}
+
+.delete-account-btn:hover {
+  background-color: #d32f2f;
+}
+
+.profile-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  display: block;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.input-field {
+  width: 40%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+.input-field:disabled {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+.edit-akun:hover {
+  background-color: #005a8a;
+}
+
+.akun-edit .form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.formLabel {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.formLabel label {
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 5px;
+}
+
+.formLabel input[type="text"],
+.formLabel input[type="password"],
+select {
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.formLabel input[type="text"]:focus,
+.formLabel input[type="password"]:focus,
+select:focus {
+  border-color: var(--blue);
+}
+
+.errors {
+  padding: 10px;
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid red;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.errors p {
+  color: red;
+  font-size: 0.9rem;
+}
+
+.input .btn {
+  background-color: var(--blue);
+  color: var(--white);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.input .btn:hover {
+  background-color: #005a8a;
+}
+
+.view button {
+  background-color: var(--blue);
+  color: white;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.akun-tambah h2 {
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 4px;
+}
