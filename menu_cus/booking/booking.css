@@ -3,6 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f9f9f9;
+  color: black;
 }
 
 .container {
@@ -14,118 +15,145 @@ body {
   flex: 1;
   padding: 20px;
   background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-top: 60px;
+  padding: auto;
 }
 
-.header-booking h2 {
-  color: #0597f2;
+.header-booking {
+  text-align: center;
   margin-bottom: 20px;
 }
 
+.header-booking h2 {
+  font-size: 24px;
+  color: black;
+}
+
 .booking-input {
-  max-width: 1000px;
+  max-width: 600px;
   margin: 0 auto;
-  background-color: #f1f1f1;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .booking-input label {
   font-weight: bold;
-  margin-bottom: 0px;
   display: block;
+  margin-bottom: 0px;
+  color: black;
 }
 
 select,
 input[type="text"],
-button {
-  width: 70%;
+input[type="checkbox"] {
+  width: 100%;
   padding: 10px;
-  /* margin-top: 10px; */
-  border: 1px solid #ccc;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 14px;
+  color: black;
 }
 
-.servis-container {
-  display: none;
-  margin-top: 10px;
-  width: 70%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #e8f5e9;
+.mobil,
+.komponen-container,
+.location,
+.submit-button {
   margin-bottom: 10px;
 }
 
+/* Servis List */
+
+.servis-container {
+  margin-top: 10px;
+  display: none;
+  padding: auto;
+}
+
 .servis-item {
+  font-size: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  margin-bottom: 10px;
+  background-color: #e6f7e6; /* Warna latar belakang hijau muda */
+  padding: 18px;
+  border-radius: 5px;
+  flex-wrap: nowrap; /* Menjaga elemen tetap dalam satu baris */
+}
+
+.servis-item label {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  font-weight: normal;
+}
+
+.servis-item input[type="checkbox"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+  vertical-align: middle;
 }
 
 .servis-price {
-  font-weight: bold;
-  color: #2e7d32;
-}
-
-/* Styling for empty states when no options are available */
-.servis-container p {
-  color: #ff4500;
-  font-size: 14px;
-  font-style: italic;
-}
-
-/* Step containers for the steps in the booking */
-.step-1,
-.step-2,
-.step-3 {
-  margin-bottom: 15px;
-}
-
-/* General container spacing */
-
-.mobil-combobox,
-.komponen-combobox,
-.tanggal_booking {
-  margin-bottom: 15px;
-}
-
-#map {
-  width: 100%;
-  height: 400px;
-  margin-top: 20px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.metode-bayar input {
-  width: 100px;
-  height: 40px;
   font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  text-align: center;
-  font-weight: bold;
+  color: black;
+  margin-left: 10px; /* Menambahkan sedikit jarak dengan nama servis */
 }
 
 .submit-button button {
-  font-size: 16px;
-  width: 100px;
-  height: 40px;
-  margin-top: 15px;
-  color: white;
-  background-color: #007bff;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   font-weight: bold;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #0597f2;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 15px;
 }
 
 .submit-button button:hover {
-  background-color: #0056b3;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #005a8a;
+}
+
+.lokasi a {
+  position: relative;
+  padding: 5px 10px;
+  background: #0268a8;
+  text-decoration: none;
+  color: var(--white);
+  border-radius: 5px;
+}
+.lokasi p {
+  margin-top: 10px;
+}
+
+.alamat-box {
+  background-color: white;
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: black;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .booking-input {
+    padding: 15px;
+  }
+
+  #map {
+    height: 200px;
+  }
 }

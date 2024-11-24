@@ -5,7 +5,10 @@
     <!-- ----search---- -->
     <?php
     // Cek apakah halaman saat ini adalah 'setting.php dan booking.php'
-    if (basename($_SERVER['PHP_SELF']) !== 'setting.php' && basename($_SERVER['PHP_SELF']) !== 'booking.php'): ?>
+    if (
+        basename($_SERVER['PHP_SELF']) !== 'setting.php' && basename($_SERVER['PHP_SELF']) !== 'booking.php' && basename($_SERVER['PHP_SELF']) !== 'aktivitas.php'
+        && basename($_SERVER['PHP_SELF']) !== 'aktivitas_detail.php'
+    ): ?>
         <div class="search">
             <form action="mobil.php" method="GET"> <!-- Form menuju ke halaman yang sama -->
                 <label>

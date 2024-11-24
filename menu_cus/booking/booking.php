@@ -13,15 +13,25 @@ if (!file_exists('../../Api/koneksi.php')) {
 }
 include_once('../../Api/koneksi.php');
 
-// Mendapatkan email customer dari sesi
 $email_customer = $_SESSION["email"];
 
-//Tampilkan mobil
-$query_mobil = "SELECT nopol, merk FROM car WHERE email_customer = '$email_customer'";
+// Mengambil data mobil yang belum dibooking atau status pengerjaannya selesai
+$query_mobil = "
+    SELECT nopol, merk 
+    FROM car 
+    WHERE email_customer = '$email_customer' 
+    AND nopol NOT IN (
+        SELECT nopol 
+        FROM booking 
+        WHERE status_pengerjaan != 'selesai' 
+        AND nopol IS NOT NULL
+    )
+";
 $result_mobil = mysqli_query($conn, $query_mobil);
 if (!$result_mobil) {
     die("Query error: " . mysqli_error($conn));
 }
+
 
 // Ambil data komponen dan data servis
 $query_komponen = "SELECT * FROM data_komponen";
@@ -29,6 +39,11 @@ $result_komponen = mysqli_query($conn, $query_komponen);
 if (!$result_komponen) {
     die("Query error: " . mysqli_error($conn));
 }
+
+// Ambil data lokasi dari URL (jika ada)
+$latitude = isset($_GET['latitude']) ? $_GET['latitude'] : null;
+$longitude = isset($_GET['longitude']) ? $_GET['longitude'] : null;
+$address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'; // Default jika tidak ada alamat
 
 ?>
 
@@ -42,9 +57,11 @@ if (!$result_komponen) {
     <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
     <title>Mechaban</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="http://localhost/Mechaban-Web/menu_cus/booking/booking.css">
+    <link rel="stylesheet" href="\Mechaban-Web\menu_cus\booking\booking.css">
+
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async
         defer></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -62,7 +79,7 @@ if (!$result_komponen) {
                     <h2>Booking Servis</h2>
                 </div>
 
-                <!-- Step 1: Select Mobil -->
+                <!-- Step 1: Pilih Mobil -->
                 <div class="mobil">
                     <label>Mobil</label><br>
                     <select name="nopol" id="mobil" class="mobil-combobox" required>
@@ -75,7 +92,8 @@ if (!$result_komponen) {
                     </select>
                 </div>
 
-                <!-- Step 2: Select Komponen and Servis -->
+
+                <!-- Step 2: Pilih Komponen dan Servis -->
                 <div class="komponen-container">
                     <label>Servis</label><br>
                     <select name="komponen" class="komponen-combobox" required>
@@ -115,7 +133,23 @@ if (!$result_komponen) {
                     <?php endwhile; ?>
                 </div>
 
-                <!-- Step 3: Metode Pembayaran (Auto filled to "Tunai") -->
+                <!-- Step 3: Lokasi -->
+                <div class="lokasi">
+                    <label>Lokasi Anda</label><br>
+                    <a href="lokasi.php">Pilih Lokasi</a>
+                    <?php if ($latitude && $longitude): ?>
+                        <div class="alamat-box">
+                            <?php echo $address ? ucwords(htmlspecialchars($address)) : 'Lokasi tidak ditemukan'; ?><br>
+                        </div>
+                        <input type="hidden" name="latitude" value="<?php echo $latitude; ?>">
+                        <input type="hidden" name="longitude" value="<?php echo $longitude; ?>">
+                    <?php else: ?>
+                        <div class="alamat-box">
+                            Lokasi belum dipilih.
+                        </div>
+                    <?php endif; ?>
+                </div>
+
 
 
                 <!-- Step 4: Submit Button -->
@@ -127,6 +161,8 @@ if (!$result_komponen) {
             <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
             <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
             <script src="http://localhost/Mechaban-Web/menu_cus/booking/booking.js"></script>
+            <script src="booking.js"></script>
+            <script src="\Mechaban-Web\assets\js\main.js"></script>
 
 </body>
 

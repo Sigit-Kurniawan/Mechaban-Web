@@ -1,4 +1,4 @@
-//JS UNTUK SLIDE
+// JS UNTUK SLIDE
 let slideIndex = 0;
 
 function showSlides() {
@@ -28,10 +28,7 @@ function changeSlide(n) {
   slides[slideIndex - 1].style.display = "block";
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  showSlides();
-});
-
+// JS UNTUK ACCORDION
 function toggleAccordion(faqId) {
   const content = document.getElementById(faqId);
   const isExpanded = content.getAttribute("aria-hidden") === "false";
@@ -45,32 +42,17 @@ function toggleAccordion(faqId) {
   button.setAttribute("aria-expanded", !isExpanded);
 }
 
-// JS UNTUK ACCORDION
-const accordionHeaders = document.querySelectorAll(".accordion-header");
+document.addEventListener("DOMContentLoaded", function () {
+  showSlides(); // Start the slides when the DOM is ready
 
-accordionHeaders.forEach((header) => {
-  header.addEventListener("click", function () {
-    const accordionBody = header.nextElementSibling;
-    accordionBody.classList.toggle("show");
-    header.classList.toggle("active");
+  // Accordion functionality
+  const accordionHeaders = document.querySelectorAll(".accordion-header");
+
+  accordionHeaders.forEach((header) => {
+    header.addEventListener("click", function () {
+      const accordionBody = header.nextElementSibling;
+      accordionBody.classList.toggle("show");
+      header.classList.toggle("active");
+    });
   });
 });
-{
-  /* <script>
-  // Ambil semua elemen dengan class 'accordion-header' const accordionHeaders =
-  document.querySelectorAll('.accordion-header');
-  accordionHeaders.forEach(header ={" "}
-  {header.addEventListener("click", () => {
-    // Ambil konten terkait dengan mencari elemen sibling berikutnya
-    const content = header.nextElementSibling;
-
-    // Toggle antara menampilkan dan menyembunyikan konten
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
-  })}
-  );
-</script>; */
-}

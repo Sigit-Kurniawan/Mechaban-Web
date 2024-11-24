@@ -97,8 +97,6 @@ if (isset($_GET['delete_nopol'])) {
     $delete_stmt->close();
 }
 
-
-
 // Query untuk menampilkan data mobil berdasarkan email customer yang login
 $query = "SELECT nopol, merk, type, transmition, year
 FROM car
@@ -276,6 +274,7 @@ $result = $stmt->get_result();
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="mobil.js"></script>
+    <script src="\Mechaban-Web\assets\js\main.js"></script>
 </body>
 
 </html>

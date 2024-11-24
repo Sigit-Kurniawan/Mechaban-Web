@@ -1,3 +1,10 @@
+/* Variabel untuk warna */
+:root {
+  --white: #ffffff;
+  --black1: #333;
+}
+
+/* Kontainer utama */
 .view {
   display: flex;
   flex-direction: column;
@@ -9,6 +16,7 @@
   min-height: 100vh;
 }
 
+/* Styling untuk kotak booking */
 .booking-sedang-proses,
 .booking-selesai {
   position: relative;
@@ -21,10 +29,7 @@
   transition: box-shadow 0.3s ease;
 }
 
-/* .mobil-view h2 {
-  margin-bottom: 15px;
-} */
-
+/* Styling untuk header */
 .judul {
   display: flex;
   justify-content: space-between;
@@ -33,9 +38,10 @@
 
 .cardHeader h2 {
   font-weight: 600;
-  color: v#0597f2;
+  color: #0597f2;
 }
 
+/* Styling untuk tabel */
 .view table {
   width: 100%;
   border-collapse: collapse;
@@ -45,7 +51,7 @@
 
 .view table thead td {
   font-weight: 600;
-  text-align: center; /* Rata tengah untuk header */
+  text-align: center;
 }
 
 .view table tbody tr {
@@ -59,6 +65,7 @@
   word-wrap: break-word; /* Memastikan teks panjang tetap di dalam kolom */
 }
 
+/* Tombol batal dan detail */
 .btn-batal {
   position: relative;
   padding: 5px 10px;
@@ -75,4 +82,304 @@
   text-decoration: none;
   color: var(--white);
   border-radius: 6px;
+}
+
+/* Detail servis */
+.detail-servis {
+  width: 800px; /* Lebih besar agar nyaman dilihat */
+  background-color: #f4f4f4; /* Ganti dengan warna netral untuk kesan lebih bersih */
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto; /* Pusatkan kontainer */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan untuk efek kedalaman */
+}
+
+.title-detail h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #333;
+  margin-top: 20px;
+}
+
+h3 {
+  color: #0597f2;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+h4 {
+  color: #444;
+  font-size: 1.1rem;
+}
+
+.info-umum,
+.rincian-servis,
+.rincian-barang,
+.total-info {
+  margin-bottom: 20px;
+}
+
+.detail-servis table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.detail-servis th,
+.detail-servis td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #0597f2;
+}
+
+.detail-servis th {
+  background-color: #0597f2;
+  color: white;
+  font-weight: bold;
+}
+
+.detail-servis tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.detail-servis tr:hover {
+  background-color: #f1f1f1;
+}
+
+.info-umum table,
+.total-info table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.info-umum th,
+.total-info th {
+  background-color: #f4f4f4;
+  color: #333;
+  width: 30%;
+}
+
+.info-umum td,
+.total-info td {
+  background-color: #fff;
+}
+
+ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 5px;
+  font-size: 1em;
+  color: #333;
+}
+
+.total p,
+.total span {
+  margin: 10px 0;
+  font-size: 1.1em;
+  color: #000;
+  font-weight: bold;
+}
+
+.total-info p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0597f2;
+}
+
+.kembali {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.btn-kembali {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #0268a8;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+/* Detail Montir */
+.detail-montir table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.detail-montir th,
+.detail-montir td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #0597f2;
+}
+
+.detail-montir th {
+  background-color: #0597f2;
+  color: white;
+  font-weight: bold;
+}
+
+.detail-montir td {
+  background-color: #fff;
+  padding-left: 15px; /* Menambah padding kiri untuk jarak dari garis tabel */
+  padding-right: 15px; /* Menambah padding kanan untuk jarak dari garis tabel */
+}
+
+/* Styling untuk list anggota montir agar tidak menyentuh garis tabel */
+.detail-montir ol {
+  margin-left: 20px; /* Memberikan margin kiri */
+  padding-left: 20px; /* Memberikan padding kiri untuk memperjelas indentasi */
+}
+
+.detail-montir tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.detail-montir tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Media Queries untuk Responsif */
+@media (max-width: 1200px) {
+  .detail-servis {
+    width: 90%;
+  }
+
+  .view {
+    padding: 15px;
+  }
+
+  .booking-sedang-proses,
+  .booking-selesai {
+    padding: 15px;
+  }
+
+  .view table {
+    font-size: 0.9rem;
+  }
+
+  .btn-batal,
+  .btn-detail {
+    padding: 8px 16px;
+  }
+
+  .detail-servis table,
+  .detail-montir table {
+    font-size: 0.9rem;
+  }
+
+  .detail-servis th,
+  .detail-servis td,
+  .detail-montir th,
+  .detail-montir td {
+    padding: 8px;
+  }
+
+  .cardHeader h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .view {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .detail-servis {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .booking-sedang-proses,
+  .booking-selesai {
+    padding: 10px;
+  }
+
+  .view table {
+    font-size: 0.8rem;
+  }
+
+  .btn-batal,
+  .btn-detail {
+    padding: 6px 12px;
+  }
+
+  .title-detail h1 {
+    font-size: 1.8rem;
+  }
+
+  .detail-servis table th,
+  .detail-servis table td,
+  .detail-montir table th,
+  .detail-montir table td {
+    padding: 8px;
+  }
+
+  .detail-servis td,
+  .detail-montir td {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .judul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cardHeader h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .view {
+    padding: 8px;
+  }
+
+  .detail-servis {
+    width: 100%;
+    padding: 8px;
+  }
+
+  .booking-sedang-proses,
+  .booking-selesai {
+    padding: 8px;
+  }
+
+  .view table {
+    font-size: 0.7rem;
+  }
+
+  .btn-batal,
+  .btn-detail {
+    padding: 4px 8px;
+  }
+
+  .detail-servis table th,
+  .detail-servis table td,
+  .detail-montir table th,
+  .detail-montir table td {
+    padding: 6px;
+  }
+
+  .cardHeader h2 {
+    font-size: 1.2rem;
+  }
+
+  .detail-servis td {
+    text-align: center;
+  }
 }
