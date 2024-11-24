@@ -42,3 +42,49 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("password").required = false;
   };
 });
+
+ // Photo preview functionality
+ document.getElementById('photo').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+            alert('File terlalu besar. Maksimum 2MB.');
+            this.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            document.getElementById('photoPreview').src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Photo modal functionality
+function showPhotoModal(photoUrl) {
+    const modal = document.getElementById('photoModal');
+    const modalImg = document.getElementById('modalPhoto');
+    modal.style.display = "flex";
+    modalImg.src = photoUrl;
+}
+
+function closePhotoModal() {
+    document.getElementById('photoModal').style.display = "none";
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('photoModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Update existing openEditModal function to include photo preview
+function openEditModal(email, name, no_hp, photo) {
+    // Existing code...
+    document.getElementById('photoPreview').src = photo ? 
+        '<?php echo UPLOAD_DIR ?>' + photo : 
+        '../../assets/img/default-profile.png';
+}

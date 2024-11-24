@@ -58,15 +58,17 @@
 
 /* Column widths */
 .cus-view table th:nth-child(1),
-.cus-view table td:nth-child(1) { width: 8%; }  /* No */
+.cus-view table td:nth-child(1) { width: 5%; }  /* No */
 .cus-view table th:nth-child(2),
-.cus-view table td:nth-child(2) { width: 25%; } /* Email */
+.cus-view table td:nth-child(2) { width: 20%; } /* Email */
 .cus-view table th:nth-child(3),
-.cus-view table td:nth-child(3) { width: 25%; } /* Name */
+.cus-view table td:nth-child(3) { width: 20%; } /* Name */
 .cus-view table th:nth-child(4),
-.cus-view table td:nth-child(4) { width: 20%; } /* Phone */
+.cus-view table td:nth-child(4) { width: 17%; } /* Phone */
 .cus-view table th:nth-child(5),
-.cus-view table td:nth-child(5) { width: 22%; } /* Actions */
+.cus-view table td:nth-child(5) { width: 19%; } /* Photo */
+.cus-view table td:nth-child(6),
+.cus-view table td:nth-child(6) { width: 19%; } /* Actions */
 
 /* Modal Styles */
 .modal {
@@ -275,5 +277,218 @@
     .btn-edit, .btn-hapus {
         padding: 6px 12px;
         font-size: 0.8rem;
+    }
+}
+
+.profile-photo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.photo-upload-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 10px auto;
+}
+
+.photo-preview {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    background-color: #f8f9fa;
+}
+
+.photo-upload-label {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #4CAF50;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.photo-upload-label:hover {
+    background: #45a049;
+}
+
+.photo-upload-input {
+    display: none;
+}
+
+.file-hints {
+    text-align: center;
+    color: #666;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.customer-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.customer-photo:hover {
+    transform: scale(1.1);
+}
+
+/* Photo Modal Styles */
+.photo-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-modal-content {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.photo-modal-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.photo-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .view {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .cus-view {
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 15px;
+    }
+
+    .cus-view table {
+        font-size: 0.9rem;
+        word-wrap: break-word;
+    }
+
+    .cus-view table thead th,
+    .cus-view table tbody td {
+        padding: 8px;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .form {
+        gap: 15px;
+    }
+
+    .formLabel input {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .btn-simpan, 
+    #myBtn, 
+    .btn-edit, 
+    .btn-hapus {
+        font-size: 0.8rem;
+        padding: 8px 16px;
+    }
+
+    .tambah-cus {
+        width: 100%;
+        font-size: 16px;
+        height: auto;
+        padding: 8px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .view, .cus-view {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .cus-view table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    .form {
+        gap: 10px;
+    }
+
+    .formLabel input {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+
+    .btn-simpan, 
+    #myBtn, 
+    .btn-edit, 
+    .btn-hapus {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+    }
+
+    .profile-photo, .customer-photo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .photo-upload-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .photo-upload-label {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+
+    .photo-modal-content {
+        max-width: 95%;
+        max-height: 85%;
+    }
+
+    .photo-modal-close {
+        font-size: 30px;
+        top: 10px;
+        right: 20px;
     }
 }

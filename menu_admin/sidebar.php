@@ -25,13 +25,13 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="/Mechaban-Web/menu_admin/aktivitas/aktivitas.php">
                 <span class="icon"><ion-icon name="receipt-outline"></ion-icon></span>
                 <span class="title">Aktivitas</span>
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="/Mechaban-Web/menu_admin/laporan/laporan.php">
                 <span class="icon"><ion-icon name="documents-outline"></ion-icon></span>
                 <span class="title">Laporan</span>
             </a>

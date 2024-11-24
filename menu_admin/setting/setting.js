@@ -55,3 +55,145 @@ window.onload = function () {
     }, 3000); // Menunggu 3 detik
   }
 };
+
+// Handle photo preview
+document.getElementById('photo').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const fileInputText = document.querySelector('.file-input-text');
+    
+    if (file) {
+        // Update file input text
+        fileInputText.textContent = file.name;
+        
+        // Preview image
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('photoPreview').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    } else {
+        // Reset if no file selected
+        fileInputText.textContent = 'Pilih Foto';
+    }
+});
+
+// Photo modal functions
+function showPhotoModal(src) {
+    const modal = document.getElementById('photoModal');
+    const modalImg = document.getElementById('modalPhoto');
+    modal.style.display = "block";
+    modalImg.src = src;
+}
+
+function closePhotoModal() {
+    document.getElementById('photoModal').style.display = "none";
+}
+
+// Auto-hide alerts
+window.onload = function() {
+    const successAlert = document.getElementById('success-alert');
+    const errorAlert = document.getElementById('error-alert');
+    
+    function hideAlert(alert) {
+        if (alert) {
+            setTimeout(() => {
+                alert.style.opacity = 0;
+                setTimeout(() => {
+                    alert.style.display = 'none';
+                }, 500);
+            }, 3000);
+        }
+    }
+    
+    hideAlert(successAlert);
+    hideAlert(errorAlert);
+};
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const photoModal = document.getElementById('photoModal');
+    if (event.target == photoModal) {
+        photoModal.style.display = "none";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const photoInput = document.getElementById('photo');
+  const photoForm = document.getElementById('photoForm');
+  const fileInputText = document.querySelector('.file-input-text');
+  const uploadBtn = document.querySelector('.upload-btn');
+
+  photoInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      
+      if (file) {
+          // Validate file size
+          if (file.size > 2 * 1024 * 1024) {
+              alert('File terlalu besar. Maksimum 2MB.');
+              this.value = '';
+              fileInputText.textContent = 'Tidak ada file dipilih';
+              uploadBtn.disabled = true;
+              return;
+          }
+
+          // Validate file type
+          const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+          if (!allowedTypes.includes(file.type)) {
+              alert('Format file tidak diizinkan. Hanya JPG, JPEG, dan PNG yang diperbolehkan.');
+              this.value = '';
+              fileInputText.textContent = 'Tidak ada file dipilih';
+              uploadBtn.disabled = true;
+              return;
+          }
+
+          // Update file input text and preview
+          fileInputText.textContent = file.name;
+          uploadBtn.disabled = false;
+
+          // Preview image
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              document.getElementById('photoPreview').src = e.target.result;
+          }
+          reader.readAsDataURL(file);
+      } else {
+          fileInputText.textContent = 'Tidak ada file dipilih';
+          uploadBtn.disabled = true;
+      }
+  });
+
+  // Auto-hide alerts
+  const successAlert = document.getElementById('success-alert');
+  const errorAlert = document.getElementById('error-alert');
+  
+  function hideAlert(alert) {
+      if (alert) {
+          setTimeout(() => {
+              alert.style.display = 'none';
+          }, 3000);
+      }
+  }
+  
+  hideAlert(successAlert);
+  hideAlert(errorAlert);
+});
+
+// Photo modal functions
+function showPhotoModal(src) {
+  const modal = document.getElementById('photoModal');
+  const modalImg = document.getElementById('modalPhoto');
+  modal.style.display = "block";
+  modalImg.src = src;
+}
+
+function closePhotoModal() {
+  document.getElementById('photoModal').style.display = "none";
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const photoModal = document.getElementById('photoModal');
+  if (event.target == photoModal) {
+      photoModal.style.display = "none";
+  }
+}

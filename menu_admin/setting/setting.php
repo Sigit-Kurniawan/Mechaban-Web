@@ -13,16 +13,18 @@ if (!file_exists('../../Api/koneksi.php')) {
 }
 include_once('../../Api/koneksi.php');
 
+// Define upload directory (make sure this matches the one in upload_photo.php)
+define('UPLOAD_DIR', '../../uploads/customers/');
+
 // Mendapatkan email customer dari sesi
 $email_customer = $_SESSION["email"];
 
 // Query untuk mengambil data akun berdasarkan email
-$query = "SELECT name, email, no_hp, password FROM account WHERE email = ?";
+$query = "SELECT name, email, no_hp, photo FROM account WHERE email = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("s", $email_customer); // Menggunakan email dari sesi
+$stmt->bind_param("s", $email_customer);
 $stmt->execute();
 $result = $stmt->get_result();
-
 
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
@@ -31,7 +33,8 @@ if ($result->num_rows > 0) {
     exit();
 }
 
-$conn->close();
+// Prepare photo URL
+$photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo']) : '../../assets/img/default-profile.png';
 ?>
 
 <!DOCTYPE html>
@@ -56,53 +59,88 @@ $conn->close();
 
 
             <div class="view">
-                <!-- Menampilkan informasi akun -->
+                <!-- Error/Success Alerts -->
+                <?php if (isset($_GET['error'])): ?>
+                    <div id="error-alert" class="error-alert">
+                        <?php echo htmlspecialchars($_GET['error']); ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (isset($_GET['success'])): ?>
+                    <div id="success-alert" class="success-alert">
+                        <?php 
+                        switch ($_GET['success']) {
+                            case 'upload':
+                                echo "Foto profil berhasil diperbarui.";
+                                break;
+                            case 'save':
+                                echo "Profil berhasil diperbarui.";
+                                break;
+                            default:
+                                echo "Operasi berhasil.";
+                        }
+                        ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="akun-view">
                     <div class="cardHeader">
                         <h2>Informasi Akun</h2>
                     </div>
                     <div class="view-informasi-akun">
-
-                        <div class="form-group">
-                            <img src="<?php
-                            echo isset($_SESSION['photo']) && !empty($_SESSION['photo']) ? htmlspecialchars($_SESSION['photo']) : 'http://localhost/Mechaban-Web/assets/img/user_profile.png';
-                            ?>" alt="Foto Profil" class="profile-img" id="profile-img">
-                            <form id="uploadForm" action="upload_pp.php" method="post" enctype="multipart/form-data">
-                                <label for="profile_photo">Foto Profil</label>
-                                <input type="file" name="profile_photo" id="profile_photo" accept=".jpg, .jpeg, .png" />
-                                <input type="submit" name="upload" value="Upload Foto" class="btn">
+                        <div class="photo-upload-container">
+                            <img id="photoPreview" 
+                                 src="<?php echo $photo_url; ?>" 
+                                 alt="Profile preview" 
+                                 class="profile-img"
+                                 onclick="showPhotoModal(this.src)">
+                            
+                            <form id="photoForm" action="upload_photo.php" method="post" enctype="multipart/form-data" class="upload-form">
+                                <div class="file-input-container">
+                                    <label for="photo">
+                                        <ion-icon name="camera"></ion-icon> 
+                                        Pilih Foto
+                                    </label>
+                                    <span class="file-input-text">Tidak ada file dipilih</span>
+                                    <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/jpg" style="display:none;">
+                                </div>
+                                <div class="file-hints">
+                                    Format: JPG, JPEG, PNG (Maks. 2MB)
+                                </div>
+                                <button type="submit" name="upload" class="upload-btn" disabled>Upload Foto</button>
                             </form>
-
                         </div>
 
-
+                        <!-- Rest of your existing form fields -->
                         <div class="form-group">
                             <label for="name">Nama</label>
-                            <input type="text" id="name" class="input-field"
-                                value="<?php echo htmlspecialchars($user['name']); ?>" disabled>
+                            <input type="text" id="name" class="input-field" value="<?php echo htmlspecialchars($user['name']); ?>" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" id="email" class="input-field"
-                                value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
+                            <input type="text" id="email" class="input-field" value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="no_hp">No. HP</label>
-                            <input type="text" id="phone" class="input-field"
-                                value="<?php echo htmlspecialchars($user['no_hp']); ?>" disabled>
+                            <input type="text" id="phone" class="input-field" value="<?php echo htmlspecialchars($user['no_hp']); ?>" disabled>
                         </div>
 
                         <div class="button-container">
                             <button class="edit-akun" id="myBtn">Edit Akun</button>
-                            <form action="delete_account.php" method="post"
-                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun?');">
+                            <form action="delete_account.php" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun?');">
                                 <button type="submit" class="delete-account-btn">Hapus Akun</button>
                             </form>
                         </div>
-
                     </div>
+                </div>
+            </div>
+
+            <!-- Photo Modal -->
+            <div id="photoModal" class="modal">
+                <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
+                <div class="photo-modal-content">
+                    <img id="modalPhoto" src="" alt="Enlarged photo">
                 </div>
             </div>
 
@@ -153,6 +191,7 @@ $conn->close();
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="setting.js"></script>
+    <script src="../../assets/js/main.js"></script>
 </body>
 
 </html>

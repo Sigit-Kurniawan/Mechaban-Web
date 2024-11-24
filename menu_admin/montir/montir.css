@@ -201,3 +201,133 @@ input[type="password"] {
   font-size: 12px;
   color: #666;
 }
+
+@media (max-width: 768px) {
+  /* Container Adjustments */
+  .view {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .view .montir-view {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  /* Card Header */
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .cardHeader h2 {
+    font-size: 18px;
+  }
+
+  .cardHeader .btn {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  /* Table Adjustments */
+  .view table {
+    font-size: 14px;
+    table-layout: auto; /* Remove fixed layout for flexibility */
+  }
+
+  .view table thead td {
+    padding: 10px 5px;
+  }
+
+  .view table tbody td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .view table tbody tr td:nth-child(1),
+  .view table tbody tr td:nth-child(2),
+  .view table tbody tr td:nth-child(3),
+  .view table tbody tr td:nth-child(4),
+  .view table tbody tr td:nth-child(5) {
+    width: auto; /* Adjust column width automatically */
+  }
+
+  /* Button Adjustments */
+  .btn-simpan {
+    font-size: 14px;
+    padding: 10px 20px;
+    margin-top: 10px;
+  }
+
+  .btn-edit, .btn-hapus {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .tambah-montir {
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  /* Modal Adjustments */
+  .modal-content {
+    width: 90%;
+    margin: 10% auto;
+    padding: 15px;
+  }
+
+  .close {
+    font-size: 20px;
+  }
+
+  /* Form Adjustments */
+  .form {
+    gap: 10px;
+  }
+
+  .formLabel {
+    margin-bottom: 10px;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  input[type="password"] {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .password-hint {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Smaller Devices */
+  .cardHeader h2 {
+    font-size: 16px;
+  }
+
+  .view {
+    padding: 10px;
+  }
+
+  .btn-simpan {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+
+  .btn-edit, .btn-hapus {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  input[type="password"] {
+    font-size: 12px;
+    padding: 8px;
+  }
+}

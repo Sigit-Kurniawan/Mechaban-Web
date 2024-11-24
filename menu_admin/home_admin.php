@@ -4,6 +4,29 @@ if (!isset($_SESSION["login"])) {
     header("Location: login.php");
     exit();
 }
+
+// Tampilkan semua error untuk debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Pastikan file koneksi ada
+if (!file_exists('../Api/koneksi.php')) {
+    die("Database connection file not found.");
+}
+include_once('../Api/koneksi.php');
+
+// Definisikan direktori untuk upload foto
+define('UPLOAD_DIR', '../../uploads/customers/');
+
+// Hitung total customers
+$query_customers = "SELECT COUNT(*) AS total_customers FROM account WHERE role = 'customer'";
+$result_customers = $conn->query($query_customers);
+$total_customers = $result_customers->fetch_assoc()['total_customers'] ?? 0;
+
+$query_montir = "SELECT COUNT(*) AS total_montir FROM account WHERE role = 'montir'";
+$result_montir = $conn->query($query_montir);
+$total_montir = $result_montir->fetch_assoc()['total_montir'] ?? 0;
+
 ?>
 
 <!DOCTYPE html>
@@ -12,11 +35,8 @@ if (!isset($_SESSION["login"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
     <link rel="icon" href="../assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
-
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
@@ -24,14 +44,58 @@ if (!isset($_SESSION["login"])) {
     <div class="container">
         <?php include_once 'sidebar.php'; ?>
 
-
         <div class="main">
-            <?php include 'header.php' ?>
+            <!-- header -->
+            <div class="header">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+                <!-- ----search---- -->
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="Search here.....">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+                <!-- ----user img---- -->
+                <div class="user">
+                    <div class="user-img-container">
+                        <?php
+                        // Determine the photo path
+                        $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
+                            ? '../uploads/' . htmlspecialchars($_SESSION["photo"])
+                            : '../assets/img/default-profile.png';
+                        ?>
+                        <img src="<?php echo $userPhoto; ?>"
+                            alt="User Profile Picture"
+                            class="user-img"
+                            onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
 
+                        <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
+                    </div>
+
+                    <div class="user-info">
+                        <div class="username">
+                            <span class="name"><?php echo $_SESSION["name"]; ?></span>
+                            <span class="role"><?php echo $_SESSION["role"]; ?></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo Modal (can be added to the bottom of your page) -->
+                <div id="photoModal" class="modal">
+                    <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
+                    <div class="photo-modal-content">
+                        <img id="modalPhoto" src="" alt="Enlarged photo">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Section -->
             <div class="cardbox">
                 <div class="card">
                     <div>
-                        <div class="number">1,504</div>
+                        <div class="number"><?php echo $total_customers; ?></div>
                         <div class="cardname">Customers</div>
                     </div>
                     <div class="iconBx">
@@ -41,7 +105,7 @@ if (!isset($_SESSION["login"])) {
 
                 <div class="card">
                     <div>
-                        <div class="number">1,504</div>
+                        <div class="number"><?php echo $total_montir; ?></div>
                         <div class="cardname">Montir</div>
                     </div>
                     <div class="iconBx">
@@ -51,7 +115,7 @@ if (!isset($_SESSION["login"])) {
 
                 <div class="card">
                     <div>
-                        <div class="number">1,504</div>
+                        <a href="aktivitas/aktivitas.php" class="btn-viewAll">View All</a>
                         <div class="cardname">Aktivitas</div>
                     </div>
                     <div class="iconBx">
@@ -61,7 +125,7 @@ if (!isset($_SESSION["login"])) {
 
                 <div class="card">
                     <div>
-                        <div class="number">1,504</div>
+                        <a href="laporan/laporan.php" class="btn-viewAll">View All</a>
                         <div class="cardname">Laporan</div>
                     </div>
                     <div class="iconBx">
@@ -70,6 +134,7 @@ if (!isset($_SESSION["login"])) {
                 </div>
             </div>
 
+            <!-- Recent Orders -->
             <div class="details">
                 <div class="recentOrder">
                     <div class="cardHeader">
@@ -92,132 +157,59 @@ if (!isset($_SESSION["login"])) {
                                 <td>Terbayar</td>
                                 <td><span class="status">Perbaikan</span></td>
                             </tr>
-
-                            <tr>
-                                <td>Star Refrigerator</td>
-                                <td>Rp1.200.000</td>
-                                <td>Terbayar</td>
-                                <td><span class="status">Perbaikan</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>Star Refrigerator</td>
-                                <td>Rp1.200.000</td>
-                                <td>Terbayar</td>
-                                <td><span class="status">Perbaikan</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>Star Refrigerator</td>
-                                <td>Rp1.200.000</td>
-                                <td>Terbayar</td>
-                                <td><span class="status">Perbaikan</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>Star Refrigerator</td>
-                                <td>Rp1.200.000</td>
-                                <td>Terbayar</td>
-                                <td><span class="status">Perbaikan</span></td>
-                            </tr>
+                            <!-- Tambahkan data lainnya di sini -->
                         </tbody>
                     </table>
                 </div>
 
+                <!-- Recent Customers -->
                 <div class="recentCustomers">
                     <div class="cardHeader">
                         <h2>Recent Customers</h2>
                     </div>
+
+                    <!-- Photo Modal -->
+                    <div id="photoModal" class="photo-modal">
+                        <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
+                        <div class="photo-modal-content">
+                            <img id="modalPhoto" src="" alt="Enlarged photo">
+                        </div>
+                    </div>
+
                     <table>
-                        <tr>
-                            <td width="60px">
-                                <div class="user-img-container">
-                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
-                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
-                                    <?php else: ?>
-                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
-                                    <?php endif; ?>
-                                </div>
-                            </td>
-                            <td>
-                                <h4>David<br><span>Italy</span></h4>
-                            </td>
-                        </tr>
+                        <?php
+                        // Query data pelanggan
+                        $query = "SELECT * FROM account WHERE role = 'customer' ORDER BY name LIMIT 8";
+                        $result = $conn->query($query);
 
-                        <tr>
-                            <td width="60px">
-                                <div class="user-img-container">
-                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
-                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
+                        // Tampilkan data pelanggan
+                        while ($row = $result->fetch_assoc()):
+                            // Tentukan path foto
+                            $photo = $row['photo'] ?? ''; // Nilai default jika NULL
+                            $photo_path = UPLOAD_DIR . htmlspecialchars($photo);
+                            $photo_exists = !empty($photo) && file_exists($photo_path);
+                        ?>
+                            <tr>
+                                <td width="60px">
+                                    <?php if ($photo_exists): ?>
+                                        <img src="<?php echo $photo_path; ?>"
+                                            alt="<?php echo htmlspecialchars($row['name'] ?? 'Unknown'); ?>"
+                                            class="customer-photo"
+                                            onclick="showPhotoModal('<?php echo $photo_path; ?>')">
                                     <?php else: ?>
-                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
+                                        <img src="../assets/img/default-profile.png"
+                                            alt="Default profile"
+                                            class="customer-photo">
                                     <?php endif; ?>
-                                </div>
-                            </td>
-                            <td>
-                                <h4>David<br><span>Italy</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="user-img-container">
-                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
-                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
-                                    <?php else: ?>
-                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
-                                    <?php endif; ?>
-                                </div>
-                            </td>
-                            <td>
-                                <h4>David<br><span>Italy</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="user-img-container">
-                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
-                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
-                                    <?php else: ?>
-                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
-                                    <?php endif; ?>
-                                </div>
-                            </td>
-                            <td>
-                                <h4>David<br><span>Italy</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="user-img-container">
-                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
-                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
-                                    <?php else: ?>
-                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
-                                    <?php endif; ?>
-                                </div>
-                            </td>
-                            <td>
-                                <h4>David<br><span>Italy</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="user-img-container">
-                                    <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
-                                        <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
-                                    <?php else: ?>
-                                        <img src="/Mechaban-Web/assets/img/user.png" alt="Default User Picture" class="user-img">
-                                    <?php endif; ?>
-                                </div>
-                            </td>
-                            <td>
-                                <h4>David<br><span>Italy</span></h4>
-                            </td>
-                        </tr>
+                                </td>
+                                <td>
+                                    <h4><?php echo htmlspecialchars($row['name'] ?? 'Unknown'); ?>
+                                        <br>
+                                        <span><?php echo htmlspecialchars($row['email'] ?? ''); ?></span>
+                                    </h4>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
                     </table>
                 </div>
             </div>
