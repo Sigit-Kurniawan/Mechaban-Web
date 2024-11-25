@@ -40,8 +40,8 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="http://localhost/Mechaban-Web/assets/img/logo.png" type="image/png">
-    <title>Mechaban - Edit Profil</title>
+    <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+    <title>Mechaban</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="setting.css">
 </head>
@@ -153,6 +153,7 @@ $conn->close();
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="setting.js"></script>
+    <script src="\Mechaban-Web\assets\js\main.js"></script>
 </body>
 
 </html>

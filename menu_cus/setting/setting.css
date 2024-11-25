@@ -54,17 +54,17 @@
   border: none;
   border-radius: 5px;
   margin-top: 15px;
-  background-color: #0697f2;
+  background-color: #007bff;
   color: white;
 }
 
 .edit-akun:hover {
-  background-color: #005a8a;
+  background-color: #0056b3;
 }
 
 /* Tombol Hapus Akun */
 .delete-account-btn {
-  background-color: #f44336;
+  background-color: #f44336 !important;
   color: white;
   padding: 10px 20px;
   border: none;

@@ -7,7 +7,7 @@
             </a>
         </li>
         <li>
-            <a href="../home_cus.php">
+            <a href="\Mechaban-Web\menu_cus\home_cus.php">
                 <span class="icon"><ion-icon name="cube-outline"></ion-icon></span>
                 <span class="title">Dashboard</span>
             </a>
@@ -19,7 +19,13 @@
             </a>
         </li>
         <li>
-            <a href="../aktivitas/aktivitas.php">
+            <a href="\Mechaban-Web\menu_cus\booking\booking.php">
+                <span class="icon"><ion-icon name="journal-outline"></ion-icon></span>
+                <span class="title">Booking</span>
+            </a>
+        </li>
+        <li>
+            <a href="\Mechaban-Web\menu_cus\aktivitas\aktivitas.php">
                 <span class="icon"><ion-icon name="accessibility-outline"></ion-icon></span>
                 <span class="title">Aktivitas</span>
             </a>
