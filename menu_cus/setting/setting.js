@@ -1,57 +1,126 @@
-// Mendapatkan modal dan tombol
-var modal = document.getElementById("myModal");
-var btn = document.getElementById("myBtn"); // Tombol untuk membuka modal
-var span = document.querySelector(".close"); // Tombol close berdasarkan kelas
-var modalTitle = document.getElementById("modalTitle");
+// Modal functionality
+const modal = document.getElementById("myModal");
+const photoModal = document.getElementById("photoModal");
+const editBtn = document.getElementById("myBtn");
+const closeBtn = document.querySelector(".close");
+const modalTitle = document.getElementById("modalTitle");
+const photoForm = document.getElementById("photoForm");
+const photoInput = document.getElementById("photo");
+const uploadBtn = document.querySelector(".upload-btn");
+const fileInputText = document.querySelector(".file-input-text");
 
-// Ketika tombol Edit Akun diklik, tampilkan modal
-btn.onclick = function () {
-  modal.style.display = "block";
-};
-
-// Close the modal when "X" is clicked
-span.addEventListener("click", function () {
-  modal.style.display = "none";
+// Photo preview functionality
+photoInput.addEventListener("change", function() {
+    const file = this.files[0];
+    if (file) {
+        // Update file name display
+        fileInputText.textContent = file.name;
+        
+        // Enable upload button
+        uploadBtn.disabled = false;
+        
+        // Preview image
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("photoPreview").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        fileInputText.textContent = "Tidak ada file dipilih";
+        uploadBtn.disabled = true;
+    }
 });
 
-// Close the modal if the user clicks anywhere outside the modal content
-window.addEventListener("click", function (event) {
-  if (event.target === modal) {
-    modal.style.display = "none";
-  }
-});
-
-// Fungsi untuk menutup modal
-function closeModal() {
-  modal.style.display = "none"; // Menutup modal
+// Photo modal functionality
+function showPhotoModal(src) {
+    const modalPhoto = document.getElementById("modalPhoto");
+    modalPhoto.src = src;
+    photoModal.style.display = "block";
 }
 
-// Function to open the modal for editing
-window.openEditModal = function (name, email, no_hp, password) {
-  modal.style.display = "block";
-  modalTitle.textContent = "Form Edit Profil"; // Set modal title for edit
-  // Set values in the form for editing
-  document.getElementById("name").value = name;
-  document.getElementById("email").value = email;
-  document.getElementById("no_hp").value = no_hp;
-  document.getElementById("password").value = password;
-  document.getElementById("edit_email").value = email; // Set the hidden field for editing
+function closePhotoModal() {
+    photoModal.style.display = "none";
+}
 
-  // Membiarkan pengguna mengedit email
-  document.getElementById("email").disabled = false; // Memastikan input email bisa diedit
+// Edit profile modal functionality
+editBtn.onclick = function() {
+    modal.style.display = "block";
 };
 
-//UNTUK ALERT
-// Cek apakah elemen dengan id 'success-alert' ada di halaman
-window.onload = function () {
-  var alert = document.getElementById("success-alert");
-  if (alert) {
-    // Setelah 3 detik (3000ms), sembunyikan alert
-    setTimeout(function () {
-      alert.style.opacity = 0; // Mengubah opacity menjadi 0 (transisi hilang)
-      setTimeout(function () {
-        alert.style.display = "none"; // Menghilangkan elemen setelah transisi selesai
-      }, 500); // 500ms untuk transisi opacity
-    }, 3000); // Menunggu 3 detik
-  }
+closeBtn.onclick = function() {
+    modal.style.display = "none";
+};
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+    if (event.target === photoModal) {
+        photoModal.style.display = "none";
+    }
+};
+
+// Form validation
+const formAkun = document.getElementById("formAkun");
+formAkun.addEventListener("submit", function(e) {
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("no_hp").value;
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        e.preventDefault();
+        alert("Please enter a valid email address");
+        return;
+    }
+    
+    // Basic phone validation (adjust regex according to your needs)
+    const phoneRegex = /^[0-9]{10,13}$/;
+    if (!phoneRegex.test(phone)) {
+        e.preventDefault();
+        alert("Please enter a valid phone number (10-13 digits)");
+        return;
+    }
+});
+
+// Alert auto-hide functionality
+window.onload = function() {
+    const successAlert = document.querySelector(".success-alert");
+    const errorAlert = document.querySelector(".error-alert");
+    
+    function hideAlert(alert) {
+        if (alert) {
+            setTimeout(() => {
+                alert.style.opacity = "0";
+                setTimeout(() => {
+                    alert.style.display = "none";
+                }, 500);
+            }, 3000);
+        }
+    }
+    
+    hideAlert(successAlert);
+    hideAlert(errorAlert);
+};
+
+// Function to open edit modal with existing data
+window.openEditModal = function(name, email, no_hp) {
+    modal.style.display = "block";
+    modalTitle.textContent = "Form Edit Profil";
+    
+    document.getElementById("name").value = name;
+    document.getElementById("email").value = email;
+    document.getElementById("no_hp").value = no_hp;
+    document.getElementById("edit_email").value = email;
+    
+    // Enable email editing
+    document.getElementById("email").disabled = false;
+};
+
+// Submit form confirmation
+document.querySelector("form[action='delete_account.php']").onsubmit = function(e) {
+    if (!confirm("Apakah Anda yakin ingin menghapus akun?")) {
+        e.preventDefault();
+    }
 };

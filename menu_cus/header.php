@@ -25,16 +25,20 @@
     <div class="user">
 
         <div class="user-img-container">
-            <!-- Mengecek apakah foto profil ada di session -->
-            <?php if (isset($_SESSION["photo"]) && !empty($_SESSION["photo"])): ?>
-                <!-- Jika ada foto profil, tampilkan foto tersebut -->
-                <img src="<?php echo htmlspecialchars($_SESSION["photo"]); ?>" alt="User Profile Picture">
-            <?php else: ?>
-                <!-- Jika tidak ada foto, tampilkan foto default -->
-                <img src="http://localhost/Mechaban-Web/assets/img/user_profile.png" alt="Default User Picture"
-                    class="user-img">
-            <?php endif; ?>
+            <?php
+            // Determine the photo path
+            $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
+                ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
+                : '../assets/img/default-profile.png';
+            ?>
+            <img src="<?php echo $userPhoto; ?>"
+                alt="User Profile Picture"
+                class="user-img"
+                onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
+
+            <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
         </div>
+
 
         <div class="user-info">
             <div class="username">
