@@ -44,7 +44,6 @@ if (isset($_POST['simpan'])) {
                 exit();
             } else {
                 $errors[] = "Gagal mengedit data: " . $stmt->error;
-
             }
             $stmt->close();
         } else {
@@ -71,7 +70,6 @@ if (isset($_POST['simpan'])) {
                     exit();
                 } else {
                     $errors[] = "Gagal menyimpan data: " . $stmt->error;
-
                 }
                 $stmt->close();
             }
@@ -92,7 +90,6 @@ if (isset($_GET['delete_nopol'])) {
         exit();
     } else {
         echo "<script>alert('Gagal menghapus data: " . $delete_stmt->error . "');</script>";
-
     }
     $delete_stmt->close();
 }
@@ -200,7 +197,7 @@ $result = $stmt->get_result();
                                     <input type="hidden" name="edit_nopol" id="edit_nopol">
                                     <!-- Hidden field untuk nopol yang di-edit -->
                                     <div class="input">
-                                        <input type="submit" name="simpan" value="Simpan Data" class="btn">
+                                        <input type="submit" name="simpan" value="Simpan Data" class="btn"> 
                                     </div>
                                 </form>
                             </div>

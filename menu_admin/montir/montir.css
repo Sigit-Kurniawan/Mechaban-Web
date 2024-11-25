@@ -1,0 +1,333 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: var(--white);
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  margin-bottom: 20px;
+  min-height: 100vh;
+}
+
+.view .montir-view {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  background: var(--white);
+  padding: 20px;
+  border-radius: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.montir-view h2 {
+  margin-bottom: 15px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cardHeader h2 {
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.cardHeader .btn {
+  position: relative;
+  padding: 5px 10px;
+  background: var(--blue);
+  text-decoration: none;
+  color: var(--white);
+  border-radius: 6px;
+}
+
+.view table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  table-layout: fixed;
+}
+
+.view table thead td {
+  font-weight: 600;
+  text-align: center;
+}
+
+.view table tbody tr {
+  color: var(--black1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.view table tbody tr td {
+  padding: 10px;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.view table tbody tr td:nth-child(1) { width: 25%; } /* Email */
+.view table tbody tr td:nth-child(2) { width: 20%; } /* Name */
+.view table tbody tr td:nth-child(3) { width: 15%; } /* No HP */
+.view table tbody tr td:nth-child(4) { width: 25%; } /* Password */
+.view table tbody tr td:nth-child(5) { width: 15%; } /* Actions */
+
+.view .montir-view table tr:last-child {
+  border-bottom: none;
+}
+
+.view .montir-view table tbody tr:hover {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.btn-simpan {
+  background-color: var(--blue);
+  color: var(--white);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-simpan:hover {
+  background-color: #0052af;
+}
+
+/* Action Buttons */
+.btn-edit, .btn-hapus {
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+  margin: 0 5px;
+}
+
+.btn-edit {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.btn-edit:hover {
+  background-color: #0052af;
+}
+
+.btn-hapus {
+  background-color: #dc3545;
+  color: var(--white);
+}
+
+.btn-hapus:hover {
+  background-color: #c82333;
+}
+
+
+.tambah-montir {
+  width: 200px;
+  height: 40px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  background: var(--blue);
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  width: 500px;
+  border-radius: 10px;
+}
+
+.close {
+  float: right;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: red;
+}
+
+/* Form styles */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formLabel {
+  margin-bottom: 15px;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.password-hint {
+  font-size: 12px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  /* Container Adjustments */
+  .view {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .view .montir-view {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  /* Card Header */
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .cardHeader h2 {
+    font-size: 18px;
+  }
+
+  .cardHeader .btn {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  /* Table Adjustments */
+  .view table {
+    font-size: 14px;
+    table-layout: auto; /* Remove fixed layout for flexibility */
+  }
+
+  .view table thead td {
+    padding: 10px 5px;
+  }
+
+  .view table tbody td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .view table tbody tr td:nth-child(1),
+  .view table tbody tr td:nth-child(2),
+  .view table tbody tr td:nth-child(3),
+  .view table tbody tr td:nth-child(4),
+  .view table tbody tr td:nth-child(5) {
+    width: auto; /* Adjust column width automatically */
+  }
+
+  /* Button Adjustments */
+  .btn-simpan {
+    font-size: 14px;
+    padding: 10px 20px;
+    margin-top: 10px;
+  }
+
+  .btn-edit, .btn-hapus {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .tambah-montir {
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  /* Modal Adjustments */
+  .modal-content {
+    width: 90%;
+    margin: 10% auto;
+    padding: 15px;
+  }
+
+  .close {
+    font-size: 20px;
+  }
+
+  /* Form Adjustments */
+  .form {
+    gap: 10px;
+  }
+
+  .formLabel {
+    margin-bottom: 10px;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  input[type="password"] {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .password-hint {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Smaller Devices */
+  .cardHeader h2 {
+    font-size: 16px;
+  }
+
+  .view {
+    padding: 10px;
+  }
+
+  .btn-simpan {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+
+  .btn-edit, .btn-hapus {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  input[type="password"] {
+    font-size: 12px;
+    padding: 8px;
+  }
+}

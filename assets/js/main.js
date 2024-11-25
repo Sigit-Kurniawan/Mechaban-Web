@@ -31,3 +31,22 @@ list.forEach(item => {
 //     document.querySelector('.main').classList.toggle('active');
 // });
 
+// Photo modal functions
+function showPhotoModal(src) {
+    const modal = document.getElementById('photoModal');
+    const modalImg = document.getElementById('modalPhoto');
+    modal.style.display = "block";
+    modalImg.src = src;
+}
+
+function closePhotoModal() {
+    document.getElementById('photoModal').style.display = "none";
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    const photoModal = document.getElementById('photoModal');
+    if (event.target == photoModal) {
+        photoModal.style.display = "none";
+    }
+});

@@ -4,39 +4,144 @@ if (!isset($_SESSION["login"])) {
     header("Location: login.php");
     exit();
 }
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+if (!file_exists('../../Api/koneksi.php')) {
+    die("Database connection file not found.");
+}
+include_once('../../Api/koneksi.php');
+
+// Process form if save button is pressed
+$errors = [];
+if (isset($_POST['simpan'])) {
+    $email = $_POST['email'];
+    $name = $_POST['name'];
+    $no_hp = $_POST['no_hp'];
+    $password = $_POST['password'];
+    $edit_email = $_POST['edit_email']; // Hidden field for editing
+
+    // Input validation
+    if (empty($email) || empty($name) || empty($no_hp) || empty($password)) {
+        $errors[] = "Semua kolom wajib diisi.";
+    } else {
+        // Password validation
+        if (strlen($password) < 8 || 
+            !preg_match("/[A-Z]/", $password) || 
+            !preg_match("/[0-9]/", $password) || 
+            !preg_match("/[@$!%*?&]/", $password)) {
+            $errors[] = "Password harus minimal 8 karakter, mengandung huruf besar, angka, dan simbol (@$!%*?&).";
+        } else {
+            if (!empty($edit_email)) {
+                // Update existing montir
+                $query = "UPDATE account SET email = ?, name = ?, no_hp = ?, password = ? WHERE email = ?";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("sssss", $email, $name, $no_hp, $password, $edit_email);
+
+                if ($stmt->execute()) {
+                    header("Location: montir.php?success=edit");
+                    exit();
+                } else {
+                    $errors[] = "Gagal mengedit data: " . $stmt->error;
+                }
+                $stmt->close();
+            } else {
+                // Check if email already exists
+                $queryCheck = "SELECT COUNT(*) AS count FROM account WHERE email = ?";
+                $stmtCheck = $conn->prepare($queryCheck);
+                $stmtCheck->bind_param("s", $email);
+                $stmtCheck->execute();
+                $stmtCheck->bind_result($count);
+                $stmtCheck->fetch();
+                $stmtCheck->close();
+
+                if ($count > 0) {
+                    echo "<script>alert('Email sudah terdaftar');</script>";
+                } else {
+                    // Insert new montir
+                    $role = 'montir'; // Set role as montir
+                    $query = "INSERT INTO account (email, name, no_hp, password, role) 
+                             VALUES (?, ?, ?, ?, ?)";
+                    $stmt = $conn->prepare($query);
+                    $stmt->bind_param("sssss", $email, $name, $no_hp, $password, $role);
+
+                    if ($stmt->execute()) {
+                        header("Location: montir.php?success=save");
+                        exit();
+                    } else {
+                        $errors[] = "Gagal menyimpan data: " . $stmt->error;
+                    }
+                    $stmt->close();
+                }
+            }
+        }
+    }
+}
+
+// Delete montir
+if (isset($_GET['delete_email'])) {
+    $email_to_delete = $_GET['delete_email'];
+
+    $delete_query = "DELETE FROM account WHERE email=? AND role='montir'";
+    $delete_stmt = $conn->prepare($delete_query);
+    $delete_stmt->bind_param("s", $email_to_delete);
+
+    if ($delete_stmt->execute()) {
+        header("Location: montir.php?success=delete");
+        exit();
+    } else {
+        echo "<script>alert('Gagal menghapus data: " . $delete_stmt->error . "');</script>";
+    }
+    $delete_stmt->close();
+}
+
+// Query to display montir data
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+$query = "SELECT email, name, no_hp, password FROM account WHERE role = 'montir'";
+if (!empty($search)) {
+    $query .= " AND (email LIKE ? OR name LIKE ?)";
+}
+
+$stmt = $conn->prepare($query);
+
+if (!empty($search)) {
+    $search_param = '%' . $search . '%';
+    $stmt->bind_param("ss", $search_param, $search_param);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
-<?php
-include  '../../Api/koneksi.php';
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/project3/assets/img/logo.png" type="image/png">
+    <link rel="icon" href="../assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="assets/montir.css">
+    <link rel="stylesheet" href="montir.css">
 </head>
 
 <body>
     <div class="container">
-        <?php include_once '../sidebar.php'; ?>
+        <?php include '../sidebar.php'; ?>
         <div class="main">
             <?php include '../header.php'; ?>
 
             <div class="view">
-
-                <button id="myBtn">Tambah Montir</button>
+                <button class="tambah-montir" id="myBtn">Tambah Montir</button>
 
                 <div id="myModal" class="modal">
-
-                    <!-- Modal content -->
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <div class="montir-tambah">
-                            <h2>Form Tambah Montir</h2>
+                            <h2 id="modalTitle">Form Tambah Montir</h2>
+
                             <div class="form">
                                 <?php if ($errors): ?>
                                     <div class="errors">
@@ -45,95 +150,72 @@ include  '../../Api/koneksi.php';
                                         <?php endforeach; ?>
                                     </div>
                                 <?php endif; ?>
-                                <form action="" method="post">
+
+                                <form id="formMontir" action="" method="post">
                                     <div class="formLabel">
-                                        <label for="id_montir">ID</label>
-                                        <input type="text" name="id_montir" id="fId" placeholder="Id.."
-                                            value="<?php echo htmlspecialchars($id_montir); ?>">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email" id="email" placeholder="Email" required>
                                     </div>
                                     <div class="formLabel">
-                                        <label for="nama_montir">Nama</label>
-                                        <input type="text" name="nama_montir" id="nama_montir" placeholder="Nama"
-                                            value="<?php echo htmlspecialchars($nama_montir); ?>">
+                                        <label for="name">Nama</label>
+                                        <input type="text" name="name" id="name" placeholder="Nama" required>
                                     </div>
                                     <div class="formLabel">
                                         <label for="no_hp">No HP</label>
-                                        <input type="text" name="no_hp" id="no_hp" placeholder="No HP"
-                                            value="<?php echo htmlspecialchars($no_hp); ?>">
+                                        <input type="text" name="no_hp" id="no_hp" placeholder="No HP" required>
                                     </div>
                                     <div class="formLabel">
                                         <label for="password">Password</label>
-                                        <input type="password" name="password" id="password" placeholder="Password">
-                                        <span>Password must be at least 8 characters, including uppercase letters,
-                                            numbers, and symbols (@$!%*?&).</span>
+                                        <input type="password" name="password" id="password" placeholder="Password" required>
+                                        <span class="password-hint">Password must be at least 8 characters, including uppercase letters, numbers, and symbols (@$!%*?&)</span>
                                     </div>
-                                    <div class="formLabel">
-                                        <label for="email">Email</label>
-                                        <input type="email" name="email" id="email" placeholder="Email"
-                                            value="<?php echo htmlspecialchars($email); ?>">
-                                    </div>
+                                    <input type="hidden" name="edit_email" id="edit_email">
                                     <div class="input">
-                                        <input type="submit" name="simpan" value="Save Data" class="btn">
+                                        <input type="submit" name="simpan" value="Simpan Data" class="btn-simpan">
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="montir-view">
                     <div class="cardHeader">
-                        <h2>Montir</h2>
-                        <button><a href="tambah.php" class="btn-tambah">Tambah</a></button>
+                        <h2>Daftar Montir</h2>
                     </div>
                     <table>
                         <thead>
                             <tr>
                                 <th>Email</th>
                                 <th>Nama</th>
-                                <th>No. HP</th>
+                                <th>No HP</th>
                                 <th>Password</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            // Initialize the counter
-                            $no = 1;
-
-                            $sql4 = "SELECT * FROM account WHERE role = 'montir' ORDER BY email DESC";
-                            $q2 = mysqli_query($conn, $sql4);
-
-                            if ($q2) {
-                                while ($r2 = mysqli_fetch_array($q2)) {
-                                    $id_montir = htmlspecialchars($r2['email']);
-                                    $nama_montir = htmlspecialchars($r2['name']);
-                                    $no_hp = htmlspecialchars($r2['no_hp']);
-                                    $password = htmlspecialchars($r2['password']);
-
-                                    // $email = htmlspecialchars($r2['email']);
-                            ?>
-                                    <tr>
-                                        <td><?php echo $id_montir; ?></td>
-                                        <td><?php echo $nama_montir; ?></td>
-                                        <td><?php echo $no_hp; ?></td>
-                                        <td><?php echo $password; ?></td>
-                                        
-                                        <td>
-                                            <a href="edit.php?id=<?php echo $id_montir; ?>" class="btn-edit">Edit</a>
-                                            <a href="delete.php?id=<?php echo $id_montir; ?>" class="btn-hapus">Hapus</a>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
-                            } else {
-                                echo "<tr><td colspan='7'>No data found</td></tr>";
-                            }
-                            ?>
+                            <?php while ($row = $result->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($row['email']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['name']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['no_hp']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['password']); ?></td>
+                                    <td class="table-action-buttons">
+                                        <a href="javascript:void(0);" 
+                                           onclick="openEditModal(
+                                               '<?php echo htmlspecialchars($row['email']); ?>', 
+                                               '<?php echo htmlspecialchars($row['name']); ?>', 
+                                               '<?php echo htmlspecialchars($row['no_hp']); ?>', 
+                                               '<?php echo htmlspecialchars($row['password']); ?>')" 
+                                           class="btn btn-edit">Edit</a>
+                                        <a href="?delete_email=<?php echo htmlspecialchars($row['email']); ?>" 
+                                           class="btn btn-hapus" 
+                                           onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">Hapus</a>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -141,9 +223,13 @@ include  '../../Api/koneksi.php';
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-    <script src="assets/montir.js"></script>
+    <script src="montir.js"></script>
     <script src="../../assets/js/main.js"></script>
 </body>
 
 </html>
+
+<?php
+$stmt->close();
+$conn->close();
+?>

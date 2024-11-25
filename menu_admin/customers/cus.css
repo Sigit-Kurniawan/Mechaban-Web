@@ -1,0 +1,494 @@
+/* Main View Container */
+.view {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: var(--white);
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    min-height: 100vh;
+}
+
+/* Customer List Container */
+.cus-view {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    background: var(--white);
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Table Styles */
+.cus-view table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed;
+}
+
+.cus-view table thead tr {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.cus-view table thead th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.cus-view table tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.cus-view table tbody tr:hover {
+    background-color: rgba(0, 82, 175, 0.05);
+}
+
+.cus-view table tbody td {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+/* Column widths */
+.cus-view table th:nth-child(1),
+.cus-view table td:nth-child(1) { width: 5%; }  /* No */
+.cus-view table th:nth-child(2),
+.cus-view table td:nth-child(2) { width: 20%; } /* Email */
+.cus-view table th:nth-child(3),
+.cus-view table td:nth-child(3) { width: 20%; } /* Name */
+.cus-view table th:nth-child(4),
+.cus-view table td:nth-child(4) { width: 17%; } /* Phone */
+.cus-view table th:nth-child(5),
+.cus-view table td:nth-child(5) { width: 19%; } /* Photo */
+.cus-view table td:nth-child(6),
+.cus-view table td:nth-child(6) { width: 19%; } /* Actions */
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background-color: var(--white);
+    margin: 5% auto;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: var(--blue);
+}
+
+/* Form Styles */
+.cus-tambah {
+    padding: 20px 0;
+}
+
+.cus-tambah h2 {
+    color: var(--blue);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formLabel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formLabel label {
+    font-weight: 500;
+    color: var(--black1);
+}
+
+.formLabel input {
+    padding: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.formLabel input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(0, 82, 175, 0.1);
+    outline: none;
+}
+
+/* Button Styles */
+#myBtn {
+    background-color: var(--blue);
+    color: var(--white);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+    align-self: flex-start;
+}
+
+#myBtn:hover {
+    background-color: #0052af;
+}
+
+.btn-simpan {
+    background-color: var(--blue);
+    color: var(--white);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-simpan:hover {
+    background-color: #0052af;
+}
+
+/* Action Buttons */
+.btn-edit, .btn-hapus {
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+}
+
+.btn-edit {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.btn-edit:hover {
+    background-color: #0052af;
+}
+
+.btn-hapus {
+    background-color: #dc3545;
+    color: var(--white);
+}
+
+.btn-hapus:hover {
+    background-color: #c82333;
+}
+
+.tambah-cus {
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+/* Error Messages */
+.errors {
+    background-color: #fff3f3;
+    border: 1px solid #dc3545;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.errors p {
+    color: #dc3545;
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+/* Password Hint */
+.password-hint {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+
+    .cus-view {
+        overflow-x: auto;
+    }
+
+    .cus-view table {
+        min-width: 600px;
+    }
+
+    .btn-edit, .btn-hapus {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+.profile-photo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.photo-upload-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 10px auto;
+}
+
+.photo-preview {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    background-color: #f8f9fa;
+}
+
+.photo-upload-label {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #4CAF50;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.photo-upload-label:hover {
+    background: #45a049;
+}
+
+.photo-upload-input {
+    display: none;
+}
+
+.file-hints {
+    text-align: center;
+    color: #666;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.customer-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.customer-photo:hover {
+    transform: scale(1.1);
+}
+
+/* Photo Modal Styles */
+.photo-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-modal-content {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.photo-modal-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.photo-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .view {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .cus-view {
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 15px;
+    }
+
+    .cus-view table {
+        font-size: 0.9rem;
+        word-wrap: break-word;
+    }
+
+    .cus-view table thead th,
+    .cus-view table tbody td {
+        padding: 8px;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .form {
+        gap: 15px;
+    }
+
+    .formLabel input {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .btn-simpan, 
+    #myBtn, 
+    .btn-edit, 
+    .btn-hapus {
+        font-size: 0.8rem;
+        padding: 8px 16px;
+    }
+
+    .tambah-cus {
+        width: 100%;
+        font-size: 16px;
+        height: auto;
+        padding: 8px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .view, .cus-view {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .cus-view table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    .form {
+        gap: 10px;
+    }
+
+    .formLabel input {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+
+    .btn-simpan, 
+    #myBtn, 
+    .btn-edit, 
+    .btn-hapus {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+    }
+
+    .profile-photo, .customer-photo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .photo-upload-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .photo-upload-label {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+
+    .photo-modal-content {
+        max-width: 95%;
+        max-height: 85%;
+    }
+
+    .photo-modal-close {
+        font-size: 30px;
+        top: 10px;
+        right: 20px;
+    }
+}

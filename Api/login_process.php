@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['role'] = $user['role'];
         $_SESSION['login'] = true;
         $_SESSION['email'] = $user['email'];
+        // Corrected photo session variable
+        $_SESSION["photo"] = $user["photo"] ? 'customers/' . $user["photo"] : null;
 
         // Debug: Verify if email session is set
         if (!isset($_SESSION['email'])) {
