@@ -5,15 +5,15 @@ if (!isset($_SESSION["login"])) {
     exit();
 }
 ?>
-
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" href="../assets/img/logo.png" type="image/png">
+    <link rel="icon" href="../assets/img/favicon.png" type="image/png">
     <title>Mechaban</title>
 
     <link rel="stylesheet" href="../assets/css/style.css">
@@ -30,7 +30,7 @@ if (!isset($_SESSION["login"])) {
             <div class="cardbox">
                 <div class="card">
                     <div>
-                        <div class="number">1,504</div>
+                        <div class="number">12</div> <!-- Menampilkan jumlah mobil -->
                         <div class="cardname">Mobil</div>
                     </div>
                     <div class="iconBx">
@@ -38,10 +38,11 @@ if (!isset($_SESSION["login"])) {
                     </div>
                 </div>
 
+
                 <div class="card">
                     <div>
                         <div class="number">1,504</div>
-                        <div class="cardname">Daily Views</div>
+                        <div class="cardname">Sedang Proses</div>
                     </div>
                     <div class="iconBx">
                         <ion-icon name="eye-outline"></ion-icon>
@@ -49,7 +50,7 @@ if (!isset($_SESSION["login"])) {
                 </div>
 
                 <div class="button">
-                    <a href="#">
+                    <a href="\Mechaban-Web\menu_cus\booking\booking.php">
                         <button class="btn-reservasi">Reservasi Sekarang</button>
                     </a>
                 </div>

@@ -97,12 +97,10 @@ if (isset($_GET['delete_nopol'])) {
     $delete_stmt->close();
 }
 
-
-
 // Query untuk menampilkan data mobil berdasarkan email customer yang login
 $query = "SELECT nopol, merk, type, transmition, year
 FROM car
-WHERE email_customer = ?";
+WHERE email_customer = ? ";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $email_customer);
 $stmt->execute();
@@ -143,7 +141,7 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../assets/img/logo.png" type="image/png">
+    <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
     <title>Mechaban</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="mobil.css">
@@ -276,6 +274,7 @@ $result = $stmt->get_result();
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="mobil.js"></script>
+    <script src="\Mechaban-Web\assets\js\main.js"></script>
 </body>
 
 </html>
