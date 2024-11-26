@@ -21,75 +21,82 @@ include_once('../../Api/koneksi.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../assets/img/logo.png" type="image/png">
-    <title>Mechaban</title>
+    <title>Mechaban - Data Servis</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="servis.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 </head>
 
 <body>
     <div class="container">
         <?php include '../sidebar.php'; ?>
         <div class="main">
-            <?php include '../header.php'; ?>
+            <div class="header">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
 
-            <div class="view">
-                <button class="tambah-montir" id="myBtn">Tambah Servis</button>
+                <div class="user">
+                    <div class="user-img-container">
+                        <?php
+                        $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
+                            ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
+                            : '../assets/img/default-profile.png';
+                        ?>
+                        <img src="<?php echo $userPhoto; ?>"
+                            alt="User Profile Picture"
+                            class="user-img"
+                            onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
 
-                <div id="myModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <div class="servis-tambah">
-                            <h2 id="modalTitle">Form Tambah Servis</h2>
+                        <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
+                    </div>
 
-                            <div class="form">
-                                <?php if ($errors): ?>
-                                    <div class="errors">
-                                        <?php foreach ($errors as $error): ?>
-                                            <p><?php echo $error; ?></p>
-                                        <?php endforeach; ?>
-                                    </div>
-                                <?php endif; ?>
-
-                                <form id="formMontir" action="" method="post">
-                                    <div class="formLabel">
-                                        <label for="email">Email</label>
-                                        <input type="email" name="email" id="email" placeholder="Email" required>
-                                    </div>
-                                    <div class="formLabel">
-                                        <label for="name">Nama</label>
-                                        <input type="text" name="name" id="name" placeholder="Nama" required>
-                                    </div>
-                                    <div class="formLabel">
-                                        <label for="no_hp">No HP</label>
-                                        <input type="text" name="no_hp" id="no_hp" placeholder="No HP" required>
-                                    </div>
-                                    <div class="formLabel">
-                                        <label for="password">Password</label>
-                                        <input type="password" name="password" id="password" placeholder="Password" required>
-                                        <span class="password-hint">Password must be at least 8 characters, including uppercase letters, numbers, and symbols (@$!%*?&)</span>
-                                    </div>
-                                    <input type="hidden" name="edit_email" id="edit_email">
-                                    <div class="input">
-                                        <input type="submit" name="simpan" value="Simpan Data" class="btn-simpan">
-                                    </div>
-                                </form>
-                            </div>
+                    <div class="user-info">
+                        <div class="username">
+                            <span class="name"><?php echo htmlspecialchars($_SESSION["name"]); ?></span>
+                            <span class="role"><?php echo htmlspecialchars($_SESSION["role"]); ?></span>
                         </div>
                     </div>
                 </div>
+
+                <div id="photoModal" class="modal">
+                    <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
+                    <div class="photo-modal-content">
+                        <img id="modalPhoto" src="" alt="Enlarged photo">
+                    </div>
+                </div>
+            </div>
+
+            <div class="view">
+                <div class="cardHeader">
+                    <h2>DAFTAR SERVIS</h2>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>ID Data Servis</th>
+                            <th>Nama Servis</th>
+                            <th>Harga</th>
+                            <th>ID Komponen</th>
+                            <th>Nama Komponen</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="servis.js"></script>
     <script src="../../assets/js/main.js"></script>
 </body>
 
 </html>
 
 <?php
-$stmt->close();
+// Close database connection
 $conn->close();
 ?>
