@@ -37,7 +37,7 @@
             </a>
         </li>
         <li>
-            <a href="\Mechaban-Web\setting\setting.php">
+            <a href="\Mechaban-Web\menu_cus\setting\setting.php">
                 <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
                 <span class="title">Setting</span>
             </a>

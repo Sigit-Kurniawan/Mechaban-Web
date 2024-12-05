@@ -110,7 +110,7 @@ $result = $conn->query($query);
 
             <div class="view">
                 <div class="cardheader">
-                    <h2>BOOKING MANAGEMENT</h2>
+                    <h2>DATA BOOKING</h2>
                     <!-- <button class="export-btn" onclick="exportToExcel()">Export to Excel</button> -->
                 </div>
 

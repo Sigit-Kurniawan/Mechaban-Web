@@ -103,6 +103,7 @@ $status_bengkel_text = ($status_bengkel == 1) ? "Buka" : "Tutup";
         <?php include 'sidebar.php'; ?>
 
         <div class="main">
+
             <?php include 'header.php'; ?>
 
             <div class="row-status-reservasi">
@@ -117,7 +118,6 @@ $status_bengkel_text = ($status_bengkel == 1) ? "Buka" : "Tutup";
                     </a>
                 </div>
             </div>
-
 
             <div class="cardbox">
                 <div class="card" onclick="location.href='/Mechaban-Web/menu_cus/mobil/mobil.php'">
