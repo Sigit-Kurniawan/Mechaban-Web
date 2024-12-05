@@ -51,6 +51,15 @@
   table-layout: fixed; /* Memastikan kolom memiliki lebar tetap */
 }
 
+.cardHeader h2 {
+  font-weight: 600;
+  color: #0597f2;
+}
+
+.view table thead th {
+  font-size: 20px;
+}
+
 .view table thead td {
   font-weight: 600;
   text-align: center; /* Rata tengah untuk header */
@@ -113,6 +122,14 @@
   margin-bottom: 20px;
 }
 
+.head-mobil {
+  display: flex; /* Mengatur layout sebagai Flexbox */
+  justify-content: space-between; /* Memberikan jarak antara tombol dan pencarian */
+  align-items: center; /* Menyelaraskan secara vertikal */
+  gap: 10px; /* Memberikan jarak antar elemen */
+  margin-bottom: 20px; /* Opsional: Menambahkan jarak bawah untuk tata letak */
+}
+
 .tambah-mobil {
   width: 200px;
   height: 40px;
@@ -173,6 +190,12 @@ select:focus {
 .errors p {
   color: red;
   font-size: 0.9rem;
+}
+
+.input {
+  display: flex;
+  justify-content: flex-end; /* Menempatkan tombol ke sebelah kanan */
+  margin-top: 20px; /* Tambahkan margin jika perlu */
 }
 
 .input .btn {

@@ -2,6 +2,7 @@
 :root {
   --white: #ffffff;
   --black1: #333;
+  --blue: #0597f2;
 }
 
 /* Kontainer utama */
@@ -14,6 +15,7 @@
   border-radius: 20px;
   margin-bottom: 20px;
   min-height: 100vh;
+  /* Menyesuaikan padding dan box shadow sesuai gaya mobil */
 }
 
 /* Styling untuk kotak booking */
@@ -27,6 +29,9 @@
   padding: 20px;
   border-radius: 20px;
   transition: box-shadow 0.3s ease;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  /* Menambahkan margin-bottom agar konsisten dengan elemen lain */
 }
 
 /* Styling untuk header */
@@ -34,11 +39,13 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  margin-bottom: 20px; /* Menambah jarak bawah untuk keseimbangan */
 }
 
 .cardHeader h2 {
   font-weight: 600;
-  color: #0597f2;
+  color: var(--blue);
+  font-size: 1.5rem; /* Menyesuaikan ukuran font untuk keseimbangan */
 }
 
 /* Styling untuk tabel */
@@ -47,11 +54,15 @@
   border-collapse: collapse;
   margin-top: 10px;
   table-layout: fixed; /* Memastikan kolom memiliki lebar tetap */
+  font-size: 1rem;
+}
+.view table thead th {
+  font-size: 20px;
 }
 
 .view table thead td {
   font-weight: 600;
-  text-align: center;
+  text-align: center; /* Rata tengah untuk header */
 }
 
 .view table tbody tr {
@@ -84,6 +95,35 @@
   border-radius: 6px;
 }
 
+/* Gaya untuk status yang berbeda */
+.status-pending,
+.status-diterima,
+.status-dikerjakan,
+.status-batal,
+.status-selesai {
+  font-weight: bold;
+}
+
+.status-pending {
+  color: #6c757d; /* Warna abu-abu untuk status pending */
+}
+
+.status-dikerjakan {
+  color: #28a745; /* Warna hijau untuk status diterima */
+}
+
+.status-selesai {
+  color: #007bff; /* Warna biru untuk status dikerjakan */
+}
+
+.status-batal {
+  color: #dc3545; /* Warna merah untuk status batal */
+}
+
+.status-diterima {
+  color: #ffa500; /* Warna oranye untuk status diterima */
+}
+
 /* Detail servis */
 .detail-servis {
   width: 800px; /* Lebih besar agar nyaman dilihat */
@@ -101,15 +141,20 @@
   margin-bottom: 20px;
 }
 
-h2 {
-  color: #333;
-  margin-top: 20px;
-}
-
 h3 {
-  color: #0597f2;
   font-size: 1.3rem;
   margin-bottom: 10px;
+}
+
+.info-umum h3,
+.total-status h3,
+.review h3 {
+  color: #333;
+}
+
+.detail-montir h3,
+.rincian-servis h3 {
+  color: var(--blue);
 }
 
 h4 {
@@ -120,7 +165,8 @@ h4 {
 .info-umum,
 .rincian-servis,
 .rincian-barang,
-.total-info {
+.total-info,
+.review {
   margin-bottom: 20px;
 }
 
@@ -171,12 +217,10 @@ h4 {
 
 ul {
   list-style-type: disc;
-  margin-left: 20px;
   padding: 0;
 }
 
 li {
-  margin-bottom: 5px;
   font-size: 1em;
   color: #333;
 }
@@ -192,7 +236,7 @@ li {
 .total-info p {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #0597f2;
+  color: var(--blue);
 }
 
 .kembali {
@@ -200,10 +244,10 @@ li {
   margin-top: 20px;
 }
 
-.btn-kembali {
+.btn-review {
+  background-color: #4caf50;
   display: inline-block;
   padding: 10px 20px;
-  background-color: #0268a8;
   color: white;
   text-decoration: none;
   font-weight: bold;
@@ -211,52 +255,19 @@ li {
   transition: background-color 0.3s;
 }
 
-/* Detail Montir */
-.detail-montir table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-.detail-montir th,
-.detail-montir td {
-  padding: 12px;
-  text-align: left;
-  border: 1px solid #0597f2;
-}
-
-.detail-montir th {
-  background-color: #0597f2;
+.btn-kembali {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #6c757d;
   color: white;
+  text-decoration: none;
   font-weight: bold;
-}
-
-.detail-montir td {
-  background-color: #fff;
-  padding-left: 15px; /* Menambah padding kiri untuk jarak dari garis tabel */
-  padding-right: 15px; /* Menambah padding kanan untuk jarak dari garis tabel */
-}
-
-/* Styling untuk list anggota montir agar tidak menyentuh garis tabel */
-.detail-montir ol {
-  margin-left: 20px; /* Memberikan margin kiri */
-  padding-left: 20px; /* Memberikan padding kiri untuk memperjelas indentasi */
-}
-
-.detail-montir tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.detail-montir tr:hover {
-  background-color: #f1f1f1;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
 /* Media Queries untuk Responsif */
 @media (max-width: 1200px) {
-  .detail-servis {
-    width: 90%;
-  }
-
   .view {
     padding: 15px;
   }
@@ -318,68 +329,66 @@ li {
   }
 
   .title-detail h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
-  .detail-servis table th,
-  .detail-servis table td,
-  .detail-montir table th,
-  .detail-montir table td {
-    padding: 8px;
+  .info-umum h3,
+  .total-info h3 {
+    font-size: 1rem;
   }
 
-  .detail-servis td,
-  .detail-montir td {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .judul {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .cardHeader h2 {
-    font-size: 1.3rem;
+  .total p,
+  .total span {
+    font-size: 1em;
   }
 }
 
-@media (max-width: 480px) {
-  .view {
-    padding: 8px;
-  }
+/* REVIEW */
 
-  .detail-servis {
-    width: 100%;
-    padding: 8px;
-  }
+.review h3 {
+  margin-top: 20px;
+}
+.review-container {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  background: var(--white);
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid #0597f2;
+  gap: 16px;
+  margin-bottom: 20px;
+}
 
-  .booking-sedang-proses,
-  .booking-selesai {
-    padding: 8px;
-  }
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
 
-  .view table {
-    font-size: 0.7rem;
-  }
+.stars .star {
+  font-size: 1.5rem;
+  color: #ccc;
+  transition: color 0.3s ease;
+}
 
-  .btn-batal,
-  .btn-detail {
-    padding: 4px 8px;
-  }
+.stars .star.filled {
+  color: #f39c12;
+}
 
-  .detail-servis table th,
-  .detail-servis table td,
-  .detail-montir table th,
-  .detail-montir table td {
-    padding: 6px;
-  }
+.review-box {
+  width: 100%;
+  height: auto;
+  padding: 5px;
+  border: 1px solid #0597f2;
+  background: var(--white);
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+  color: var(--black1);
+  resize: none;
+  outline: none;
+}
 
-  .cardHeader h2 {
-    font-size: 1.2rem;
-  }
-
-  .detail-servis td {
-    text-align: center;
-  }
+.review-box[readonly] {
+  background-color: white;
+  cursor: not-allowed;
 }

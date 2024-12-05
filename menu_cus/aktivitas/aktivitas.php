@@ -5,60 +5,46 @@ if (!isset($_SESSION["login"]) || !isset($_SESSION["email"])) {
     exit();
 }
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-if (!file_exists('../../Api/koneksi.php')) {
-    die("Database connection file not found.");
-}
 include_once('../../Api/koneksi.php');
 
-// Mendapatkan email customer dari sesi
 $email_customer = $_SESSION["email"];
 
 
+function formatNopol($nopol)
+{
+    if (preg_match('/^([A-Za-z]{1,2})(\d{3,4})([A-Za-z]{1,2})$/', $nopol, $matches)) {
+        return $matches[1] . ' ' . $matches[2] . ' ' . $matches[3];
+    }
+    return $nopol; // Jika tidak cocok dengan format, tampilkan apa adanya
+}
+
+
 // Query untuk mendapatkan data booking yang sedang diproses
-$query_sedang_proses = "SELECT b.id_booking, b.tgl_booking, b.total_biaya, b.metode_bayar, b.status_bayar, b.status_pengerjaan, b.nopol, 
-                               GROUP_CONCAT(s.nama_servis SEPARATOR ', ') AS servis,
-                               GROUP_CONCAT( br.nama_barang SEPARATOR ', ') AS barang
+$query_sedang_proses = "SELECT b.id_booking, b.tgl_booking, b.total_biaya, b.status, b.nopol, 
+                               GROUP_CONCAT(s.nama_servis SEPARATOR ', ') AS servis
                         FROM booking b
-                        left JOIN detail_booking db ON b.id_booking = db.id_booking
-                        left JOIN detail_servis_booking dsb ON db.id_detail_booking = dsb.id_detail_booking
-                        left JOIN data_servis s ON dsb.id_data_servis = s.id_data_servis
-                         left JOIN detail_barang_booking dbb ON db.id_detail_booking = dbb.id_detail_booking
-                         left JOIN barang br ON dbb.id_barang = br.id_barang
-                       left JOIN car c ON b.nopol = c.nopol
+                        left JOIN detail_servis ds ON b.id_booking = ds.id_booking
+                        left JOIN data_servis s ON ds.id_data_servis = s.id_data_servis
+                        left JOIN car c ON b.nopol = c.nopol
                         WHERE c.email_customer = '$email_customer' 
-                        AND (
-                            (b.status_bayar = 'sudah' AND b.status_pengerjaan IN ('pending', 'diterima', 'dikerjakan'))
-                            or (b.status_bayar = 'belum' AND b.status_pengerjaan IN ('pending', 'diterima', 'dikerjakan'))
-                            OR (b.status_bayar = 'belum' AND b.status_pengerjaan = 'selesai')
-                        )
-                        GROUP BY b.id_booking
-                        ORDER BY b.tgl_booking DESC";
+                        AND  b.status IN ('pending', 'diterima', 'dikerjakan')
+                        GROUP BY b.id_booking ORDER BY b.tgl_booking DESC";
 
 $result_sedang_proses = mysqli_query($conn, $query_sedang_proses);
 
 
 
 // Query untuk mendapatkan riwayat transaksi yang sudah selesai
-$query_riwayat_selesai = "SELECT 
-                               b.id_booking,  b.tgl_booking, b.total_biaya, b.metode_bayar, b.status_bayar,  b.status_pengerjaan, b.nopol, 
-                      
-                               GROUP_CONCAT(DISTINCT br.nama_barang SEPARATOR ', ') AS barang,
-                               GROUP_CONCAT(DISTINCT s.nama_servis SEPARATOR ', ') AS servis
-                           FROM booking b
-                           left JOIN detail_booking db ON b.id_booking = db.id_booking
-                           left JOIN detail_servis_booking dsb ON db.id_detail_booking = dsb.id_detail_booking
-                           left JOIN data_servis s ON dsb.id_data_servis = s.id_data_servis
-                           left JOIN detail_barang_booking dbb ON db.id_detail_booking = dbb.id_detail_booking
-                           left JOIN barang br ON dbb.id_barang = br.id_barang
-                           left JOIN car c ON b.nopol = c.nopol
-                           WHERE c.email_customer = '$email_customer' 
-                           AND b.status_bayar = 'sudah' 
-                           AND b.status_pengerjaan = 'selesai'
-                           GROUP BY b.id_booking
-                           ORDER BY b.tgl_booking DESC";
+$query_riwayat_selesai = "SELECT b.id_booking,  b.tgl_booking, b.total_biaya,  b.status, b.nopol, 
+                            GROUP_CONCAT(DISTINCT s.nama_servis SEPARATOR ', ') AS servis
+                            FROM booking b
+                            left JOIN detail_servis ds ON b.id_booking = ds.id_booking
+                            left JOIN data_servis s ON ds.id_data_servis = s.id_data_servis
+                            left JOIN car c ON b.nopol = c.nopol
+                            WHERE c.email_customer = '$email_customer' 
+                            AND b.status in ('selesai', 'batal')
+                            GROUP BY b.id_booking
+                            ORDER BY b.tgl_booking DESC";
 $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
 ?>
 
@@ -81,7 +67,6 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
         <div class="main">
             <?php include '../header.php'; ?>
 
-
             <div class="view">
                 <!-- Sedang Proses -->
                 <div class="booking-sedang-proses">
@@ -94,8 +79,6 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
                                 <th>Tanggal</th>
                                 <th>Nopol</th>
                                 <th>Servis</th>
-                                <th>Barang</th>
-                                <th>Bayar</th>
                                 <th>Pengerjaan</th>
                                 <th>Total(Rp)</th>
                                 <th>Aksi</th>
@@ -105,7 +88,7 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
                             <?php while ($booking = mysqli_fetch_assoc($result_sedang_proses)): ?>
                                 <tr>
                                     <td><?php echo date('d-m-Y', strtotime($booking['tgl_booking'])); ?></td>
-                                    <td><?php echo $booking['nopol']; ?></td>
+                                    <td><?php echo formatNopol($booking['nopol']); ?></td> <!-- Terapkan formatNopol -->
                                     <td>
                                         <?php
                                         // Pastikan bahwa servis tidak null
@@ -115,19 +98,9 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
                                         echo implode(', ', $unique_servis); // Menampilkan servis yang unik
                                         ?>
                                     </td>
-
-                                    <td>
-                                        <?php
-                                        // Pastikan bahwa barang tidak null
-                                        $barang = isset($booking['barang']) ? $booking['barang'] : '';
-                                        $barang_array = explode(', ', $barang);
-                                        $unique_barang = array_unique($barang_array); // Menghapus duplikasi
-                                        echo ($unique_barang[0] != '') ? implode(', ', $unique_barang) : '-'; // Menampilkan barang yang unik
-                                        ?>
+                                    <td class="status-<?php echo strtolower($booking['status']); ?>">
+                                        <?php echo ucwords($booking['status']); ?>
                                     </td>
-
-                                    <td><?php echo ucwords($booking['status_bayar']); ?></td>
-                                    <td><?php echo ucwords($booking['status_pengerjaan']); ?></td>
                                     <td><?php echo number_format($booking['total_biaya'], 0, ',', '.'); ?></td>
                                     <td>
                                         <a href="aktivitas_detail.php?id_booking=<?php echo $booking['id_booking']; ?>"
@@ -144,7 +117,7 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
                 </div>
 
                 <!-- Riwayat Transaksi -->
-                <div class=" booking-selesai">
+                <div class="booking-selesai">
                     <div class="cardHeader">
                         <h2>Riwayat Transaksi</h2>
                     </div>
@@ -154,8 +127,6 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
                                 <th>Tanggal</th>
                                 <th>Nopol</th>
                                 <th>Servis</th>
-                                <th>Barang</th>
-                                <th>Bayar</th>
                                 <th>Pengerjaan</th>
                                 <th>Total(Rp)</th>
                                 <th>Aksi</th>
@@ -165,7 +136,7 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
                             <?php while ($booking = mysqli_fetch_assoc($result_riwayat_selesai)): ?>
                                 <tr>
                                     <td><?php echo date('d-m-Y', strtotime($booking['tgl_booking'])); ?></td>
-                                    <td><?php echo $booking['nopol']; ?></td>
+                                    <td><?php echo formatNopol($booking['nopol']); ?></td> <!-- Terapkan formatNopol -->
                                     <td>
                                         <?php
                                         // Pastikan bahwa servis tidak null
@@ -175,35 +146,27 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
                                         echo implode(', ', $unique_servis); // Menampilkan servis yang unik
                                         ?>
                                     </td>
-
-                                    <td>
-                                        <?php
-                                        // Pastikan bahwa barang tidak null
-                                        $barang = isset($booking['barang']) ? $booking['barang'] : '';
-                                        $barang_array = explode(', ', $barang);
-                                        $unique_barang = array_unique($barang_array); // Menghapus duplikasi
-                                        echo ($unique_barang[0] != '') ? implode(', ', $unique_barang) : '-'; // Menampilkan barang yang unik
-                                        ?>
+                                    <td class="status-<?php echo strtolower($booking['status']); ?>">
+                                        <?php echo ucwords($booking['status']); ?>
                                     </td>
-
-                                    <td><?php echo ucwords($booking['status_bayar']); ?></td>
-                                    <td><?php echo ucwords($booking['status_pengerjaan']); ?></td>
                                     <td><?php echo number_format($booking['total_biaya'], 0, ',', '.'); ?>
                                     </td>
                                     <td>
                                         <a href="aktivitas_detail.php?id_booking=<?php echo $booking['id_booking']; ?>"
                                             class="btn-detail">Detail</a>
+
                                     </td>
+
                                 </tr>
                             <?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>
-
-
             </div>
-        </div>
 
+
+
+        </div>
 
 
 

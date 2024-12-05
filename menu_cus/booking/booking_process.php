@@ -13,37 +13,25 @@ if (isset($_POST['submit_booking'])) {
     $komponen_id = $_POST['komponen'];
     $latitude = $_POST['latitude'];
     $longitude = $_POST['longitude'];
-
     $email_customer = $_SESSION["email"];
 
-    // Menghitung total biaya dari servis dan barang yang dipilih
+    // Menghitung total biaya dari servis yang dipilih
     $total_biaya = 0;
     $servis_ids = [];
-    $barang_ids = [];
 
-    // Perhitungan harga servis dan harga barang
-    if (isset($_POST['servis']) || isset($_POST['barang'])) {
-        if (isset($_POST['servis'])) {
-            $servis_ids = $_POST['servis'];
-            foreach ($servis_ids as $servis_id) {
-                $query_servis = "SELECT harga_servis FROM data_servis WHERE id_data_servis = '$servis_id'";
-                $result_servis = mysqli_query($conn, $query_servis);
-                if ($result_servis && mysqli_num_rows($result_servis) > 0) {
-                    $servis = mysqli_fetch_assoc($result_servis);
-                    $total_biaya += $servis['harga_servis'];
+    if (isset($_POST['servis'])) {
+        $servis_ids = $_POST['servis'];
+        foreach ($servis_ids as $servis_id) {
+            // Mengambil harga servis dari data_servis
+            $query_servis = "SELECT harga_servis FROM data_servis WHERE id_data_servis = ?";
+            if ($stmt = mysqli_prepare($conn, $query_servis)) {
+                mysqli_stmt_bind_param($stmt, "s", $servis_id); // Ganti "i" ke "s" karena id_data_servis adalah CHAR
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_bind_result($stmt, $harga_servis);
+                if (mysqli_stmt_fetch($stmt)) {
+                    $total_biaya += $harga_servis; // Menjumlahkan harga_servis ke total_biaya
                 }
-            }
-        }
-
-        if (isset($_POST['barang'])) {
-            $barang_ids = $_POST['barang'];
-            foreach ($barang_ids as $barang_id) {
-                $query_barang = "SELECT harga FROM barang WHERE id_barang = '$barang_id'";
-                $result_barang = mysqli_query($conn, $query_barang);
-                if ($result_barang && mysqli_num_rows($result_barang) > 0) {
-                    $barang = mysqli_fetch_assoc($result_barang);
-                    $total_biaya += $barang['harga'];
-                }
+                mysqli_stmt_close($stmt);
             }
         }
     }
@@ -54,37 +42,37 @@ if (isset($_POST['submit_booking'])) {
     $tgl_booking = date('YmdHis'); // Format YYYYMMDDHHMMSS
     $id_booking = $tgl_booking . $mobil; // Tanpa pemisah (-)
 
-    // Insert data booking
-    $query_booking = "INSERT INTO booking (id_booking, tgl_booking, total_biaya, metode_bayar, nopol, status_bayar, status_pengerjaan, latitude, longitude)
-                      VALUES ('$id_booking', NOW(), '$total_biaya', 'Tunai', '$mobil', 'belum', 'pending', '$latitude', '$longitude')";
+    // Insert data booking with prepared statement
+    $query_booking = "INSERT INTO booking (id_booking, tgl_booking, total_biaya, nopol, status, latitude, longitude)
+                      VALUES (?, NOW(), ?, ?, 'pending', ?, ?)";
+    if ($stmt = mysqli_prepare($conn, $query_booking)) {
+        mysqli_stmt_bind_param($stmt, "sdsdd", $id_booking, $total_biaya, $mobil, $latitude, $longitude);
+        if (mysqli_stmt_execute($stmt)) {
+            // Insert data into detail_servis for each selected servis
+            if (!empty($servis_ids)) {
+                foreach ($servis_ids as $servis_id) {
+                    echo "id_booking: $id_booking, id_data_servis: $servis_id<br>";
 
-    if (mysqli_query($conn, $query_booking)) {
-        // Generate id_detail_booking = Waktu+Nopol (HHMMSSNOPOL)
-        $waktu_booking = date('His'); // Format HHMMSS
-        $id_detail_booking = $waktu_booking . $mobil; // Tanpa pemisah (-)
+                    $query_detail_servis = "INSERT INTO detail_servis (id_booking, id_data_servis) VALUES (?, ?)";
+                    if ($stmt_detail = mysqli_prepare($conn, $query_detail_servis)) {
+                        mysqli_stmt_bind_param($stmt_detail, "ss", $id_booking, $servis_id); // Ganti "i" ke "s" karena id_data_servis adalah CHAR
+                        if (!mysqli_stmt_execute($stmt_detail)) {
+                            echo "Error: " . mysqli_error($conn) . "<br>";
+                        }
+                        mysqli_stmt_close($stmt_detail);
+                    }
+                }
+            }
 
-        // Insert ke tabel detail_booking
-        $query_detail_booking = "INSERT INTO detail_booking (id_detail_booking, id_booking, subtotal) 
-                                 VALUES ('$id_detail_booking', '$id_booking', '$total_biaya')";
-        mysqli_query($conn, $query_detail_booking);
-
-        // Insert ke detail_servis_booking
-        foreach ($servis_ids as $servis_id) {
-            $query_detail_servis = "INSERT INTO detail_servis_booking (id_detail_booking, id_data_servis) 
-                                    VALUES ('$id_detail_booking', '$servis_id')";
-            mysqli_query($conn, $query_detail_servis);
+            mysqli_stmt_close($stmt);
+            // Redirect with success message
+            echo "<script>alert('Booking berhasil'); window.location.href = 'booking.php';</script>";
+            exit();
         }
-
-        // Insert ke detail_barang_booking
-        foreach ($barang_ids as $barang_id) {
-            $query_detail_barang = "INSERT INTO detail_barang_booking (id_detail_booking, id_barang) 
-                                    VALUES ('$id_detail_booking', '$barang_id')";
-            mysqli_query($conn, $query_detail_barang);
-        }
-
-        echo "<script>alert('Booking berhasil'); window.location.href = 'booking.php';</script>";
-    } else {
-        echo "Error: " . mysqli_error($conn);
     }
+
+    // Display failure message if booking fails
+    echo "<script>alert('Gagal booking'); window.location.href = 'booking.php';</script>";
+    exit();
 }
 ?>

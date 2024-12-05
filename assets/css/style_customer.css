@@ -1,0 +1,159 @@
+/* Gaya untuk .detail_mobil_diservis */
+.detail_mobil_diservis {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  width: 90%;
+  margin-left: 20px;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Flexbox untuk menyusun status-bengkel dan btn-reservasi dalam satu baris */
+.row-status-reservasi {
+  display: flex; /* Aktifkan flexbox */
+  align-items: center; /* Vertikal tengah */
+  justify-content: space-between; /* Spasi di antara elemen */
+  margin-bottom: 20px; /* Beri jarak ke elemen di bawah */
+}
+
+/* Gaya untuk status-bengkel */
+.status-bengkel h3 {
+  margin: 0; /* Hilangkan margin default */
+  font-size: 20px; /* Ukuran teks */
+}
+
+/* Gaya untuk tombol reservasi */
+.button .btn-reservasi {
+  padding: 10px 20px; /* Ukuran padding tombol */
+  background-color: #287bff; /* Warna biru cerah */
+  color: white; /* Teks putih */
+  border: none; /* Hilangkan border */
+  border-radius: 10px; /* Sedikit melengkungkan tombol */
+  cursor: pointer; /* Pointer untuk hover */
+  font-size: 20px; /* Ukuran teks */
+  transition: background-color 0.3s ease; /* Animasi hover */
+  margin-right: 15vh;
+  font-weight: bold;
+}
+
+.button .btn-reservasi:hover {
+  background-color: #047ac1; /* Warna lebih gelap saat hover */
+}
+
+/* Gaya untuk status bengkel */
+.status-bengkel {
+  margin: 20px 0;
+  padding: 10px 20px;
+  background: #f9f9f9; /* Latar belakang abu-abu terang */
+  border-radius: 10px; /* Membuat sudut membulat */
+  text-align: center;
+  margin-left: 20px;
+}
+
+/* Gaya untuk status "Buka" */
+.status-bengkel .status-buka {
+  font-weight: bold;
+  color: #28a745; /* Warna hijau */
+}
+
+/* Gaya untuk status "Tutup" */
+.status-bengkel .status-tutup {
+  font-weight: bold;
+  color: #dc3545; /* Warna merah */
+}
+
+.detail_mobil_diservis:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Gaya tabel di dalam .detail_mobil_diservis */
+.detail_mobil_diservis table {
+  width: 100%;
+  border-collapse: separate; /* Tidak menggabungkan border */
+  margin-top: 10px;
+  border: none; /* Hapus border tabel */
+}
+
+.cardtitle h2 {
+  color: #287bff;
+}
+
+/* Hapus border pada setiap sel tabel */
+.detail_mobil_diservis table th,
+.detail_mobil_diservis table td {
+  text-align: center;
+  padding: 10px;
+  border: none; /* Hapus border pada sel */
+}
+
+/* Hapus warna latar belakang pada header tabel */
+.detail_mobil_diservis table th {
+  font-size: 20px; /* Ukuran font lebih besar untuk header */
+  font-weight: bold; /* Membuat font lebih tebal */
+  background-color: transparent; /* Hapus latar belakang */
+}
+
+/* Hapus border bawah pada baris */
+.detail_mobil_diservis table tr {
+  color: var(--black1);
+  border-bottom: none; /* Hapus border bawah */
+}
+
+/* Hapus hover pada baris */
+.detail_mobil_diservis table tbody tr:hover {
+  background: none; /* Tidak ada perubahan latar belakang */
+  color: inherit; /* Pertahankan warna teks */
+  border: none; /* Hapus border saat hover */
+}
+
+/* Responsive Design untuk .detail_mobil_diservis */
+@media (max-width: 768px) {
+  .detail_mobil_diservis {
+    width: 100%; /* Pada layar kecil tetap menggunakan lebar penuh */
+    padding: 10px; /* Mengurangi padding untuk layar kecil */
+  }
+}
+
+.a {
+  text-decoration: none;
+}
+
+.angka {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 2.5em;
+  color: #287bff;
+}
+
+.status-pending,
+.status-diterima,
+.status-dikerjakan,
+.status-batal,
+.status-selesai {
+  font-weight: bold;
+}
+
+.status-pending {
+  color: #6c757d; /* Warna abu-abu untuk status pending */
+}
+
+.status-dikerjakan {
+  color: #28a745; /* Warna hijau untuk status dikerjakan */
+}
+
+.status-selesai {
+  color: #007bff; /* Warna biru untuk status selesai */
+}
+
+.status-batal {
+  color: #dc3545; /* Warna merah untuk status batal */
+}
+
+.status-diterima {
+  color: #ffa500; /* Warna oranye untuk status diterima */
+}

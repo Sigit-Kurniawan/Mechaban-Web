@@ -19,91 +19,60 @@ if (!isset($_GET['id_booking'])) {
 }
 $id_booking = $_GET['id_booking']; // Dapatkan ID booking dari parameter URL
 
-// Query untuk mendapatkan data booking, servis, dan barang
-$detail_sedang_proses = $conn->prepare("
+// Query untuk mendapatkan data dari view_detail_booking
+$detail_aktivitas = $conn->prepare("
     SELECT 
-        b.tgl_booking, 
-        b.id_booking, 
-        b.nopol, 
-        GROUP_CONCAT(DISTINCT s.nama_servis ORDER BY s.nama_servis SEPARATOR ', ') AS servis,
-        GROUP_CONCAT(DISTINCT s.harga_servis ORDER BY s.nama_servis SEPARATOR ', ') AS harga_servis,
-        br.nama_barang, 
-        dbb.jumlah_barang, 
-        br.harga AS harga_barang,
-        (dbb.jumlah_barang * br.harga) AS subtotal_barang,
-        b.total_biaya,
-        b.metode_bayar,
-        b.status_bayar,
-        b.status_pengerjaan,
-        GROUP_CONCAT(DISTINCT km.name ORDER BY km.name SEPARATOR ', ') AS ketua_montir,  -- Nama ketua montir dari tabel account
-        GROUP_CONCAT(DISTINCT am_montir.name ORDER BY am_montir.name SEPARATOR ', ') AS anggota_montir  -- Nama anggota montir diambil dari tabel account
-    FROM booking b
-    LEFT JOIN detail_booking db ON b.id_booking = db.id_booking
-    LEFT JOIN detail_servis_booking dsb ON db.id_detail_booking = dsb.id_detail_booking
-    LEFT JOIN data_servis s ON dsb.id_data_servis = s.id_data_servis
-    LEFT JOIN detail_barang_booking dbb ON db.id_detail_booking = dbb.id_detail_booking
-    LEFT JOIN barang br ON dbb.id_barang = br.id_barang
-    LEFT JOIN detail_servis_montir dsm ON db.id_detail_booking = dsm.id_detail_booking
-    LEFT JOIN account km ON km.email = dsm.email_ketua_montir AND km.role = 'montir'  -- Ketua montir dengan role montir
-    LEFT JOIN anggota_montir am ON dsm.id_det_servis_montir = am.id_det_servis_montir
-    LEFT JOIN account am_montir ON am.email_anggota_montir = am_montir.email AND am_montir.role = 'montir'  -- Anggota montir dengan role montir
-    WHERE b.id_booking = ? 
-    GROUP BY 
-        b.id_booking, 
-        b.tgl_booking, 
-        b.nopol, 
-        br.nama_barang, 
-        dbb.jumlah_barang, 
-        br.harga
-    ORDER BY b.tgl_booking DESC
+        tgl_booking, 
+        id_booking, 
+        nopol, 
+        latitude,
+        longitude,
+        servis,
+        harga_servis,
+        total_biaya,
+        status,
+        ketua_montir,
+        anggota_montir,
+        review,
+        rating
+    FROM view_rincian_booking
+    WHERE id_booking = ?
 ");
 
 // Bind parameter dan eksekusi query
-$detail_sedang_proses->bind_param("s", $id_booking);
-$detail_sedang_proses->execute();
-$result_detail_proses = $detail_sedang_proses->get_result();
+$detail_aktivitas->bind_param("s", $id_booking);
+$detail_aktivitas->execute();
+$result_detail_aktivitas = $detail_aktivitas->get_result();
 
 // Cek apakah ada hasil
-if ($result_detail_proses->num_rows > 0) {
-    // Buat array untuk menyimpan semua data servis dan barang
-    $servis_list = [];
-    $barang_list = [];
+if ($result_detail_aktivitas->num_rows > 0) {
+    // Ambil data dari view
+    $row = $result_detail_aktivitas->fetch_assoc();
 
-    while ($row = $result_detail_proses->fetch_assoc()) {
-        // Data servis (nama dan harga dalam bentuk array)
-        $servis_list = array_map(
-            null,
-            explode(', ', $row['servis']),
-            explode(', ', $row['harga_servis'])
-        );
+    // Data servis (nama dan harga dalam bentuk array)
+    $servis_list = array_map(
+        null,
+        explode(', ', $row['servis']),
+        explode(', ', $row['harga_servis'])
+    );
 
-        // Data barang
-        $barang_list[] = [
-            'nama_barang' => $row['nama_barang'],
-            'jumlah_barang' => $row['jumlah_barang'],
-            'harga_barang' => $row['harga_barang'],
-            'subtotal_barang' => $row['subtotal_barang'],
-        ];
+    // Data booking umum
+    $data_booking = [
+        'tgl_booking' => $row['tgl_booking'],
+        'id_booking' => $row['id_booking'],
+        'nopol' => $row['nopol'],
+        'total_biaya' => $row['total_biaya'],
+        'status' => $row['status'],
+    ];
 
-        // Data booking umum (ambil satu kali saja)
-        $data_booking = [
-            'tgl_booking' => $row['tgl_booking'],
-            'id_booking' => $row['id_booking'],
-            'nopol' => $row['nopol'],
-            'total_biaya' => $row['total_biaya'],
-            'metode_bayar' => $row['metode_bayar'],
-            'status_bayar' => $row['status_bayar'],
-            'status_pengerjaan' => $row['status_pengerjaan'],
-        ];
-
-        // Nama ketua dan anggota montir
-        $ketua_montir = $row['ketua_montir'];
-        $anggota_montir = $row['anggota_montir'];
-    }
+    // Nama ketua dan anggota montir
+    $ketua_montir = $row['ketua_montir'];
+    $anggota_montir = $row['anggota_montir'];
 } else {
     die("Data booking tidak ditemukan.");
 }
 ?>
+
 
 
 
@@ -133,12 +102,16 @@ if ($result_detail_proses->num_rows > 0) {
 
                 <div class="info-umum">
                     <!-- Info Umum -->
-                    <h2>Informasi Umum</h2>
+                    <h3>Informasi Umum</h3>
                     <table class="info-umum">
                         <tbody>
                             <tr>
                                 <th>Tanggal</th>
-                                <td><?php echo htmlspecialchars($data_booking['tgl_booking']); ?></td>
+                                <?php
+                                // Membuat objek DateTime dari tgl_booking
+                                $tgl_booking = new DateTime($data_booking['tgl_booking']);
+                                ?>
+                                <td><?php echo $tgl_booking->format('d-m-y H:i:s'); ?></td>
                             </tr>
                             <tr>
                                 <th>ID Booking</th>
@@ -179,63 +152,23 @@ if ($result_detail_proses->num_rows > 0) {
                     </table>
                 </div>
 
-                <!-- Rincian Barang -->
-                <div class="rincian-barang">
-                    <h3>Rincian Barang</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Nama Barang</th>
-                                <th>Harga Barang</th>
-                                <th>Jumlah</th>
-                                <th>Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if (empty($barang_list)) {
-                                // Jika barang_list kosong, tampilkan satu baris dengan tanda "-"
-                                echo '<tr><td colspan="5" style="text-align: center;">-</td></tr>';
-                            } else {
-                                $no_barang = 1;
-                                foreach ($barang_list as $barang) {
-                                    echo '<tr>';
-                                    echo '<td>' . $no_barang++ . '</td>';
-                                    echo '<td>' . (isset($barang['nama_barang']) ? htmlspecialchars($barang['nama_barang']) : '-') . '</td>';
-                                    echo '<td>Rp ' . (isset($barang['harga_barang']) ? number_format($barang['harga_barang'], 0, ',', '.') : '-') . '</td>';
-                                    echo '<td>' . (isset($barang['jumlah_barang']) ? htmlspecialchars($barang['jumlah_barang']) : '-') . '</td>';
-                                    echo '<td>Rp ' . (isset($barang['subtotal_barang']) ? number_format($barang['subtotal_barang'], 0, ',', '.') : '-') . '</td>';
-                                    echo '</tr>';
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
+
 
 
 
                 <div class="total-status">
                     <!-- Total Biaya -->
-                    <h2>Total dan Status</h2>
+                    <h3>Total dan Status</h3>
                     <table class="total-info">
                         <tbody>
                             <tr>
                                 <th>Total Biaya</th>
                                 <td>Rp <?php echo number_format($data_booking['total_biaya'], 0, ',', '.'); ?></td>
                             </tr>
-                            <tr>
-                                <th>Metode Pembayaran</th>
-                                <td><?php echo htmlspecialchars($data_booking['metode_bayar']); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Status Pembayaran</th>
-                                <td><?php echo ucfirst(htmlspecialchars($data_booking['status_bayar'])); ?></td>
-                            </tr>
+
                             <tr>
                                 <th>Status Pengerjaan</th>
-                                <td><?php echo ucfirst(htmlspecialchars($data_booking['status_pengerjaan'])); ?></td>
+                                <td><?php echo ucfirst(htmlspecialchars($data_booking['status'])); ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -280,9 +213,32 @@ if ($result_detail_proses->num_rows > 0) {
                 </div>
 
 
+                <!-- RATING -->
+                <div class="review">
+                    <h3>Review</h3> <!-- Tetap di dalam div.review -->
+
+                    <?php if (!empty($row['review']) && !empty($row['rating'])): ?>
+                        <div class="review-container">
+                            <div class="stars">
+                                <?php
+                                for ($i = 1; $i <= 5; $i++) {
+                                    echo $i <= $row['rating'] ? '<span class="star filled">★</span>' : '<span class="star">☆</span>';
+                                }
+                                ?>
+                            </div>
+                            <textarea class="review-box" readonly><?php echo htmlspecialchars($row['review']); ?></textarea>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+
+
 
                 <div class="kembali">
-                    <a href="aktivitas.php" class="btn-kembali">Kembali ke Aktivitas</a>
+                    <a href="aktivitas.php" class="btn-kembali">Kembali</a>
+                    <a href="review/review.php?id_booking=<?php echo $data_booking['id_booking']; ?>"
+                        class="btn-review">Review</a>
+
                 </div>
 
             </div>

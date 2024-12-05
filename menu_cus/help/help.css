@@ -1,0 +1,174 @@
+.konten-help {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.95); /* Latar belakang transparan putih */
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  margin-bottom: 20px;
+  min-height: 100vh;
+  font-family: "Arial", sans-serif;
+}
+
+.header-konten h2 {
+  font-weight: 600;
+  color: #0597f2; /* Biru cerah */
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+}
+
+.header-konten h3 {
+  /* font-weight: 600; */
+  color: #0597f2; /* Biru cerah */
+  margin-bottom: 20px;
+  margin-top: 30px;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.konten {
+  background-color: rgba(5, 151, 242, 0.8); /* Biru transparan untuk konten */
+  color: black; /* Teks hitam */
+  width: 700px;
+  margin: 10px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.konten:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.pertanyaan {
+  padding: 0.75rem 2rem;
+  font-weight: bold;
+  font-size: 1rem; /* Ukuran teks pertanyaan lebih kecil */
+  color: black; /* Teks hitam */
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  background-color: rgba(
+    240,
+    248,
+    255,
+    0.9
+  ); /* Biru transparan yang sama dengan jawaban */
+  transition: background-color 0.3s ease-in-out;
+}
+
+.pertanyaan::after {
+  content: "\002b"; /* Tanda plus */
+  font-size: 1.5rem;
+  position: absolute;
+  right: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.pertanyaan.active::after {
+  content: "\2212"; /* Tanda minus */
+  transform: rotate(180deg);
+}
+
+.jawaban {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  border-top: 2px solid rgba(5, 151, 242, 0.8);
+}
+
+.isi-jawaban {
+  padding: 1rem;
+  line-height: 1.5rem;
+  background-color: rgba(
+    240,
+    248,
+    255,
+    0.9
+  ); /* Latar belakang transparan biru muda untuk jawaban */
+  color: black; /* Teks hitam */
+}
+
+.konten-help .konten .jawaban.active {
+  max-height: 1000px; /* Menyesuaikan panjang konten */
+}
+
+.isi-jawaban ul {
+  list-style-type: none; /* Menghilangkan bullet point default */
+  padding-left: 0;
+}
+
+.isi-jawaban li {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: black; /* Teks hitam */
+  margin-bottom: 10px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.isi-jawaban li:before {
+  content: "\2022"; /* Bullet custom */
+  color: #0597f2; /* Bullet berwarna biru transparan */
+  font-size: 1.2rem;
+  position: absolute;
+  left: 0;
+}
+
+.isi-jawaban li:hover {
+  background-color: rgba(
+    240,
+    248,
+    255,
+    0.7
+  ); /* Latar belakang sedikit transparan saat hover */
+  border-radius: 5px;
+  padding-left: 25px;
+  transition: background-color 0.3s, padding-left 0.3s;
+}
+
+/* Styling untuk tabel */
+table {
+  width: 700px; /* Menetapkan lebar tabel */
+  margin-top: 15px;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+table th,
+table td {
+  padding: 6px 10px; /* Padding lebih kecil untuk kompak */
+  text-align: left;
+  font-size: 1rem; /* Ukuran font lebih kecil */
+  color: black;
+}
+
+table th {
+  background-color: #0597f2;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem; /* Ukuran font header sedikit lebih besar dari isi */
+}
+
+table tr:hover {
+  background-color: #e0e0e0; /* Efek hover baris */
+}
+
+table td {
+  color: #333;
+  font-size: 1rem; /* Ukuran font lebih kecil */
+}
+
+table td,
+table th {
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table tr:first-child th {
+  border-top: 2px solid #0597f2; /* Garis atas pada header */
+}
