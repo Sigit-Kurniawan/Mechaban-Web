@@ -16,6 +16,14 @@ include_once('../../Api/koneksi.php');
 // Mendapatkan email customer dari sesi
 $email_customer = $_SESSION["email"];
 
+function formatNopol($nopol)
+{
+    if (preg_match('/^([A-Za-z]{1,2})(\d{3,4})([A-Za-z]{1,2})$/', $nopol, $matches)) {
+        return $matches[1] . ' ' . $matches[2] . ' ' . $matches[3];
+    }
+    return $nopol; // Jika tidak cocok dengan format, tampilkan apa adanya
+}
+
 
 
 // Memproses form jika tombol simpan ditekan
@@ -97,7 +105,9 @@ if (isset($_GET['delete_nopol'])) {
 // Query untuk menampilkan data mobil berdasarkan email customer yang login
 $query = "SELECT nopol, merk, type, transmition, year
 FROM car
-WHERE email_customer = ? ";
+WHERE email_customer = ? 
+ORDER BY created DESC";
+
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $email_customer);
 $stmt->execute();
@@ -106,11 +116,13 @@ $result = $stmt->get_result();
 
 // Query untuk pencarian 
 
-$search = isset($_GET['search']) ? $_GET['search'] : '';
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
-$query = "SELECT nopol, merk, type, transmition, year FROM car WHERE email_customer = ?";
+// Query dasar
+$query = "SELECT * FROM car WHERE email_customer = ?";
+
+// Tambahkan kondisi pencarian jika parameter 'search' ada
 if (!empty($search)) {
-    // $search_param = strtoupper(substr($search, 0, 2)) . '%';
     $query .= " AND (nopol LIKE ? OR merk LIKE ?)";
 }
 
@@ -160,7 +172,22 @@ $result = $stmt->get_result();
             <?php include '../header.php'; ?>
 
             <div class="view">
-                <button class="tambah-mobil" id="myBtn">Tambah Mobil</button>
+                <div class="head-mobil">
+                    <button class="tambah-mobil" id="myBtn">Tambah Mobil</button>
+
+                    <div class="search">
+                        <form action="mobil.php" method="GET">
+                            <label>
+                                <input type="text" id="searchInput" name="search" placeholder="Cari Nopol atau Merk..."
+                                    value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+
+                                <ion-icon name="search-outline"></ion-icon>
+                            </label>
+                        </form>
+                    </div>
+
+                </div>
+
 
                 <div id="myModal" class="modal">
                     <div class="modal-content">
@@ -197,7 +224,7 @@ $result = $stmt->get_result();
                                     <input type="hidden" name="edit_nopol" id="edit_nopol">
                                     <!-- Hidden field untuk nopol yang di-edit -->
                                     <div class="input">
-                                        <input type="submit" name="simpan" value="Simpan Data" class="btn"> 
+                                        <input type="submit" name="simpan" value="Simpan Data" class="btn">
                                     </div>
                                 </form>
                             </div>
@@ -208,7 +235,7 @@ $result = $stmt->get_result();
 
                 <div class="mobil-view">
                     <div class="cardHeader">
-                        <h2>Mobil</h2>
+                        <h2>Data Mobil</h2>
                     </div>
                     <table>
                         <thead>
@@ -224,26 +251,7 @@ $result = $stmt->get_result();
                         <tbody>
                             <?php while ($row = $result->fetch_assoc()): ?>
                                 <tr>
-                                    <td>
-                                        <?php
-                                        $nopol = htmlspecialchars($row['nopol']);
-
-                                        // Memisahkan kode wilayah, nomor, dan huruf terakhir
-                                        if (preg_match('/^([A-Z]+)(\d+)([A-Z]+)$/', $nopol, $matches)) {
-                                            $kode_wilayah = $matches[1];
-                                            $nomor = $matches[2];
-                                            $huruf_terakhir = $matches[3];
-
-                                            // Formatkan nopol
-                                            $formatted_nopol = strtoupper($kode_wilayah) . ' ' . $nomor . ' ' . strtoupper($huruf_terakhir);
-                                            echo $formatted_nopol;
-                                        } else {
-                                            echo "Format Nopol tidak valid";
-                                        }
-                                        ?>
-                                    </td>
-
-
+                                    <td><?php echo formatNopol($row['nopol']); ?> <!-- Terapkan formatNopol --></td>
                                     <td><?php echo htmlspecialchars($row['merk']); ?></td>
                                     <td><?php echo htmlspecialchars($row['type']); ?></td>
                                     <td><?php echo htmlspecialchars($row['transmition']); ?></td>

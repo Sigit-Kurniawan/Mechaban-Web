@@ -44,22 +44,30 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //JS UNTUK NOPOL
-// Fungsi untuk memformat nopol sesuai dengan aturan yang diinginkan
-function formatNopol(input) {
-  let value = input.value.replace(/\s+/g, "").toUpperCase(); // Menghapus spasi dan memastikan huruf kapital
+// Fungsi untuk memformat nopol
+function formatNopol(nopol) {
+  const regex = /^([A-Za-z]{1,2})(\d{3,4})([A-Za-z]{1,2})$/; // Regex untuk memisahkan bagian nopol
+  const matches = nopol.match(regex);
 
-  // Pola regex untuk format Nopol: Kode wilayah (huruf), nomor (angka), huruf terakhir
-  let regex = /^([A-Z]{1,2})(\d{1,4})([A-Z]{1})$/;
-  let match = value.match(regex);
-
-  if (match) {
-    input.value = match[1] + " " + match[2] + " " + match[3]; // Format menjadi 'AB 1234 C'
-  } else {
-    input.value = value; // Jika tidak sesuai format, tampilkan apa adanya
+  if (matches) {
+    return `${matches[1]} ${matches[2]} ${matches[3]}`; // Format ulang dengan spasi
   }
+  return nopol; // Jika tidak cocok, tampilkan apa adanya
 }
 
-// Menambahkan event listener untuk input Nopol
-document.getElementById("nopol").addEventListener("input", function () {
-  formatNopol(this);
+// Event listener pada input nopol
+document.getElementById("nopol").addEventListener("input", function (event) {
+  const nopolInput = event.target;
+  let value = nopolInput.value.toUpperCase(); // Ubah menjadi huruf besar
+
+  // Hanya izinkan karakter yang valid (huruf, angka)
+  value = value.replace(/[^A-Za-z0-9]/g, "");
+
+  // Terapkan format nopol
+  const formattedValue = formatNopol(value);
+
+  // Tampilkan hasil format ulang
+  nopolInput.value = formattedValue;
 });
+
+//UNTUK SEARCH

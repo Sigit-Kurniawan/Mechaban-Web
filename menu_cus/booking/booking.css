@@ -35,8 +35,8 @@ body {
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
-  background-color: #f7f7f7;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 }
 
 .booking-input label {

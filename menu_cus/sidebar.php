@@ -44,7 +44,6 @@
         </li>
         <li>
             <a href="/Mechaban-Web/logout.php">
-                <!-- <img src="../../assets/img/sidebar/logout.svg" class="gambar-sidebar" alt=""> -->
                 <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
                 <span class="title">Log Out</span>
             </a>

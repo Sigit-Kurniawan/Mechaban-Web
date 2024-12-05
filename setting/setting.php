@@ -8,10 +8,10 @@ if (!isset($_SESSION["login"]) || !isset($_SESSION["email"])) {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if (!file_exists('../../Api/koneksi.php')) {
+if (!file_exists('\Mechaban-Web\Api\koneksi.php')) {
     die("Database connection file not found.");
 }
-include_once('../../Api/koneksi.php');
+include_once('\Mechaban-Web\Api\koneksi.php');
 
 // Define upload directory (make sure this matches the one in upload_photo.php)
 define('UPLOAD_DIR', '../../uploads/customers/');

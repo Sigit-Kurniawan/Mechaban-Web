@@ -1,24 +1,12 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+} // Memulai session hanya jika belum ada session aktif
+?>
 <div class="header">
     <div class="toggle">
         <ion-icon name="menu-outline"></ion-icon>
     </div>
-    <!-- ----search---- -->
-    <?php
-    // Cek apakah halaman saat ini adalah 'setting.php dan booking.php'
-    if (
-        basename($_SERVER['PHP_SELF']) !== 'setting.php' && basename($_SERVER['PHP_SELF']) !== 'booking.php' && basename($_SERVER['PHP_SELF']) !== 'aktivitas.php'
-        && basename($_SERVER['PHP_SELF']) !== 'aktivitas_detail.php'
-    ): ?>
-        <div class="search">
-            <form action="mobil.php" method="GET"> <!-- Form menuju ke halaman yang sama -->
-                <label>
-                    <input type="text" name="search" placeholder="Search here....."
-                        value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-                    <ion-icon name="search-outline"></ion-icon>
-                </label>
-            </form>
-        </div>
-    <?php endif; ?>
 
 
     <!-- ----user img---- -->
@@ -42,8 +30,12 @@
 
         <div class="user-info">
             <div class="username">
-                <span class="name"><?php echo $_SESSION["name"]; ?></span>
-                <span class="role"><?php echo $_SESSION["role"]; ?></span>
+                <span class="name">
+                    <?php echo isset($_SESSION["name"]) ? htmlspecialchars($_SESSION["name"]) : 'Guest'; ?>
+                </span>
+                <span class="role">
+                    <?php echo isset($_SESSION["role"]) ? htmlspecialchars($_SESSION["role"]) : 'Visitor'; ?>
+                </span>
             </div>
         </div>
     </div>
