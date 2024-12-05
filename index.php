@@ -236,8 +236,9 @@ session_start();
                             <img src="assets\img\panah_faq.png" clas="panah-faq">
                         </button>
                         <div class="accordion-content">
-                            <p>Silakan klik Masuk pada navbar di atas dan pilih Register. Anda juga dapat mendaftarkan
-                                diri di aplikasi mobile Mechaban</p>
+                            <p>Silakan klik Masuk pada navbar di atas dan pilih Masuk. Jika anda belum mmeiliki akun
+                                maka pilih register. Anda juga dapat mendaftarkan
+                                diri di aplikasi mobile Mechaban.</p>
                         </div>
                     </div>
 
@@ -247,7 +248,8 @@ session_start();
                             <img src="assets\img\panah_faq.png" clas="panah-faq">
                         </button>
                         <div class="accordion-content">
-                            <p>This is the content for section 2.</p>
+                            <p>Jika sudah memiliki akun silahkan masuk dan pilih menu Booking. Anda dapat memilih mobil
+                                yang akan diservis, memilih jenis servis serta memilih lokasi anda saat ini</p>
                         </div>
                     </div>
 

@@ -8,10 +8,11 @@ if (!isset($_SESSION["login"]) || !isset($_SESSION["email"])) {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if (!file_exists('\Mechaban-Web\Api\koneksi.php')) {
+include_once('../../Api/koneksi.php');
+if (!file_exists('../../Api/koneksi.php')) {
     die("Database connection file not found.");
 }
-include_once('\Mechaban-Web\Api\koneksi.php');
+
 
 // Define upload directory (make sure this matches the one in upload_photo.php)
 define('UPLOAD_DIR', '../../uploads/customers/');
@@ -51,9 +52,9 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
 
 <body>
     <div class="container">
-        <?php include '../sidebar.php'; ?>
+        <?php include('../sidebar.php'); ?>
         <div class="main">
-            <?php include '../header.php'; ?>
+            <?php include('../header.php'); ?>
 
             <div class="view">
                 <!-- Error/Success Alerts -->
@@ -64,7 +65,7 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
                 <?php endif; ?>
                 <?php if (isset($_GET['success'])): ?>
                     <div id="success-alert" class="success-alert">
-                        <?php 
+                        <?php
                         switch ($_GET['success']) {
                             case 'upload':
                                 echo "Foto profil berhasil diperbarui.";
@@ -85,20 +86,19 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
                     </div>
                     <div class="view-informasi-akun">
                         <div class="photo-upload-container">
-                            <img id="photoPreview" 
-                                 src="<?php echo $photo_url; ?>" 
-                                 alt="Profile preview" 
-                                 class="profile-img"
-                                 onclick="showPhotoModal(this.src)">
-                            
-                            <form id="photoForm" action="upload_photo.php" method="post" enctype="multipart/form-data" class="upload-form">
+                            <img id="photoPreview" src="<?php echo $photo_url; ?>" alt="Profile preview"
+                                class="profile-img" onclick="showPhotoModal(this.src)">
+
+                            <form id="photoForm" action="upload_photo.php" method="post" enctype="multipart/form-data"
+                                class="upload-form">
                                 <div class="file-input-container">
                                     <label for="photo">
-                                        <ion-icon name="camera"></ion-icon> 
+                                        <ion-icon name="camera"></ion-icon>
                                         Pilih Foto
                                     </label>
                                     <span class="file-input-text">Tidak ada file dipilih</span>
-                                    <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/jpg" style="display:none;">
+                                    <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/jpg"
+                                        style="display:none;">
                                 </div>
                                 <div class="file-hints">
                                     Format: JPG, JPEG, PNG (Maks. 2MB)
@@ -109,22 +109,26 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
 
                         <div class="form-group">
                             <label for="name">Nama</label>
-                            <input type="text" id="name" class="input-field" value="<?php echo htmlspecialchars($user['name']); ?>" disabled>
+                            <input type="text" id="name" class="input-field"
+                                value="<?php echo htmlspecialchars($user['name']); ?>" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" id="email" class="input-field" value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
+                            <input type="text" id="email" class="input-field"
+                                value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="no_hp">No. HP</label>
-                            <input type="text" id="phone" class="input-field" value="<?php echo htmlspecialchars($user['no_hp']); ?>" disabled>
+                            <input type="text" id="phone" class="input-field"
+                                value="<?php echo htmlspecialchars($user['no_hp']); ?>" disabled>
                         </div>
 
                         <div class="button-container">
                             <button class="edit-akun" id="myBtn">Edit Akun</button>
-                            <form action="delete_account.php" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun?');">
+                            <form action="delete_account.php" method="post"
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun?');">
                                 <button type="submit" class="delete-account-btn">Hapus Akun</button>
                             </form>
                         </div>
@@ -187,4 +191,5 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
     <script src="setting.js"></script>
     <script src="../../assets/js/main.js"></script>
 </body>
+
 </html>
