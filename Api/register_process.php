@@ -6,13 +6,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
     $no_hp = htmlspecialchars($_POST['no_hp'], ENT_QUOTES, 'UTF-8');
     $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+    $konfirmasi_password = htmlspecialchars($_POST['konfirmasi_password'], ENT_QUOTES, 'UTF-8');
     $role = isset($_POST['role']) ? htmlspecialchars($_POST['role'], ENT_QUOTES, 'UTF-8') : '';
+
 
     // Validasi input
     if (empty($name) || empty($email) || empty($no_hp) || empty($password)) {
-        echo "Semua field harus diisi.";
+        header("Location: ../register.php?error=empty_fields");
         exit;
     }
+
+    // Validasi format email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        header("Location: ../register.php?error=email_invalid");
+        exit();
+    }
+
+    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/', $password)) {
+        header("Location: ../register.php?error=password_invalid");
+        exit();
+    }
+
+    if ($konfirmasi_password != $password) {
+        header("Location: ../register.php?error=konfirm_password_invalid");
+        exit();
+    }
+
 
     // Validasi role
     $valid_roles = ['admin', 'montir', 'customer'];
@@ -21,18 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/', $password)) {
-        echo "Password harus minimal 8 karakter, termasuk huruf kapital, huruf kecil, angka, dan simbol (@$!%*?&).";
-        exit;
-    }
-
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     $result = mysqli_query($conn, "SELECT email FROM account WHERE email = '$email'");
 
     if (mysqli_fetch_assoc($result)) {
-        echo "Email telah terdaftar";
-        mysqli_free_result($result); // Bebaskan memori
+        header("Location: ../register.php?error=email_exists");
+        exit;
     } else {
         try {
             $sql = "INSERT INTO account (name, email, no_hp, password, role) VALUES (?, ?, ?, ?, ?)";

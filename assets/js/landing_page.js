@@ -29,30 +29,30 @@ function changeSlide(n) {
 }
 
 // JS UNTUK ACCORDION
-function toggleAccordion(faqId) {
-  const content = document.getElementById(faqId);
-  const isExpanded = content.getAttribute("aria-hidden") === "false";
-
-  // Toggle the visibility
-  content.setAttribute("aria-hidden", isExpanded);
-  content.style.display = isExpanded ? "none" : "block";
-
-  // Toggle the button's expanded state
-  const button = content.previousElementSibling;
-  button.setAttribute("aria-expanded", !isExpanded);
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  showSlides(); // Start the slides when the DOM is ready
-
-  // Accordion functionality
+document.addEventListener("DOMContentLoaded", () => {
   const accordionHeaders = document.querySelectorAll(".accordion-header");
 
   accordionHeaders.forEach((header) => {
-    header.addEventListener("click", function () {
-      const accordionBody = header.nextElementSibling;
-      accordionBody.classList.toggle("show");
-      header.classList.toggle("active");
+    header.addEventListener("click", () => {
+      // Toggle active class on clicked accordion item
+      const parentItem = header.parentElement;
+      const content = parentItem.querySelector(".accordion-content");
+
+      // Close other open items
+      document.querySelectorAll(".accordion-item").forEach((item) => {
+        if (item !== parentItem) {
+          item.classList.remove("active");
+          item.querySelector(".accordion-content").style.maxHeight = null;
+        }
+      });
+
+      // Toggle the active state of the clicked item
+      parentItem.classList.toggle("active");
+      if (parentItem.classList.contains("active")) {
+        content.style.maxHeight = content.scrollHeight + "px";
+      } else {
+        content.style.maxHeight = null;
+      }
     });
   });
 });
