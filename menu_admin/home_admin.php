@@ -138,82 +138,100 @@ $total_montir = $result_montir->fetch_assoc()['total_montir'] ?? 0;
             <div class="details">
                 <div class="recentOrder">
                     <div class="cardHeader">
-                        <h2>Recent Order</h2>
-                        <a href="#" class="btn">View All</a>
+                        <h2>Recent Transactions</h2>
+                        <a href="aktivitas/aktivitas.php" class="btn">View All</a>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <td>Nama</td>
-                                <td>Harga</td>
-                                <td>Pembayaran</td>
-                                <td>Status</td>
+                                <td>No</td>
+                                <td>Name</td>
+                                <td>License Plate</td>
+                                <td>Vehicle</td>
+                                <td>Item</td>
+                                <td>Quantity</td>
+                                <td>Service</td>
+                                <td>Total Cost</td>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Star Refrigerator</td>
-                                <td>Rp1.200.000</td>
-                                <td>Terbayar</td>
-                                <td><span class="status">Perbaikan</span></td>
-                            </tr>
-                            <!-- Tambahkan data lainnya di sini -->
+                            <?php
+                            // Retrieve the latest 3 transactions from the riwayatbooking table
+                            $query = "SELECT * FROM riwayatbooking ORDER BY tgl_booking DESC LIMIT 3";
+                            $result = $conn->query($query);
+
+                            $index = 1;
+                            while ($row = $result->fetch_assoc()) {
+                                // Use null coalescing and explicit type conversion to avoid deprecation warnings
+                                echo "<tr>";
+                                echo "<td>" . $index++ . "</td>";
+                                echo "<td>" . htmlspecialchars((string)($row['nama_customer'] ?? 'N/A')) . "</td>";
+                                echo "<td>" . htmlspecialchars((string)($row['nopol'] ?? 'N/A')) . "</td>";
+                                echo "<td>" . htmlspecialchars((string)($row['merk_mobil'] ?? 'N/A')) . "</td>";
+                                echo "<td>" . htmlspecialchars((string)($row['barang'] ?? 'N/A')) . "</td>";
+                                echo "<td>" . htmlspecialchars((string)($row['jumlah_barang'] ?? 'N/A')) . "</td>";
+                                echo "<td>" . htmlspecialchars((string)($row['servis'] ?? 'N/A')) . "</td>";
+                                echo "<td>" . htmlspecialchars((string)($row['total_biaya'] ?? 'N/A')) . "</td>";
+                                echo "</tr>";
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
+            </div>
 
-                <!-- Recent Customers -->
-                <div class="recentCustomers">
-                    <div class="cardHeader">
-                        <h2>Recent Customers</h2>
-                    </div>
-
-                    <!-- Photo Modal -->
-                    <div id="photoModal" class="photo-modal">
-                        <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
-                        <div class="photo-modal-content">
-                            <img id="modalPhoto" src="" alt="Enlarged photo">
-                        </div>
-                    </div>
-
-                    <table>
-                        <?php
-                        // Query data pelanggan
-                        $query = "SELECT * FROM account WHERE role = 'customer' ORDER BY name LIMIT 8";
-                        $result = $conn->query($query);
-
-                        // Tampilkan data pelanggan
-                        while ($row = $result->fetch_assoc()):
-                            // Tentukan path foto
-                            $photo = $row['photo'] ?? ''; // Nilai default jika NULL
-                            $photo_path = UPLOAD_DIR . htmlspecialchars($photo);
-                            $photo_exists = !empty($photo) && file_exists($photo_path);
-                        ?>
-                            <tr>
-                                <td width="60px">
-                                    <?php if ($photo_exists): ?>
-                                        <img src="<?php echo $photo_path; ?>"
-                                            alt="<?php echo htmlspecialchars($row['name'] ?? 'Unknown'); ?>"
-                                            class="customer-photo"
-                                            onclick="showPhotoModal('<?php echo $photo_path; ?>')">
-                                    <?php else: ?>
-                                        <img src="../assets/img/default-profile.png"
-                                            alt="Default profile"
-                                            class="customer-photo">
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <h4><?php echo htmlspecialchars($row['name'] ?? 'Unknown'); ?>
-                                        <br>
-                                        <span><?php echo htmlspecialchars($row['email'] ?? ''); ?></span>
-                                    </h4>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </table>
+            <!-- Recent Customers -->
+            <div class="recentCustomers">
+                <div class="cardHeader">
+                    <h2>Recent Customers</h2>
                 </div>
+
+                <!-- Photo Modal -->
+                <div id="photoModal" class="photo-modal">
+                    <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
+                    <div class="photo-modal-content">
+                        <img id="modalPhoto" src="" alt="Enlarged photo">
+                    </div>
+                </div>
+
+                <table>
+                    <?php
+                    // Query data pelanggan
+                    $query = "SELECT * FROM account WHERE role = 'customer' ORDER BY name LIMIT 8";
+                    $result = $conn->query($query);
+
+                    // Tampilkan data pelanggan
+                    while ($row = $result->fetch_assoc()):
+                        // Tentukan path foto
+                        $photo = $row['photo'] ?? ''; // Nilai default jika NULL
+                        $photo_path = UPLOAD_DIR . htmlspecialchars($photo);
+                        $photo_exists = !empty($photo) && file_exists($photo_path);
+                    ?>
+                        <tr>
+                            <td width="60px">
+                                <?php if ($photo_exists): ?>
+                                    <img src="<?php echo $photo_path; ?>"
+                                        alt="<?php echo htmlspecialchars($row['name'] ?? 'Unknown'); ?>"
+                                        class="customer-photo"
+                                        onclick="showPhotoModal('<?php echo $photo_path; ?>')">
+                                <?php else: ?>
+                                    <img src="../assets/img/default-profile.png"
+                                        alt="Default profile"
+                                        class="customer-photo">
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <h4><?php echo htmlspecialchars($row['name'] ?? 'Unknown'); ?>
+                                    <br>
+                                    <span><?php echo htmlspecialchars($row['email'] ?? ''); ?></span>
+                                </h4>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </table>
             </div>
         </div>
+    </div>
     </div>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

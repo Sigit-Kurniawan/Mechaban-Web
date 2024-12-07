@@ -15,6 +15,15 @@ include_once('../../Api/koneksi.php');
 
 $email_customer = $_SESSION["email"];
 
+// Fungsi untuk memformat nomor polisi
+function formatNopol($nopol)
+{
+    if (preg_match('/^([A-Za-z]{1,2})(\d{3,4})([A-Za-z]{1,2})$/', $nopol, $matches)) {
+        return $matches[1] . ' ' . $matches[2] . ' ' . $matches[3];
+    }
+    return $nopol; // Jika tidak cocok dengan format, tampilkan apa adanya
+}
+
 // Mengambil data mobil yang belum dibooking atau status pengerjaannya selesai
 $query_mobil = "
     SELECT nopol, merk 
@@ -23,7 +32,7 @@ $query_mobil = "
     AND nopol NOT IN (
         SELECT nopol 
         FROM booking 
-        WHERE status_pengerjaan != 'selesai' 
+        WHERE status NOT IN ('selesai', 'batal') 
         AND nopol IS NOT NULL
     )
 ";
@@ -32,8 +41,7 @@ if (!$result_mobil) {
     die("Query error: " . mysqli_error($conn));
 }
 
-
-// Ambil data komponen dan data servis
+// Ambil data komponen
 $query_komponen = "SELECT * FROM data_komponen";
 $result_komponen = mysqli_query($conn, $query_komponen);
 if (!$result_komponen) {
@@ -44,9 +52,7 @@ if (!$result_komponen) {
 $latitude = isset($_GET['latitude']) ? $_GET['latitude'] : null;
 $longitude = isset($_GET['longitude']) ? $_GET['longitude'] : null;
 $address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'; // Default jika tidak ada alamat
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -86,18 +92,18 @@ $address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'
                         <option value="" disabled selected>Pilih Mobil</option>
                         <?php while ($mobil = mysqli_fetch_assoc($result_mobil)): ?>
                             <option value="<?php echo $mobil['nopol']; ?>">
-                                <?php echo $mobil['nopol'] . ' - ' . $mobil['merk']; ?>
+                                <?php echo formatNopol($mobil['nopol']) . ' - ' . $mobil['merk']; ?>
                             </option>
                         <?php endwhile; ?>
                     </select>
-                </div>
 
+                </div>
 
                 <!-- Step 2: Pilih Komponen dan Servis -->
                 <div class="komponen-container">
                     <label>Servis</label><br>
                     <select name="komponen" class="komponen-combobox" required>
-                        <option value="" disabled selected>Pilih Servis</option>
+                        <option value="" disabled selected>Pilih Komponen</option>
                         <?php while ($komponen = mysqli_fetch_assoc($result_komponen)): ?>
                             <option value="<?php echo $komponen['id_data_komponen']; ?>">
                                 <?php echo $komponen['nama_komponen']; ?>
@@ -149,8 +155,6 @@ $address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'
                         </div>
                     <?php endif; ?>
                 </div>
-
-
 
                 <!-- Step 4: Submit Button -->
                 <div class="submit-button">

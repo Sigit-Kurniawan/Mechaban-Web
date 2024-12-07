@@ -52,7 +52,7 @@ session_start();
                 <div class="row">
                     <div class="col-4 hero-content">
                         <h1>Servis Mobil Lebih Mudah dengan Mechaban</h1>
-                        <button class="booking-btn">Booking Sekarang</button>
+                        <button class="booking-btn"><a href="login.php">Booking Sekarang</a></button>
                         <div class="download">
                             <h2>Tersedia juga di</h2>
                             <img src="assets/img/playstore.png" alt="Google Play Badge">
@@ -217,7 +217,6 @@ session_start();
                     </p>
                 </div>
                 <div class="accordion">
-
                     <div class="accordion-item">
                         <button class="accordion-header">Apa itu di Mechaban?
                             <img src="assets\img\panah_faq.png" clas="panah-faq">
@@ -228,6 +227,7 @@ session_start();
                                 proses servis mobil Anda. Dengan Mechaban, Anda dapat melakukan booking servis secara
                                 online dan memilih jenis servis yang diperlukan. Dengan Mechaban anda tidak perlu
                                 repot-repot datang ke bengkel, anda hanya perlu menunggu di rumah.</p>
+
                         </div>
                     </div>
 
@@ -279,12 +279,11 @@ session_start();
     <!-- Booking sekarang -->
     <div class="card-container">
         <div class="booking-sekarang" id="booking-sekarang">
-            <span>Tunggu apa lagi? Yuk </span><button class="booking-btn">Booking Sekarang</button>
+            <span>Tunggu apa lagi? Yuk </span><button class="booking-btn"><a href="login.php">Booking
+                    Sekarang</a></button>
 
         </div>
     </div>
-
-
 
 
 

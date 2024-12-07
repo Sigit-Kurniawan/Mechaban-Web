@@ -54,7 +54,45 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
     <div class="container">
         <?php include '../sidebar.php'; ?>
         <div class="main">
-            <?php include '../header.php'; ?>
+            <!-- header -->
+            <div class="header">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+                <!-- ----search---- -->
+                <!-- ----user img---- -->
+                <div class="user">
+                    <div class="user-img-container">
+                        <?php
+                        // Determine the photo path
+                        $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
+                            ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
+                            : '../assets/img/default-profile.png';
+                        ?>
+                        <img src="<?php echo $userPhoto; ?>"
+                            alt="User Profile Picture"
+                            class="user-img"
+                            onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
+
+                        <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
+                    </div>
+
+                    <div class="user-info">
+                        <div class="username">
+                            <span class="name"><?php echo $_SESSION["name"]; ?></span>
+                            <span class="role"><?php echo $_SESSION["role"]; ?></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo Modal (can be added to the bottom of your page) -->
+                <div id="photoModal" class="modal">
+                    <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
+                    <div class="photo-modal-content">
+                        <img id="modalPhoto" src="" alt="Enlarged photo">
+                    </div>
+                </div>
+            </div>
 
 
 
@@ -67,7 +105,7 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
                 <?php endif; ?>
                 <?php if (isset($_GET['success'])): ?>
                     <div id="success-alert" class="success-alert">
-                        <?php 
+                        <?php
                         switch ($_GET['success']) {
                             case 'upload':
                                 echo "Foto profil berhasil diperbarui.";
@@ -88,16 +126,16 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
                     </div>
                     <div class="view-informasi-akun">
                         <div class="photo-upload-container">
-                            <img id="photoPreview" 
-                                 src="<?php echo $photo_url; ?>" 
-                                 alt="Profile preview" 
-                                 class="profile-img"
-                                 onclick="showPhotoModal(this.src)">
-                            
+                            <img id="photoPreview"
+                                src="<?php echo $photo_url; ?>"
+                                alt="Profile preview"
+                                class="profile-img"
+                                onclick="showPhotoModal(this.src)">
+
                             <form id="photoForm" action="upload_photo.php" method="post" enctype="multipart/form-data" class="upload-form">
                                 <div class="file-input-container">
                                     <label for="photo">
-                                        <ion-icon name="camera"></ion-icon> 
+                                        <ion-icon name="camera"></ion-icon>
                                         Pilih Foto
                                     </label>
                                     <span class="file-input-text">Tidak ada file dipilih</span>

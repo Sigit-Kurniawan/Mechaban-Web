@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: ../register.php?error=invalid_role");
         exit;
     }
-
+  
     // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: ../register.php?error=email_invalid");
@@ -114,7 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_otp = mysqli_prepare($conn, "INSERT INTO otp (email, otp_code, time) VALUES (?, ?, NOW())");
         mysqli_stmt_bind_param($stmt_otp, "ss", $email, $otp);
         mysqli_stmt_execute($stmt_otp);
-
         // Redirect to OTP verification page
         header("Location: verify_email/verify_otp.php");
         exit;

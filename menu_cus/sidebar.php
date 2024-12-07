@@ -31,20 +31,19 @@
             </a>
         </li>
         <li>
-            <a href="../help/help.php">
+            <a href="\Mechaban-Web\menu_cus\help\help.php">
                 <span class="icon"><ion-icon name="help-outline"></ion-icon></ion-icon></span>
                 <span class="title">Help</span>
             </a>
         </li>
         <li>
-            <a href="setting/setting.php">
+            <a href="\Mechaban-Web\menu_cus\setting\setting.php">
                 <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
                 <span class="title">Setting</span>
             </a>
         </li>
         <li>
             <a href="/Mechaban-Web/logout.php">
-                <!-- <img src="../../assets/img/sidebar/logout.svg" class="gambar-sidebar" alt=""> -->
                 <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
                 <span class="title">Log Out</span>
             </a>

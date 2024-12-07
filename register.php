@@ -54,6 +54,7 @@ if (isset($_SESSION["login"])) {
                             <label for="name">Nama</label>
                             <input type="text" id="name" name="name" placeholder="Masukkan nama anda">
                         </div>
+                      
                           <div class="form-group">
                               <label for="email">Email</label>
                               <div class="email-container">
@@ -61,6 +62,7 @@ if (isset($_SESSION["login"])) {
                               </div>
                               <span class="teks-span">Contoh: email@gmail.com</span>
                           </div>
+
                         <div class="form-group">
                             <label for="no_hp">No. Hp</label>
                             <input type="text" id="no_hp" name="no_hp" placeholder=" Masukkan no. hp anda">
@@ -97,6 +99,19 @@ if (isset($_SESSION["login"])) {
                 </div>
             </div>
         </div>
+
+        <script>
+            // Menghilangkan elemen dengan class "alert" setelah 3 detik
+            setTimeout(() => {
+                const alertElement = document.querySelector('.alert');
+                if (alertElement) {
+                    alertElement.style.transition = 'opacity 0.5s';
+                    alertElement.style.opacity = '0';
+                    setTimeout(() => alertElement.remove(), 500); // Menghapus elemen setelah transisi selesai
+                }
+            }, 3000);
+        </script>
+
 
 </body>
 
