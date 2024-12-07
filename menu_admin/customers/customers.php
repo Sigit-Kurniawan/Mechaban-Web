@@ -241,7 +241,7 @@ $form_enctype = 'enctype="multipart/form-data"';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/project3/assets/img/logo.png" type="image/png">
+    <link rel="icon" href="/Mechaban-Web/assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="cus.css">
@@ -261,7 +261,7 @@ $form_enctype = 'enctype="multipart/form-data"';
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <div class="cus-tambah">
-                            <h2 id="modalTitle">Form Tambah Customersn</h2>
+                            <h2 id="modalTitle">Form Tambah Customers</h2>
                             <?php if (!empty($errors)): ?>
                                 <div class="errors">
                                     <?php foreach ($errors as $error): ?>
