@@ -54,14 +54,13 @@ if (isset($_SESSION["login"])) {
                             <label for="name">Nama</label>
                             <input type="text" id="name" name="name" placeholder="Masukkan nama anda">
                         </div>
-
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" id="email" name="email" placeholder="Masukkan email anda">
-                            <span class="teks-span">Contoh: email@gmail.com
-                            </span>
-                        </div>
-
+                          <div class="form-group">
+                              <label for="email">Email</label>
+                              <div class="email-container">
+                                  <input type="text" id="email" name="email" placeholder="Masukkan email anda" required>
+                              </div>
+                              <span class="teks-span">Contoh: email@gmail.com</span>
+                          </div>
                         <div class="form-group">
                             <label for="no_hp">No. Hp</label>
                             <input type="text" id="no_hp" name="no_hp" placeholder=" Masukkan no. hp anda">

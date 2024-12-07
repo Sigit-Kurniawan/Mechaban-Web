@@ -110,7 +110,7 @@ $result = $conn->query($query);
 
             <div class="view">
                 <div class="cardheader">
-                    <h2>BOOKING MANAGEMENT</h2>
+                    <h2>MANAJEMEN BOOKING</h2>
                     <!-- <button class="export-btn" onclick="exportToExcel()">Export to Excel</button> -->
                 </div>
 
@@ -142,7 +142,7 @@ $result = $conn->query($query);
                             <th>METODE BAYAR</th>
                             <th>STATUS BAYAR</th>
                             <th>STATUS PENGERJAAN</th>
-                            <th>ACTIONS</th>
+                            <th>AKSI</th>
                         </tr>
                     </thead>
                     <tbody>
