@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $no_hp = htmlspecialchars($_POST['no_hp'], ENT_QUOTES, 'UTF-8');
     $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
     $konfirm_password = htmlspecialchars($_POST['konfirm_password'], ENT_QUOTES, 'UTF-8');
-    $role = isset($_POST['role']) ? htmlspecialchars($_POST['role'], ENT_QUOTES, 'UTF-8') : '';
+    $role = "customer";
 
     // Validate input fields are not empty
     if (empty($name) || empty($email) || empty($no_hp) || empty($password) || empty($konfirm_password)) {
@@ -69,6 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: ../register.php?error=email_invalid");
         exit;
     }
+
+    // Phone number validation
+    $no_hp = $_POST['no_hp'];
+    if (!preg_match('/^8\d{0,12}$/', $no_hp)) {
+    header("Location: ../register.php?error=invalid_phone");
+    exit();
+}
+
 
     // Password validation
     // Requires at least 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char

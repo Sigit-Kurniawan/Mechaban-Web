@@ -8,10 +8,10 @@ if (!isset($_SESSION["login"]) || !isset($_SESSION["email"])) {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if (!file_exists('\Mechaban-Web\Api\koneksi.php')) {
+if (!file_exists('../../Api/koneksi.php')) {
     die("Database connection file not found.");
 }
-include_once('\Mechaban-Web\Api\koneksi.php');
+include_once('../../Api/koneksi.php');
 
 // Define upload directory (make sure this matches the one in upload_photo.php)
 define('UPLOAD_DIR', '../../uploads/customers/');
@@ -53,7 +53,41 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
     <div class="container">
         <?php include '../sidebar.php'; ?>
         <div class="main">
-            <?php include '../header.php'; ?>
+        <div class="header">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+
+                <!-- ----user img---- -->
+                <div class="user">
+
+                    <div class="user-img-container">
+                        <?php
+                        // Determine the photo path
+                        $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
+                            ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
+                            : '../../assets/img/default-profile.png';
+                        ?>
+                        <img src="<?php echo $userPhoto; ?>" alt="User Profile Picture" class="user-img"
+                            onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
+
+                        <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
+                    </div>
+
+
+                    <div class="user-info">
+                        <div class="username">
+                            <span class="name">
+                                <?php echo isset($_SESSION["name"]) ? htmlspecialchars($_SESSION["name"]) : 'Guest'; ?>
+                            </span>
+                            <span class="role">
+                                <?php echo isset($_SESSION["role"]) ? htmlspecialchars($_SESSION["role"]) : 'Visitor'; ?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="view">
                 <!-- Error/Success Alerts -->

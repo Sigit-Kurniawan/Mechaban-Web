@@ -1,44 +1,62 @@
- // Modal for Komponen
- var komponenModal = document.getElementById("komponenModal");
- var komponenBtn = document.getElementById("komponenBtn");
- var komponenSpan = document.getElementsByClassName("close")[0];
+// Get modal elements
+const komponenModal = document.getElementById('komponenModal');
+const servisModal = document.getElementById('servisModal');
 
- komponenBtn.onclick = function() {
-     komponenModal.style.display = "block";
-     document.getElementById("komponenModalTitle").innerText = "Form Tambah Komponen";
-     document.getElementById("formKomponen").reset();
- }
+// Get buttons
+const komponenBtn = document.getElementById('komponenBtn');
+const servisBtn = document.getElementById('servisBtn');
 
- komponenSpan.onclick = function() {
-     komponenModal.style.display = "none";
- }
+// Add click event listeners
+komponenBtn.addEventListener('click', () => {
+    komponenModal.style.display = 'block';
+});
 
- function openEditKomponenModal(id_data_komponen, nama_komponen) {
-     komponenModal.style.display = "block";
-     document.getElementById("komponenModalTitle").innerText = "Edit Komponen";
-     document.getElementById("nama_komponen").value = nama_komponen;
-     document.getElementById("id_data_komponen").value = id_data_komponen;
- }
+servisBtn.addEventListener('click', () => {
+    servisModal.style.display = 'block';
+});
 
-// Modal for Servis
-var servisModal = document.getElementById("servisModal");
-var servisBtn = document.getElementById("servisBtn");
-var servisSpan = document.getElementsByClassName("closeServis")[0];
+// Get close buttons
+const closeButtons = document.getElementsByClassName('close');
 
-servisBtn.onclick = function() {
-    servisModal.style.display = "block";
-    document.getElementById("servisModalTitle").innerText = "Form Tambah Servis";
-    document.getElementById("formServis").reset();
+// Add close functionality
+Array.from(closeButtons).forEach(button => {
+    button.addEventListener('click', () => {
+        komponenModal.style.display = 'none';
+        servisModal.style.display = 'none';
+    });
+});
+
+// Close modal when clicking outside
+window.addEventListener('click', (e) => {
+    if (e.target == komponenModal) komponenModal.style.display = 'none';
+    if (e.target == servisModal) servisModal.style.display = 'none';
+});
+
+// Function to generate random ID for Komponen (DK + 2 numbers + 3 letters)
+function generateKomponenId() {
+    const numbers = Math.floor(Math.random() * 90 + 10); // 10-99
+    const letters = Array(3).fill()
+        .map(() => String.fromCharCode(Math.floor(Math.random() * 26) + 65))
+        .join('');
+    return `DK${numbers}${letters}`;
 }
 
-servisSpan.onclick = function() {
-    servisModal.style.display = "none";
+// Function to generate random ID for Servis (DS + 2 numbers + 3 letters)
+function generateServisId() {
+    const numbers = Math.floor(Math.random() * 90 + 10); // 10-99
+    const letters = Array(3).fill()
+        .map(() => String.fromCharCode(Math.floor(Math.random() * 26) + 65))
+        .join('');
+    return `DS${numbers}${letters}`;
 }
 
-function openEditServisModal(id, nama, harga) {
-    servisModal.style.display = "block";
-    document.getElementById("servisModalTitle").innerText = "Edit Servis";
-    document.getElementById("nama_servis").value = nama;
-    document.getElementById("harga_servis").value = harga;
-    document.getElementById("servis_edit_id").value = id;
-}
+// Auto-fill IDs when opening modals
+komponenBtn.addEventListener('click', () => {
+    document.getElementById('id_data_komponen').value = generateKomponenId();
+    komponenModal.style.display = 'block';
+});
+
+servisBtn.addEventListener('click', () => {
+    document.getElementById('id_data_servis').value = generateServisId();
+    servisModal.style.display = 'block';
+});

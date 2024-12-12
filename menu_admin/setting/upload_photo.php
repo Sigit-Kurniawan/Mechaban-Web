@@ -24,7 +24,7 @@ if (!file_exists(UPLOAD_DIR)) {
 }
 
 // Function to handle file upload
-function handleFileUpload($file)
+function handleFileUpload($file, $email)
 {
     if ($file['error'] !== UPLOAD_ERR_OK) {
         throw new Exception("File upload error: " . $file['error']);
@@ -44,10 +44,12 @@ function handleFileUpload($file)
         throw new Exception("Tipe file tidak diizinkan. Hanya jpg, jpeg, dan png yang diperbolehkan.");
     }
 
-    // Generate unique filename
-    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $filename = uniqid() . '.' . $extension;
+    // Create filename from email
+    $email_parts = explode('@', $email); // Split email at @
+    $sanitized_email = str_replace('.', '_', $email_parts[0]); // Replace dots with underscore in first part
+    $filename = $sanitized_email . '.jpg';
     $destination = UPLOAD_DIR . $filename;
+
 
     // Move uploaded file
     if (!move_uploaded_file($file['tmp_name'], $destination)) {
@@ -57,6 +59,7 @@ function handleFileUpload($file)
     return $filename;
 }
 
+
 // Get current user's email
 $email_customer = $_SESSION["email"];
 
@@ -65,8 +68,10 @@ if (isset($_POST['upload']) && isset($_FILES['photo'])) {
     try {
         // Check if a file was uploaded
         if ($_FILES['photo']['size'] > 0) {
-            // Handle file upload
-            $photo_filename = handleFileUpload($_FILES['photo']);
+            // Handle file upload with email
+            $photo_filename = handleFileUpload($_FILES['photo'], $email_customer);
+
+            // Rest of the code remains the same...
 
             // Update photo in database
             $update_query = "UPDATE account SET photo = ? WHERE email = ?";

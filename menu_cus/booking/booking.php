@@ -65,8 +65,8 @@ $address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="\Mechaban-Web\menu_cus\booking\booking.css">
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async
-        defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer>
+    </script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -78,11 +78,61 @@ $address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'
         <?php include '../sidebar.php' ?>
 
         <div class="main">
-            <?php include '../header.php'; ?>
+            <div class="header">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+
+                <!-- ----user img---- -->
+                <div class="user">
+
+                    <div class="user-img-container">
+                        <?php
+                        // Determine the photo path
+                        $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
+                            ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
+                            : '../../assets/img/default-profile.png';
+                        ?>
+                        <img src="<?php echo $userPhoto; ?>" alt="User Profile Picture" class="user-img"
+                            onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
+
+                        <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
+                    </div>
+
+
+                    <div class="user-info">
+                        <div class="username">
+                            <span class="name">
+                                <?php echo isset($_SESSION["name"]) ? htmlspecialchars($_SESSION["name"]) : 'Guest'; ?>
+                            </span>
+                            <span class="role">
+                                <?php echo isset($_SESSION["role"]) ? htmlspecialchars($_SESSION["role"]) : 'Visitor'; ?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <form method="POST" action="booking_process.php" class="booking-input">
                 <div class="header-booking">
                     <h2>Booking Servis</h2>
+                </div>
+
+                <div class="lokasi">
+                    <label>Lokasi Anda</label><br>
+                    <a href="lokasi.php">Pilih Lokasi</a>
+                    <?php if ($latitude && $longitude): ?>
+                    <div class="alamat-box">
+                        <?php echo $address ? ucwords(htmlspecialchars($address)) : 'Lokasi tidak ditemukan'; ?><br>
+                    </div>
+                    <input type="hidden" name="latitude" value="<?php echo $latitude; ?>">
+                    <input type="hidden" name="longitude" value="<?php echo $longitude; ?>">
+                    <?php else: ?>
+                    <div class="alamat-box">
+                        Lokasi belum dipilih.
+                    </div>
+                    <?php endif; ?>
                 </div>
 
                 <!-- Step 1: Pilih Mobil -->
@@ -91,13 +141,14 @@ $address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'
                     <select name="nopol" id="mobil" class="mobil-combobox" required>
                         <option value="" disabled selected>Pilih Mobil</option>
                         <?php while ($mobil = mysqli_fetch_assoc($result_mobil)): ?>
-                            <option value="<?php echo $mobil['nopol']; ?>">
-                                <?php echo formatNopol($mobil['nopol']) . ' - ' . $mobil['merk']; ?>
-                            </option>
+                        <option value="<?php echo $mobil['nopol']; ?>">
+                            <?php echo formatNopol($mobil['nopol']) . ' - ' . $mobil['merk']; ?>
+                        </option>
                         <?php endwhile; ?>
                     </select>
 
                 </div>
+                
 
                 <!-- Step 2: Pilih Komponen dan Servis -->
                 <div class="komponen-container">
@@ -105,9 +156,9 @@ $address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'
                     <select name="komponen" class="komponen-combobox" required>
                         <option value="" disabled selected>Pilih Komponen</option>
                         <?php while ($komponen = mysqli_fetch_assoc($result_komponen)): ?>
-                            <option value="<?php echo $komponen['id_data_komponen']; ?>">
-                                <?php echo $komponen['nama_komponen']; ?>
-                            </option>
+                        <option value="<?php echo $komponen['id_data_komponen']; ?>">
+                            <?php echo $komponen['nama_komponen']; ?>
+                        </option>
                         <?php endwhile; ?>
                     </select>
 
@@ -119,42 +170,27 @@ $address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'
                         $query_servis = "SELECT * FROM data_servis WHERE id_data_komponen = '$id_data_komponen'";
                         $result_servis = mysqli_query($conn, $query_servis);
                         ?>
-                        <div class="servis-container" data-komponen="<?php echo $komponen['id_data_komponen']; ?>">
-                            <?php if ($result_servis && mysqli_num_rows($result_servis) > 0): ?>
-                                <?php while ($servis = mysqli_fetch_assoc($result_servis)): ?>
-                                    <div class="servis-item">
-                                        <label>
-                                            <input type="checkbox" class="servis-checkbox" name="servis[]"
-                                                value="<?php echo $servis['id_data_servis']; ?>">
-                                            <?php echo $servis['nama_servis']; ?>
-                                        </label>
-                                        <span
-                                            class="servis-price">Rp<?php echo number_format($servis['harga_servis'], 0, ',', '.'); ?></span>
-                                    </div>
-                                <?php endwhile; ?>
-                            <?php else: ?>
-                                <p>Tidak ada servis untuk komponen ini.</p>
-                            <?php endif; ?>
+                    <div class="servis-container" data-komponen="<?php echo $komponen['id_data_komponen']; ?>">
+                        <?php if ($result_servis && mysqli_num_rows($result_servis) > 0): ?>
+                        <?php while ($servis = mysqli_fetch_assoc($result_servis)): ?>
+                        <div class="servis-item">
+                            <label>
+                                <input type="checkbox" class="servis-checkbox" name="servis[]"
+                                    value="<?php echo $servis['id_data_servis']; ?>">
+                                <?php echo $servis['nama_servis']; ?>
+                            </label>
+                            <span
+                                class="servis-price">Rp<?php echo number_format($servis['harga_servis'], 0, ',', '.'); ?></span>
                         </div>
+                        <?php endwhile; ?>
+                        <?php else: ?>
+                        <p>Tidak ada servis untuk komponen ini.</p>
+                        <?php endif; ?>
+                    </div>
                     <?php endwhile; ?>
                 </div>
 
                 <!-- Step 3: Lokasi -->
-                <div class="lokasi">
-                    <label>Lokasi Anda</label><br>
-                    <a href="lokasi.php">Pilih Lokasi</a>
-                    <?php if ($latitude && $longitude): ?>
-                        <div class="alamat-box">
-                            <?php echo $address ? ucwords(htmlspecialchars($address)) : 'Lokasi tidak ditemukan'; ?><br>
-                        </div>
-                        <input type="hidden" name="latitude" value="<?php echo $latitude; ?>">
-                        <input type="hidden" name="longitude" value="<?php echo $longitude; ?>">
-                    <?php else: ?>
-                        <div class="alamat-box">
-                            Lokasi belum dipilih.
-                        </div>
-                    <?php endif; ?>
-                </div>
 
                 <!-- Step 4: Submit Button -->
                 <div class="submit-button">

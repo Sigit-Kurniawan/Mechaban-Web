@@ -31,7 +31,7 @@
             </a>
         </li>
         <li>
-            <a href="/Mechaban-Web/menu_admin/servis/servis.php">
+            <a href="/Mechaban-Web/menu_admin/data_servis/servis.php">
                 <span class="icon"><ion-icon name="receipt-outline"></ion-icon></span>
                 <span class="title">Data Servis</span>
             </a>
