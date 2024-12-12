@@ -31,8 +31,8 @@ if (isset($_SESSION["login"])) {
 
             <div class="card-content">
                 <?php if (isset($_GET['error'])): ?>
-                    <div class="alert">
-                        <?php
+                <div class="alert">
+                    <?php
                         if ($_GET['error'] === 'empty_fields') {
                             echo "Semua field harus diisi!";
                         } elseif ($_GET['error'] === 'email_exists') {
@@ -45,7 +45,7 @@ if (isset($_SESSION["login"])) {
                             echo "Email tidak sesuai format.";
                         }
                         ?>
-                    </div>
+                </div>
                 <?php endif; ?>
 
                 <div class="card-content">
@@ -54,19 +54,26 @@ if (isset($_SESSION["login"])) {
                             <label for="name">Nama</label>
                             <input type="text" id="name" name="name" placeholder="Masukkan nama anda">
                         </div>
-                      
-                          <div class="form-group">
-                              <label for="email">Email</label>
-                              <div class="email-container">
-                                  <input type="text" id="email" name="email" placeholder="Masukkan email anda" required>
-                              </div>
-                              <span class="teks-span">Contoh: email@gmail.com</span>
-                          </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <div class="email-container">
+                                <input type="text" id="email" name="email" placeholder="Masukkan email anda" required>
+                            </div>
+                            <span class="teks-span">Contoh: email@gmail.com</span>
+                        </div>
 
                         <div class="form-group">
                             <label for="no_hp">No. Hp</label>
-                            <input type="text" id="no_hp" name="no_hp" placeholder=" Masukkan no. hp anda">
+                            <div class="phone-input-container">
+                                <span class="phone-prefix">+62</span>
+                                <input type="text" id="no_hp" name="no_hp" placeholder="Masukkan no. hp anda"
+                                    pattern="^8\d{0,12}$" maxlength="13" required>
+                            </div>
+                            <span class="teks-span">Nomor HP harus diawali dengan angka 8 dan maksimal 13 angka</span>
                         </div>
+
+
 
                         <div class="form-group">
                             <label for="password">Password</label>
@@ -81,15 +88,7 @@ if (isset($_SESSION["login"])) {
                             <input type="password" id="konfirm_password" name="konfirm_password"
                                 placeholder="Konfirmasi password anda">
                         </div>
-
-                        <div class="form-group">
-                            <label for="role" id="role">Role</label>
-                            <select name="role" class="role">
-                                <option value="customer">Customer</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
-
+                        
                         <button type="submit">Register</button>
 
                         <div class="teks">
@@ -101,15 +100,15 @@ if (isset($_SESSION["login"])) {
         </div>
 
         <script>
-            // Menghilangkan elemen dengan class "alert" setelah 3 detik
-            setTimeout(() => {
-                const alertElement = document.querySelector('.alert');
-                if (alertElement) {
-                    alertElement.style.transition = 'opacity 0.5s';
-                    alertElement.style.opacity = '0';
-                    setTimeout(() => alertElement.remove(), 500); // Menghapus elemen setelah transisi selesai
-                }
-            }, 3000);
+        // Menghilangkan elemen dengan class "alert" setelah 3 detik
+        setTimeout(() => {
+            const alertElement = document.querySelector('.alert');
+            if (alertElement) {
+                alertElement.style.transition = 'opacity 0.5s';
+                alertElement.style.opacity = '0';
+                setTimeout(() => alertElement.remove(), 500); // Menghapus elemen setelah transisi selesai
+            }
+        }, 3000);
         </script>
 
 

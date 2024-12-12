@@ -41,48 +41,50 @@ textarea {
   position: relative;
   display: flex;
   justify-content: center;
-  flex-direction: row;
+  flex-direction: row-reverse;
+  gap: 5px; /* Add consistent spacing between stars */
 }
+
+.stars input[type="radio"] {
+  display: none; /* Hide the radio inputs */
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
 
 .stars label {
   display: inline-block;
   position: relative;
-  width: 3rem; /* Adjusting width to match font size */
-  height: 3rem; /* Adjusting height to match font size */
-  background: white; /* Background color set to white */
+  width: 3rem;
+  height: 3rem;
   margin: 0 5px;
+  cursor: pointer; /* Add cursor pointer */
 }
 
-.stars input {
-  display: none;
+/* Update hover effects */
+.stars label:hover::before,
+.stars label:hover ~ label::before {
+  color: gold;
 }
 
+/* Remove the after pseudo-element styles since we don't need them */
 .stars label::before {
   content: "\2605";
-  color: gray; /* Initial color is gray */
-  font-size: 3rem; /* Set the star size to 3rem */
-  display: flex;
+  color: gray;
+  font-size: 3rem;
   position: absolute;
   top: 0;
   left: 0;
+  transition: color 0.3s ease;
 }
 
-.stars label::after {
-  content: "\2605";
-  color: gold; /* Gold color after selection */
-  font-size: 3rem; /* Set the star size to 3rem */
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* Change the color of all checked stars */
+/* Update checked state */
 .stars input:checked ~ label::before {
   color: gold;
 }
+
 
 /* Show gold color for previous stars */
 .stars input:checked ~ label:hover::before,
@@ -147,4 +149,24 @@ textarea {
 
 .btn-kembali:hover {
   background-color: #5a6368;
+}
+
+.existing-review {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.rating-display {
+  color: #ffd700;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.review-text {
+  margin: 15px 0;
+  color: #333;
+  line-height: 1.6;
+  font-size: 20px;
 }

@@ -16,7 +16,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <?php
             // Determine the photo path
             $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
-                ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
+                ? '../uploads/' . htmlspecialchars($_SESSION["photo"])
                 : '../assets/img/default-profile.png';
             ?>
             <img src="<?php echo $userPhoto; ?>"

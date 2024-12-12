@@ -54,6 +54,7 @@ if (isset($_SESSION["login"])) {
 
                     <div class="teks">
                         <p>Belum punya akun? <a href="register.php"> Register</a></p>
+                        <p>Anda lupa password? <a href="/Mechaban-Web/lupa_password/lupa_password.php"> Lupa Password</a></p>
                     </div>
                 </form>
 

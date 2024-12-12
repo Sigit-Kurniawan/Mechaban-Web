@@ -54,12 +54,10 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
     <div class="container">
         <?php include '../sidebar.php'; ?>
         <div class="main">
-            <!-- header -->
             <div class="header">
                 <div class="toggle">
                     <ion-icon name="menu-outline"></ion-icon>
                 </div>
-                <!-- ----search---- -->
                 <!-- ----user img---- -->
                 <div class="user">
                     <div class="user-img-container">
@@ -67,7 +65,7 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
                         // Determine the photo path
                         $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
                             ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
-                            : '../assets/img/default-profile.png';
+                            : '../../assets/img/default-profile.png';
                         ?>
                         <img src="<?php echo $userPhoto; ?>"
                             alt="User Profile Picture"

@@ -492,3 +492,30 @@
         right: 20px;
     }
 }
+
+.search form {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.search-button {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.clear-search {
+    position: absolute;
+    right: 35px;
+    color: #888;
+    text-decoration: none;
+    font-size: 20px;
+}

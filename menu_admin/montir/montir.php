@@ -190,27 +190,47 @@ $result = $stmt->get_result();
                                 <th>Nama</th>
                                 <th>No HP</th>
                                 <th>Password</th>
+                                <th>Foto</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($row = $result->fetch_assoc()): ?>
+                            <?php
+                            // Reset the result to use the search query
+                            if (!empty($search)) {
+                                $search_param = "%$search%";
+                                $query = "SELECT * FROM account WHERE role = 'customer' AND (name LIKE ? OR email LIKE ? OR no_hp LIKE ?) ORDER BY name";
+                                $stmt = $conn->prepare($query);
+                                $stmt->bind_param("sss", $search_param, $search_param, $search_param);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                            } else {
+                                // If no search, fetch all customers
+                                $result = $conn->query("SELECT * FROM account WHERE role = 'customer' ORDER BY name");
+                            }
+
+                            $no = 1;
+                            while ($row = $result->fetch_assoc()):
+                            ?>
                                 <tr>
+                                    <td><?php echo $no++; ?></td>
                                     <td><?php echo htmlspecialchars($row['email']); ?></td>
                                     <td><?php echo htmlspecialchars($row['name']); ?></td>
                                     <td><?php echo htmlspecialchars($row['no_hp']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['password']); ?></td>
-                                    <td class="table-action-buttons">
-                                        <a href="javascript:void(0);" 
-                                           onclick="openEditModal(
-                                               '<?php echo htmlspecialchars($row['email']); ?>', 
-                                               '<?php echo htmlspecialchars($row['name']); ?>', 
-                                               '<?php echo htmlspecialchars($row['no_hp']); ?>', 
-                                               '<?php echo htmlspecialchars($row['password']); ?>')" 
-                                           class="btn btn-edit">Edit</a>
-                                        <a href="?delete_email=<?php echo htmlspecialchars($row['email']); ?>" 
-                                           class="btn btn-hapus" 
-                                           onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">Hapus</a>
+                                    <td>
+                                        <?php if (!empty($row['photo'])): ?>
+                                            <img src="<?php echo UPLOAD_DIR . htmlspecialchars($row['photo']); ?>"
+                                                alt="Profile photo"
+                                                class="customer-photo"
+                                                onclick="showPhotoModal('<?php echo UPLOAD_DIR . htmlspecialchars($row['photo']); ?>')">
+                                        <?php else: ?>
+                                            <img src="../../assets/img/default-profile.png"
+                                                alt="Default profile"
+                                                class="customer-photo">
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <a href="?delete=<?php echo urlencode($row['email']); ?>" class="btn-hapus" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>

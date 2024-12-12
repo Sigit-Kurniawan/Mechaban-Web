@@ -47,7 +47,20 @@ if (mysqli_num_rows($result) === 0) {
 }
 
 // Generate ID review unik
-$id_review = 'RC' . str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT) . strtolower(substr(bin2hex(random_bytes(2)), 0, 4));
+// $id_review = 'RC' . str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT) . strtolower(substr(bin2hex(random_bytes(2)), 0, 4));
+
+// Generate unique ID
+do {
+    $id_review = 'RC' . str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
+    $check_query = "SELECT id_review FROM review_customer WHERE id_review = ?";
+    $check_stmt = mysqli_prepare($conn, $check_query);
+    mysqli_stmt_bind_param($check_stmt, "s", $id_review);
+    mysqli_stmt_execute($check_stmt);
+    $result = mysqli_stmt_get_result($check_stmt);
+    $exists = mysqli_num_rows($result) > 0;
+    mysqli_stmt_close($check_stmt);
+} while ($exists);
+
 
 date_default_timezone_set('Asia/Jakarta');
 // Tanggal review dalam format WIB
@@ -64,7 +77,7 @@ mysqli_stmt_bind_param($stmt, "sssis", $id_review, $id_booking, $review_text, $r
 
 if (mysqli_stmt_execute($stmt)) {
     echo "Review berhasil dikirim!";
-    header("Location: review.php");
+    header("Location: ../aktivitas_detail.php?id_booking=" . $id_booking);
 } else {
     echo "Gagal mengirim review. Error: " . mysqli_error($conn);
 }
