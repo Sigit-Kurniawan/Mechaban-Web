@@ -4,6 +4,7 @@ html {
   --primary: #0697f2;
   --container: #f0f1f2;
   scroll-behavior: smooth;
+  background-color: var(--container);
 }
 
 body {
@@ -17,10 +18,22 @@ body {
 
 /* Header */
 header {
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  position: fixed;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  max-width: 1440px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* padding: 20px 0; */
+  margin: 3rem auto;
+  padding: 0 6%;
 }
 
 .logo {
@@ -86,13 +99,14 @@ nav a {
 /* Hero Section */
 
 .hero {
-  position: relative;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   padding: 50px 0;
   padding-bottom: 100px;
+  max-width: 1440px;
+  margin: auto;
 }
 
 .background {
@@ -105,7 +119,8 @@ nav a {
 
 .row {
   display: flex;
-  flex-wrap: wrap;
+  margin: auto;
+  justify-content: space-between;
 }
 
 .col-4 {
@@ -113,10 +128,10 @@ nav a {
   padding: 10px;
 }
 
-.col-7 {
+/* .col-7 {
   flex: 0 0 58.33%;
   padding: 10px;
-}
+} */
 
 .hero-content {
   flex: 1;
@@ -124,9 +139,10 @@ nav a {
 }
 
 .hero-content h1 {
-  font-size: 64px;
+  font-size: 6rem;
   margin-bottom: 20px;
 }
+
 .download h2 {
   font-size: 36px;
   margin-bottom: 20px;
@@ -239,7 +255,6 @@ nav a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--container);
 }
 
 .card-section {
@@ -252,9 +267,8 @@ nav a {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 1500px;
-  height: 600px;
   transition: transform 0.3s ease;
+  width: 100%;
 }
 
 .card:hover {
@@ -284,15 +298,16 @@ nav a {
 .card-title-2 {
   font-size: 2em;
   color: var(--primary);
-  margin-bottom: 80px;
+  margin-bottom: 1rem;
 }
 
 /*Isi cardview*/
 .card-content {
   display: flex;
-  padding: 20px;
-  justify-content: space-around;
+  padding: 20px 4rem;
+  justify-content: space-between;
   text-align: center;
+  gap: 8rem;
 }
 
 .card-fitur {
@@ -337,8 +352,7 @@ nav a {
 
 /*Layanan Kami section*/
 #layanan-kami {
-  position: absolute;
-  top: 90%;
+  margin-top: -18rem;
   z-index: 1;
 }
 
@@ -353,8 +367,9 @@ nav a {
 #layanan-kami .card-content {
   display: flex;
   justify-content: space-around;
+  gap: 4rem;
   text-align: center;
-  padding: 50px;
+  padding: 4rem 50px;
 }
 
 .card-layanan {
@@ -379,22 +394,23 @@ nav a {
 }
 
 #fitur-andalan {
-  position: relative;
-  margin-top: 35vh;
+  max-width: 1440px;
+  width: 100%;
+}
+
+#mengapa-mechaban {
+  max-width: 1440px;
 }
 
 /*Merk Section*/
-#merk {
-  height: 500px;
-}
-
 .merk-galeri {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 20px;
-  padding: 40px, 20px;
+  gap: 8rem 12rem;
+  padding: 20rem, 20px;
   justify-items: center;
   align-items: center;
+  margin: 0 16rem 8rem;
 }
 
 .merk-logo {
@@ -409,6 +425,64 @@ nav a {
       1fr
     ); /* Pada layar besar, tampilkan 5 logo per baris */
   }
+}
+
+/* Testimoni */
+
+.card-fitur img {
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 1rem auto;
+  display: block;
+}
+
+.card-fitur h3 {
+  font-size: 2rem;
+}
+
+.stars {
+  color: #ffd700;
+  font-size: 4rem;
+}
+
+.name-card-desc-testimoni {
+  font-size: 1em;
+  color: black;
+  font-size: 20px;
+  display: -webkit-box; /* Flexbox untuk multiline truncate */
+  -webkit-line-clamp: 3; /* Batasi menjadi 3 baris */
+  -webkit-box-orient: vertical; /* Orientasi vertikal */
+  overflow: hidden; /* Sembunyikan teks yang lebih */
+}
+
+.swiper-container {
+  width: 80%;
+  height: 100%;
+}
+
+.swiper-slide {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  height: 300px;
+  transition: transform 0.3s ease;
+  padding: 10px;
+}
+
+.swiper-slide img {
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 1rem auto;
+  display: block;
+}
+
+.swiper-slide h3 {
+  font-size: 2rem;
 }
 
 /*FAQ*/
@@ -489,7 +563,7 @@ nav a {
   display: flex;
   overflow: hidden;
   transition: transform 0.3s ease;
-  margin-bottom: 10vh;
+  margin-bottom: 10rem;
   /* background-color: #ccc; */
   border-radius: 10px;
 }
@@ -533,8 +607,9 @@ nav a {
 
 /* Booking Sekarang */
 .booking-sekarang {
-  margin-bottom: 10vh;
+  margin-bottom: 10rem;
 }
+
 .booking-sekarang span {
   font-size: 24px;
   font-weight: bold;
@@ -560,7 +635,7 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* Mengatur ruang di antara elemen */
-  padding: 20px 0; /* Padding atas dan bawah */
+  padding: 20px 0 0 0; /* Padding atas dan bawah */
   background-color: #0697f2; /* Warna latar belakang footer */
   color: white; /* Warna teks footer */
 }
@@ -588,7 +663,6 @@ footer {
 
 .head-footer img {
   width: 60px;
-  height: 30px;
   margin-right: 10px;
 }
 
@@ -671,17 +745,20 @@ li a:hover {
 
   /* Header adjustments */
   header {
-    flex-direction: column;
-    padding: 1em;
+    padding-inline: 3%;
+  }
+
+  header nav {
+    display: none;
   }
 
   .logo img {
-    height: 4rem;
-    margin-right: 1em;
+    height: 7rem;
+    margin-right: 2em;
   }
 
   .logo-text {
-    font-size: 3em;
+    font-size: 4em;
   }
 
   /* Navigation adjustments */
@@ -768,9 +845,6 @@ li a:hover {
   }
 
   /* Merk section adjustments */
-  #merk {
-    height: auto;
-  }
 
   .merk-galeri {
     grid-template-columns: repeat(2, 1fr);

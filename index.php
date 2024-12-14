@@ -1,5 +1,9 @@
 <?php
 session_start();
+require('Api/koneksi.php');
+
+$sql = "SELECT a.name, rc.rating, rc.teks_review, a.photo FROM review_customer rc JOIN booking b ON rc.id_booking = b.id_booking JOIN car c ON b.nopol = c.nopol JOIN account a ON c.email_customer = a.email";
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +17,7 @@ session_start();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" /> -->
 
     <link rel="icon" type="image/png" href="assets/img/favicon.png" />
 
@@ -20,32 +25,32 @@ session_start();
 </head>
 
 <body>
+    <header>
+        <div class="header">
+            <div class="logo">
+                <img src="assets/img/logo.png" alt="Mechaban Logo">
+                <span class="logo-text">Mechaban</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#hero">Beranda</a></li>
+                    <li><a href="#mengapa-mechaban">Tentang Kami</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <?php if (isset($_SESSION["login"])): ?>
+                        <li><a href="<?php if ($_SESSION['role'] == "customer") {
+                                            echo "menu_cus/home_cus.php";
+                                        } else if ($_SESSION['role'] == "admin") {
+                                            echo "menu_admin/home_admin.php";
+                                        }; ?> " class="masuk-btn">Dashboard</a></li>
+                    <?php else: ?>
+                        <li><a href="login.php" class="masuk-btn">Masuk</a></li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+        </div>
+    </header>
     <div class="background">
         <div class="container">
-            <header>
-                <div class="logo">
-                    <img src="assets/img/logo.png" alt="Mechaban Logo">
-                    <span class="logo-text">Mechaban</span>
-                </div>
-                <nav>
-                    <ul>
-
-                        <li><a href="#hero">Beranda</a></li>
-                        <li><a href="#mengapa-mechaban">Tentang Kami</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                        <?php if (isset($_SESSION["login"])): ?>
-                            <li><a href="<?php if ($_SESSION['role'] == "customer") {
-                                echo "menu_cus/home_cus.php";
-                            } else if ($_SESSION['role'] == "admin") {
-                                echo "menu_admin/home_admin.php";
-                            }
-                            ; ?> " class="masuk-btn">Dashboard</a></li>
-                        <?php else: ?>
-                            <li><a href="login.php" class="masuk-btn">Masuk</a></li>
-                        <?php endif; ?>
-                    </ul>
-                </nav>
-            </header>
 
             <!-- Hero Section -->
             <section class="hero" id="hero">
@@ -118,37 +123,6 @@ session_start();
         </section>
     </div>
 
-    <!--Fitur Andalan-->
-    <div class="card-container">
-        <section class="card-section" id="fitur-andalan">
-            <div class="card">
-                <div class="card-head">
-                    <h1 class="card-title">Fitur Andalan</h1>
-                    <p class="title-desc">Fitur-fitur andalan kami di <span class="mechaban">Mechaban</span></p>
-                </div>
-                <div class="card-content">
-                    <div class="card-fitur">
-                        <img src="assets/img/card/home-servis.png" class="img-card">
-                        <h2 class="name-card">Home Service</h2>
-                        <p class="name-card-desc">Booking layanan secara online dari rumah</p>
-                    </div>
-                    <div class="card-fitur">
-                        <img src="assets/img/card/inspection-booking.png" class="img-card">
-                        <h2 class="name-card">Inspection Booking</h2>
-                        <p class="name-card-desc">Menginspeksi masalah pada mobil pelanggan secara detail via aplikasi
-                        </p>
-                    </div>
-                    <div class="card-fitur">
-                        <img src="assets/img/card/reminder-servis.png" class="img-card">
-                        <h2 class="name-card">Reminder Service</h2>
-                        <p class="name-card-desc">Mendapatkan pengingat rutin untuk service mobil via aplikasi</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-
     <!--Mengapa harus Mechaban-->
     <div class="card-container">
         <section class="card-section" id="mengapa-mechaban">
@@ -166,11 +140,6 @@ session_start();
                         <img src="assets/img/card/garansi.png" class="img-card">
                         <h2 class="name-card-2">Jaminan Garansi Selama 1 Bulan</h2>
                         <p class="name-card-desc">Terdapat garansi perbaikan setelah 1 bulan diperbaiki</p>
-                    </div>
-                    <div class="card-fitur">
-                        <img src="assets/img/card/payment.png" class="img-card">
-                        <h2 class="name-card-2">Fleksibilitas Pembayaran</h2>
-                        <p class="name-card-desc">Pembayaran bisa melalui online maupun langsung di bengkel</p>
                     </div>
                     <div class="card-fitur">
                         <img src="assets/img/card/lokasi.png" class="img-card">
@@ -206,6 +175,32 @@ session_start();
         </section>
     </div>
 
+    <!--Testimoni-->
+    <div class="card-container">
+        <section class="card-section" id="testimoni">
+            <div class="card">
+                <div class="card-head">
+                    <h1 class="card-title-2">Testimoni</h1>
+                </div>
+                <div class="card-content" id="testimoni-card">
+                    <?php
+                    if ($result->num_rows > 0) {
+                        // Output data setiap baris
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<div class="card-fitur">';
+                            echo '<img src="uploads/customers/' . htmlspecialchars($row["photo"]) . '" alt="Foto ' . htmlspecialchars($row["name"]) . '">';
+                            echo '<h3>' . htmlspecialchars($row["name"]) . '</h3>';
+                            echo '<div class="stars">' . str_repeat('★', $row["rating"]) . str_repeat('☆', 5 - $row["rating"]) . '</div>';
+                            echo '<p class="name-card-desc-testimoni">' . htmlspecialchars($row["teks_review"]) . '</p>';
+                            echo '</div>';
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+        </section>
+    </div>
+
     <!--FAQ-->
     <div class="card-container">
         <section class="card-section" id="faq">
@@ -221,16 +216,13 @@ session_start();
                         <button class="accordion-header">Apa itu di Mechaban?
                             <img src="assets\img\panah_faq.png" clas="panah-faq">
                         </button>
-
                         <div class="accordion-content">
                             <p>Mechaban merupakan aplikasi servis mobil online yang dapat membantu dan mempermudah
                                 proses servis mobil Anda. Dengan Mechaban, Anda dapat melakukan booking servis secara
                                 online dan memilih jenis servis yang diperlukan. Dengan Mechaban anda tidak perlu
                                 repot-repot datang ke bengkel, anda hanya perlu menunggu di rumah.</p>
-
                         </div>
                     </div>
-
                     <div class="accordion-item">
                         <button class="accordion-header">Bagaimana cara mendaftar di Mechaban?
                             <img src="assets\img\panah_faq.png" clas="panah-faq">
@@ -250,15 +242,10 @@ session_start();
                             <p>This is the content for section 2.</p>
                         </div>
                     </div>
-
                 </div>
-
-
             </div>
         </section>
     </div>
-
-
 
     <!--Iklan-->
     <div class="card-container">
@@ -274,19 +261,13 @@ session_start();
         </div>
     </div>
 
-
-
     <!-- Booking sekarang -->
     <div class="card-container">
         <div class="booking-sekarang" id="booking-sekarang">
             <span>Tunggu apa lagi? Yuk </span><button class="booking-btn"><a href="login.php">Booking
                     Sekarang</a></button>
-
         </div>
     </div>
-
-
-
 
     <!--Footer-->
     <footer>
@@ -328,6 +309,28 @@ session_start();
     </footer>
 
     <script src="assets/js/landing_page.js"></script>
+    <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 3,
+            /* Menampilkan 3 review */
+            spaceBetween: 20,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            loop: true,
+            /* Aktifkan loop untuk terus berputar */
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                },
+                480: {
+                    slidesPerView: 1,
+                }
+            }
+        });
+    </script> -->
 </body>
 
 </html>

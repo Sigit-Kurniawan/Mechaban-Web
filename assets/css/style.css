@@ -532,7 +532,6 @@ body {
   text-align: center;
 }
 
-
 .status {
   display: inline-block;
   padding: 4px 8px;
@@ -575,7 +574,6 @@ body {
   border-radius: 10px; /* Dikurangi dari 20px */
   transition: all 0.3s ease;
 }
-
 
 .recentCustomers:hover {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
@@ -648,7 +646,7 @@ body {
 }
 
 .recentCustomers table tr:hover td h4 span {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Responsive design */
