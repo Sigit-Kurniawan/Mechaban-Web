@@ -1,0 +1,19 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/mece5739/public_html/
+    - /bin/cp -R * $DEPLOYPATH
+    - /bin/cp .env $DEPLOYPATH
+    - /bin/cp composer.json $DEPLOYPATH
+    - /bin/cp composer.lock $DEPLOYPATH
+    - /bin/cp index.php $DEPLOYPATH
+    - /bin/cp input.css $DEPLOYPATH
+    - /bin/cp login.php $DEPLOYPATH
+    - /bin/cp logout.php $DEPLOYPATH
+    - /bin/cp package-lock.json $DEPLOYPATH
+    - /bin/cp package.json $DEPLOYPATH
+    - /bin/cp postcss.config.js $DEPLOYPATH
+    - /bin/cp README.md $DEPLOYPATH
+    - /bin/cp register.php $DEPLOYPATH
+    - /bin/cp tailwind.config.js $DEPLOYPATH
+    - /bin/cp tentang_kami.php $DEPLOYPATH
