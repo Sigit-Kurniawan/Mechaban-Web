@@ -31,10 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = generateMontirReport($start_date, $end_date);
             break;
         case 'income':
-            $data = generateIncomeReport($start_date, $end_date);
+            $data = generatePemasukanReport($start_date, $end_date);
             break;
         case 'service':
-            $data = generateServiceReport($start_date, $end_date);
+            $data = generateServisReport($start_date, $end_date);
             break;
         default:
             $_SESSION['error_message'] = "Invalid report type.";
@@ -58,7 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!-- Rest of the existing laporan.php HTML remains the same -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <ion-icon name="menu-outline"></ion-icon>
                 </div>
                 <!-- ----search---- -->
-                
+
                 <!-- ----user img---- -->
                 <div class="user">
                     <div class="user-img-container">
@@ -90,9 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
                             : '../../assets/img/default-profile.png';
                         ?>
-                        <img src="<?php echo $userPhoto; ?>"
-                            alt="User Profile Picture"
-                            class="user-img"
+                        <img src="<?php echo $userPhoto; ?>" alt="User Profile Picture" class="user-img"
                             onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
 
                         <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
@@ -138,6 +135,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="form-group">
                             <label for="end_date">Tanggal Akhir:</label>
                             <input type="date" name="end_date" id="end_date" required>
+                        </div>
+
+                        <!-- Add date preset buttons -->
+                        <div class="date-presets">
+                            <button type="button" class="btn-preset" onclick="setDateRange('daily')">
+                                <ion-icon name="today-outline"></ion-icon>
+                                Hari Ini
+                            </button>
+                            <button type="button" class="btn-preset" onclick="setDateRange('monthly')">
+                                <ion-icon name="calendar-outline"></ion-icon>
+                                Bulan Ini
+                            </button>
+                            <button type="button" class="btn-preset" onclick="setDateRange('yearly')">
+                                <ion-icon name="calendar-number-outline"></ion-icon>
+                                Tahun Ini
+                            </button>
                         </div>
 
                         <div class="form-group">

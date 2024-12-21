@@ -342,7 +342,6 @@ $form_enctype = 'enctype="multipart/form-data"';
                                 <th>Nama</th>
                                 <th>No. HP</th>
                                 <th>Photo</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -368,9 +367,6 @@ $form_enctype = 'enctype="multipart/form-data"';
                                                 alt="Default profile"
                                                 class="customer-photo">
                                         <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <a href="?delete=<?php echo urlencode($row['email']); ?>" class="btn-hapus" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
                                     </td>
                                 </tr>
                             <?php 

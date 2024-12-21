@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $no_hp = htmlspecialchars($_POST['no_hp'], ENT_QUOTES, 'UTF-8');
     $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
     $konfirm_password = htmlspecialchars($_POST['konfirm_password'], ENT_QUOTES, 'UTF-8');
-    $role = "customer";
+    $role = 'customer'; // Default role
 
     // Validate input fields are not empty
     if (empty($name) || empty($email) || empty($no_hp) || empty($password) || empty($konfirm_password)) {

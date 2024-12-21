@@ -51,3 +51,28 @@ document.addEventListener('DOMContentLoaded', function() {
         return date.toISOString().split('T')[0];
     }
 });
+
+function setDateRange(period) {
+    const today = new Date();
+    let startDate = new Date();
+    const endDate = today;
+
+    switch(period) {
+        case 'daily':
+            startDate = today;
+            break;
+        case 'monthly':
+            startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+            break;
+        case 'yearly':
+            startDate = new Date(today.getFullYear(), 0, 1);
+            break;
+    }
+
+    document.getElementById('start_date').value = formatDate(startDate);
+    document.getElementById('end_date').value = formatDate(endDate);
+}
+
+function formatDate(date) {
+    return date.toISOString().split('T')[0];
+}

@@ -7,7 +7,40 @@ $(document).ready(function () {
     });
 });
 
+// At the top of aktivitas.js
+const filterForm = document.getElementById('filterForm');
+const dateFromInput = document.getElementById('date_from');
+const dateToInput = document.getElementById('date_to');
+
+
 // View booking details in a modal
+function displayLocation(location) {
+    const mapContainer = document.getElementById('map');
+    
+    if (!mapContainer) {
+        console.error('Location container not found');
+        return;
+    }
+
+    // Clear previous content
+    mapContainer.innerHTML = '';
+
+    // Display coordinates as text
+    const locationInfo = document.createElement('div');
+    locationInfo.innerHTML = `
+        <p><strong>Latitude:</strong> ${location.lat.toFixed(6)}</p>
+        <p><strong>Longitude:</strong> ${location.lng.toFixed(6)}</p>
+        <a href="https://www.google.com/maps?q=${location.lat},${location.lng}" 
+           target="_blank" 
+           class="maps-link">
+            Buka di Google Maps
+        </a>
+    `;
+
+    mapContainer.appendChild(locationInfo);
+}
+
+// Modify the viewDetails function in aktivitas.js
 function viewDetails(bookingId) {
     $.ajax({
         url: 'get_booking_details.php',
@@ -15,8 +48,12 @@ function viewDetails(bookingId) {
         data: { id_booking: bookingId },
         success: function (response) {
             const data = JSON.parse(response);
+            
+            // Decode coordinates for better precision
+            const decodedLat = parseFloat(data.latitude);
+            const decodedLng = parseFloat(data.longitude);
 
-            // Populate modal fields with booking details
+            // Update modal fields including decoded coordinates
             $('#modal-id-booking').text(data.id_booking);
             $('#modal-tgl-booking').text(new Date(data.tgl_booking).toLocaleString());
             $('#modal-email-customer').text(data.email_customer);
@@ -27,50 +64,40 @@ function viewDetails(bookingId) {
             $('#modal-status').text(data.status);
             $('#modal-ketua-montir').text(data.ketua_montir);
             $('#modal-anggota-montir').text(data.anggota_montir);
-            $('#modal-latitude').text(data.latitude);
-            $('#modal-longitude').text(data.longitude);
+            $('#modal-latitude').text(decodedLat.toFixed(6));
+            $('#modal-longitude').text(decodedLng.toFixed(6));
 
-            // Initialize map if coordinates exist
-            if (data.latitude && data.longitude) {
-                const location = {
-                    lat: parseFloat(data.latitude),
-                    lng: parseFloat(data.longitude)
-                };
+            // Ensure map container exists
+            let mapContainer = document.getElementById('map');
+            if (!mapContainer) {
+                mapContainer = document.createElement('div');
+                mapContainer.id = 'map';
                 
-                // Check for Google Maps API and Advanced Marker
-                if (window.google && window.google.maps && window.google.maps.Map && window.google.maps.marker) {
-                    const mapElement = document.getElementById('map');
-                    
-                    if (mapElement) {
-                        // Clear previous map
-                        mapElement.innerHTML = '';
-                        
-                        const map = new google.maps.Map(mapElement, {
-                            zoom: 15,
-                            center: location,
-                            mapTypeId: google.maps.MapTypeId.ROADMAP
-                        });
-                        
-                        // Use AdvancedMarkerElement
-                        new google.maps.marker.AdvancedMarkerElement({
-                            map: map,
-                            position: location,
-                            title: 'Booking Location'
-                        });
-                    }
-                } else {
-                    console.error('Google Maps API or Advanced Marker not fully loaded');
+                const bookingDetails = document.getElementById('bookingDetails');
+                if (bookingDetails) {
+                    bookingDetails.appendChild(mapContainer);
                 }
+            }
+
+            // Display location if coordinates are valid
+            if (!isNaN(decodedLat) && !isNaN(decodedLng)) {
+                displayLocation({
+                    lat: decodedLat,
+                    lng: decodedLng
+                });
+            } else {
+                // Handle invalid coordinates
+                mapContainer.innerHTML = '<p>Lokasi tidak tersedia</p>';
             }
             
             $('#viewDetailsModal').show();
         },
-        error: function(xhr, status, error) {
+        error: function(_xhr, _status, error) {
             console.error('Ajax error:', error);
+            showAlert('Error loading booking details', 'error');
         }
     });
 }
-
 // Update booking status in a modal
 function updateStatus(bookingId) {
     $('#bookingId').val(bookingId);

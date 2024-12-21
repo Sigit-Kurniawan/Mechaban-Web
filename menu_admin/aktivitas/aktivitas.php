@@ -33,7 +33,7 @@ if ($status_filter) {
     $where_conditions[] = "status = '$status_filter'";
 }
 if ($date_from && $date_to) {
-    $where_conditions[] = "tgl_booking BETWEEN '$date_from' AND '$date_to'";
+    $where_conditions[] = "tgl_booking BETWEEN '$date_from' AND '$date_to 23:59:59'";
 }
 
 // Validate dates
@@ -75,13 +75,8 @@ $result = $conn->query($query);
     <link rel="icon" href="../../assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <!-- Add DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <link rel="stylesheet" href="aktivitas.css">
 
-    <head>
-        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
-    </head>
 
 </head>
 
@@ -210,63 +205,61 @@ $result = $conn->query($query);
                     </tbody>
                 </table>
 
-                <<!-- View Details Modal -->
-                    <!-- View Details Modal -->
-                    <div id="viewDetailsModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <h2>Booking Details</h2>
-                            <div id="bookingDetails">
-                                <?php
+                <!-- View Details Modal -->
+                <div id="viewDetailsModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>  
+                        <h2>Booking Details</h2>
+                        <div id="bookingDetails">
+                            <?php
                                 // The query will be executed when a specific booking is selected
                                 $query = "SELECT * FROM view_rincian_booking WHERE id_booking = :id_booking";
                                 ?>
-                                <div class="booking-info">
-                                    <p><strong>ID Booking:</strong> <span id="modal-id-booking"></span></p>
-                                    <p><strong>Tanggal Booking:</strong> <span id="modal-tgl-booking"></span></p>
-                                    <p><strong>Email Customer:</strong> <span id="modal-email-customer"></span></p>
-                                    <p><strong>Nomor Polisi:</strong> <span id="modal-nopol"></span></p>
-                                    <p><strong>Servis:</strong> <span id="modal-servis"></span></p>
-                                    <p><strong>Total Biaya:</strong> <span id="modal-total-biaya"></span></p>
-                                    <p><strong>Status:</strong> <span id="modal-status"></span></p>
-                                    <p><strong>Ketua Montir:</strong> <span id="modal-ketua-montir"></span></p>
-                                    <p><strong>Anggota Montir:</strong> <span id="modal-anggota-montir"></span></p>
-                                    <p><strong>Lokasi:</strong></p>
-                                    <div id="map" style="height: 300px; width: 100%; margin-top: 10px;"></div>
-                                </div>
+                            <div class="booking-info">
+                                <p><strong>ID Booking:</strong> <span id="modal-id-booking"></span></p>
+                                <p><strong>Tanggal Booking:</strong> <span id="modal-tgl-booking"></span></p>
+                                <p><strong>Email Customer:</strong> <span id="modal-email-customer"></span></p>
+                                <p><strong>Nomor Polisi:</strong> <span id="modal-nopol"></span></p>
+                                <p><strong>Servis:</strong> <span id="modal-servis"></span></p>
+                                <p><strong>Total Biaya:</strong> <span id="modal-total-biaya"></span></p>
+                                <p><strong>Status:</strong> <span id="modal-status"></span></p>
+                                <p><strong>Ketua Montir:</strong> <span id="modal-ketua-montir"></span></p>
+                                <p><strong>Anggota Montir:</strong> <span id="modal-anggota-montir"></span></p>
+                                <p><strong>Lokasi:</strong></p>
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <!-- Update Status Modal -->
-                    <div id="updateStatusModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <h2>Update Status</h2>
-                            <form id="updateStatusForm">
-                                <input type="hidden" id="bookingId" name="bookingId">
-                                <select name="status" id="status">
-                                    <option value="Pending">Pending</option>
-                                    <option value="diterima">Diterima</option>
-                                    <option value="batal">Batal</option>
-                                    <option value="dikerjakan">Dikerjakan</option>
-                                    <option value="selesai">Selesai</option>
-                                </select>
-                                <button type="submit">Update</button>
-                            </form>
-                        </div>
+                <!-- Update Status Modal -->
+                <div id="updateStatusModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Update Status</h2>
+                        <form id="updateStatusForm">
+                            <input type="hidden" id="bookingId" name="bookingId">
+                            <select name="status" id="status">
+                                <option value="Pending">Pending</option>
+                                <option value="diterima">Diterima</option>
+                                <option value="batal">Batal</option>
+                                <option value="dikerjakan">Dikerjakan</option>
+                                <option value="selesai">Selesai</option>
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
                     </div>
+                </div>
 
-                    <!-- Pagination -->
-                    <div class="pagination">
-                        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                        <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&status=<?php echo urlencode($status_filter); ?>&date_from=<?php echo urlencode($date_from); ?>&date_to=<?php echo urlencode($date_to); ?>"
-                            class="<?php echo $page === $i ? 'active' : ''; ?>">
-                            <?php echo $i; ?>
-                        </a>
-                        <?php endfor; ?>
-                    </div>
+                <!-- Pagination -->
+                <div class="pagination">
+                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&status=<?php echo urlencode($status_filter); ?>&date_from=<?php echo urlencode($date_from); ?>&date_to=<?php echo urlencode($date_to); ?>"
+                        class="<?php echo $page === $i ? 'active' : ''; ?>">
+                        <?php echo $i; ?>
+                    </a>
+                    <?php endfor; ?>
+                </div>
             </div>
         </div>
     </div>
@@ -279,7 +272,7 @@ $result = $conn->query($query);
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="../../assets/js/main.js"></script>
     <script src="aktivitas.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_ACTUAL_API_KEY&libraries=maps,marker" async defer>
+
     </script>
 
 </body>

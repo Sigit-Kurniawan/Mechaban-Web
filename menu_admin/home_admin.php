@@ -64,7 +64,7 @@ $current_status = $result->fetch_assoc() ?? ['status_bengkel' => 0, 'updated' =>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../assets/img/logo.png" type="image/png">
+    <link rel="icon" href="../../assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -200,17 +200,28 @@ $current_status = $result->fetch_assoc() ?? ['status_bengkel' => 0, 'updated' =>
                         <thead>
                             <tr>
                                 <td>Tanggal</td>
-                                <td>Email</td>
+                                <td>Nama</td>
+                                <td>Nopol</td>
                                 <td>Servis</td>
                                 <td>Total Biaya</td>
                                 <td>Status</td>
-                                <td>Review</td>
-                                <td>Rating</td>
                             </tr>
                         </thead>
                         <tbody>
                         <?php
-                        $query = "SELECT * FROM view_rincian_booking WHERE status = 'selesai' ORDER BY tgl_booking DESC LIMIT 5";
+                        $query = "SELECT b.id_booking, b.tgl_booking, c.email_customer, a.name as nama_customer, b.nopol, 
+                        GROUP_CONCAT(DISTINCT s.nama_servis SEPARATOR ', ') as servis,
+                        b.total_biaya, b.status
+                        FROM booking b
+                        JOIN car c ON b.nopol = c.nopol
+                        JOIN account a ON c.email_customer = a.email 
+                        LEFT JOIN detail_servis ds ON b.id_booking = ds.id_booking
+                        LEFT JOIN data_servis s ON ds.id_data_servis = s.id_data_servis
+                        WHERE b.status = 'selesai'
+                        GROUP BY b.id_booking
+                        ORDER BY b.tgl_booking DESC 
+                        LIMIT 5";
+
                         $stmt = $conn->prepare($query);
                         $stmt->execute(); // Execute the prepared statement
                         
@@ -221,12 +232,11 @@ $current_status = $result->fetch_assoc() ?? ['status_bengkel' => 0, 'updated' =>
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['tgl_booking']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['email_customer']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['servis']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['nama_customer']) . "</td>"; // from table booking
+                            echo "<td>" . htmlspecialchars($row['nopol'] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row['servis'] ?? '') . "</td>";
                             echo "<td>Rp" . number_format($row['total_biaya'], 0, ',', '.') . "</td>";
                             echo "<td><span class='status'>" . htmlspecialchars($row['status']) . "</span></td>";
-                            echo "<td>" . htmlspecialchars($row['review']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['rating']) . "</td>";
                             echo "</tr>";
                         }
                         ?>
@@ -240,46 +250,26 @@ $current_status = $result->fetch_assoc() ?? ['status_bengkel' => 0, 'updated' =>
                         <h2>Recent Customers</h2>
                     </div>
 
-                    <!-- Photo Modal -->
-                    <div id="photoModal" class="photo-modal">
-                        <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
-                        <div class="photo-modal-content">
-                            <img id="modalPhoto" src="" alt="Enlarged photo">
-                        </div>
-                    </div>
-
                     <table>
                         <?php
-                        // Query data pelanggan
-                        $query = "SELECT * FROM account WHERE role = 'customer' ORDER BY name LIMIT 8";
-                        $result = $conn->query($query);
-
-                        // Tampilkan data pelanggan
-                        while ($row = $result->fetch_assoc()):
-                            // Tentukan path foto
-                            $photo = $row['photo'] ?? ''; // Nilai default jika NULL
-                            $photo_path = UPLOAD_DIR . htmlspecialchars($photo);
-                            $photo_exists = !empty($photo) && file_exists($photo_path);
+                        // Query to get unique customers with their latest bookings
+                        $query = "SELECT DISTINCT email_customer, tgl_booking FROM view_rincian_booking WHERE status = 'selesai' ORDER BY tgl_booking DESC LIMIT 10";
+                        $stmt = $conn->prepare($query);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>";
+                            echo "<h4>";
+                            echo htmlspecialchars($row['email_customer']);
+                            echo "<br>";
+                            echo "<span>" . htmlspecialchars($row['tgl_booking']) . "</span>";
+                            echo "</h4>";
+                            echo "</td>";
+                            echo "</tr>";
+                        }
                         ?>
-                            <tr>
-                                <td width="60px">
-                                    <?php if ($photo_exists): ?>
-                                    <img src="<?php echo $photo_path; ?>"
-                                        alt="<?php echo htmlspecialchars($row['name'] ?? 'Unknown'); ?>"
-                                        class="customer-photo" onclick="showPhotoModal('<?php echo $photo_path; ?>')">
-                                    <?php else: ?>
-                                    <img src="../assets/img/default-profile.png" alt="Default profile"
-                                        class="customer-photo">
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <h4><?php echo htmlspecialchars($row['name'] ?? 'Unknown'); ?>
-                                        <br>
-                                        <span><?php echo htmlspecialchars($row['email'] ?? ''); ?></span>
-                                    </h4>
-                                </td>
-                            </tr>
-                            <?php endwhile; ?>
                     </table>
                 </div>
             </div>

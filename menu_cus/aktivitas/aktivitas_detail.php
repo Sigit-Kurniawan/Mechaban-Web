@@ -265,14 +265,12 @@ if ($result_detail_aktivitas->num_rows > 0) {
                     <?php endif; ?>
                 </div>
 
-
-
-
-                <div class="kembali">
-                    <a href="aktivitas.php" class="btn-kembali">Kembali</a>
-                    <a href="review/review.php?id_booking=<?php echo $data_booking['id_booking']; ?>"
-                        class="btn-review">Review</a>
-
+                      <div class="kembali">
+                          <a href="aktivitas.php" class="btn-kembali">Kembali</a>
+                          <?php if ($data_booking['status'] === 'selesai' && empty($row['review'])): ?>
+                              <a href="review/review.php?id_booking=<?php echo $data_booking['id_booking']; ?>" class="btn-review">Review</a>
+                          <?php endif; ?>
+                      </div>
                 </div>
 
             </div>

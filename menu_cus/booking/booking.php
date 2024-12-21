@@ -63,7 +63,7 @@ $address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'
     <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
     <title>Mechaban</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="\Mechaban-Web\menu_cus\booking\booking.css">
+    <link rel="stylesheet" href="booking.css">
 
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer>
     </script>
@@ -197,6 +197,8 @@ $address = isset($_GET['address']) ? $_GET['address'] : 'Alamat tidak ditemukan'
                     <button type="submit" name="submit_booking">Booking</button>
                 </div>
             </form>
+
+            <div class="alert-container" id="alertContainer"></div>
 
             <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
             <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

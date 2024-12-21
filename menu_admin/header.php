@@ -10,7 +10,6 @@
                     value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
                     autocomplete="off">
                 <button type="submit" class="search-button">
-                    <ion-icon name="search-outline"></ion-icon>
                 </button>
                 <?php if (!empty($_GET['search'])): ?>
                 <a href="<?php echo strtok($_SERVER['REQUEST_URI'], '?'); ?>" class="clear-search">

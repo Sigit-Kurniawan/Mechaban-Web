@@ -6,6 +6,9 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 function generateBookingReport($start_date, $end_date) {
     global $conn;
+    // Add time to end_date to include full day
+    $end_date = $end_date . ' 23:59:59';
+    
     $query = "SELECT * FROM view_rincian_booking 
               WHERE tgl_booking BETWEEN ? AND ?
               ORDER BY tgl_booking DESC";
@@ -37,7 +40,7 @@ function generateMontirReport($start_date, $end_date) {
     return $stmt->get_result();
 }
 
-function generateIncomeReport($start_date, $end_date) {
+function generatePemasukanReport($start_date, $end_date) {
     global $conn;
     $query = "SELECT tgl_booking AS booking_date, 
                      total_pemasukan AS total_income
@@ -51,7 +54,7 @@ function generateIncomeReport($start_date, $end_date) {
     return $stmt->get_result();
 }
 
-function generateServiceReport($start_date, $end_date) {
+function generateServisReport($start_date, $end_date) {
     global $conn;
     $query = "SELECT vs.nama_servis, 
                      vs.nama_komponen, 
@@ -74,9 +77,9 @@ function generateServiceReport($start_date, $end_date) {
 function exportToPDF($data, $report_type, $start_date, $end_date) {
     $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
     $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetTitle(ucfirst($report_type) . ' Report');
-    $pdf->SetHeaderData('', 0, ucfirst($report_type) . ' Report', 
-                        "Date Range: $start_date to $end_date");
+    $pdf->SetTitle(ucfirst('Laporan ' . $report_type));
+    $pdf->SetHeaderData('', 0, 'Laporan ' . ucfirst($report_type), 
+                        "Tanggal: $start_date - $end_date");
 
     $pdf->AddPage();
     $pdf->SetFont('helvetica', '', 10);
@@ -95,7 +98,7 @@ function exportToPDF($data, $report_type, $start_date, $end_date) {
             break;
 
         case 'montir':
-            $html .= '<tr><th>Mechanic Name</th><th>Email</th><th>Total Orders</th><th>Total Revenue</th></tr>';
+            $html .= '<tr><th>Nama Montir</th><th>Email</th><th>Total Order</th><th>Total Pendapatan</th></tr>';
             while ($row = $data->fetch_assoc()) {
                 $html .= sprintf(
                     '<tr><td>%s</td><td>%s</td><td>%d</td><td>%s</td></tr>',
@@ -104,8 +107,8 @@ function exportToPDF($data, $report_type, $start_date, $end_date) {
             }
             break;
 
-        case 'income':
-            $html .= '<tr><th>Date</th><th>Total Income</th></tr>';
+        case 'pemasukan':
+            $html .= '<tr><th>Tanggal</th><th>Total Pemasukan</th></tr>';
             while ($row = $data->fetch_assoc()) {
                 $html .= sprintf(
                     '<tr><td>%s</td><td>%s</td></tr>',
@@ -114,8 +117,8 @@ function exportToPDF($data, $report_type, $start_date, $end_date) {
             }
             break;
 
-        case 'service':
-            $html .= '<tr><th>Service Name</th><th>Component</th><th>Price</th><th>Total Orders</th><th>Total Revenue</th></tr>';
+        case 'servis':
+            $html .= '<tr><th>Nama Servis</th><th>Komponen</th><th>Harga</th><th>Total Order</th><th>Total Pendapatan</th></tr>';
             while ($row = $data->fetch_assoc()) {
                 $html .= sprintf(
                     '<tr><td>%s</td><td>%s</td><td>%s</td><td>%d</td><td>%s</td></tr>',
@@ -128,24 +131,23 @@ function exportToPDF($data, $report_type, $start_date, $end_date) {
 
     $html .= '</table>';
     $pdf->writeHTML($html, true, false, true, false, '');
-    $pdf->Output('report_' . $report_type . '_' . date('YmdHis') . '.pdf', 'D');
+    $pdf->Output('Laporan_' . $report_type . '_' . date('YmdHis') . '.pdf', 'D');
 }
-
 function exportToExcel($data, $report_type, $start_date, $end_date) {
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
-    $sheet->setTitle(ucfirst($report_type) . ' Report');
+    $sheet->setTitle(ucfirst('Laporan ' . $report_type));
 
-    $sheet->setCellValue('A1', ucfirst($report_type) . ' Report');
-    $sheet->setCellValue('A2', "Date Range: $start_date to $end_date");
+    $sheet->setCellValue('A1','Laporan ' . ucfirst($report_type));
+    $sheet->setCellValue('A2', "Tanggal: $start_date - $end_date");
 
     $row = 4;
 
     switch($report_type) {
         case 'booking':
             $sheet->fromArray([
-                'Booking ID', 'Date', 'Customer', 'Vehicle', 
-                'Services', 'Total Cost', 'Status', 'Mechanic(s)', 
+                'ID Booking', 'Tanggal', 'Nama Customer', 'Mobil', 
+                'Servis', 'Total Biaya', 'Status', 'Montir', 
                 'Review', 'Rating'
             ], null, 'A' . $row);
             $row++;
@@ -168,7 +170,7 @@ function exportToExcel($data, $report_type, $start_date, $end_date) {
 
         case 'montir':
             $sheet->fromArray([
-                'Mechanic Name', 'Email', 'Total Orders', 'Total Revenue'
+                'Nama Montir', 'Email', 'Total Order', 'Total Pendapatan'
             ], null, 'A' . $row);
             $row++;
             while ($record = $data->fetch_assoc()) {
@@ -182,9 +184,9 @@ function exportToExcel($data, $report_type, $start_date, $end_date) {
             }
             break;
 
-        case 'income':
+        case 'pemasukan':
             $sheet->fromArray([
-                'Date', 'Total Income'
+                'Tanggal', 'Total Pemasukan'
             ], null, 'A' . $row);
             $row++;
             while ($record = $data->fetch_assoc()) {
@@ -196,9 +198,9 @@ function exportToExcel($data, $report_type, $start_date, $end_date) {
             }
             break;
 
-        case 'service':
+        case 'servis':
             $sheet->fromArray([
-                'Service Name', 'Component', 'Price', 'Total Orders', 'Total Revenue'
+                'Nama servis', 'Komponen', 'Harga', 'Total Order', 'Total Revenue'
             ], null, 'A' . $row);
             $row++;
             while ($record = $data->fetch_assoc()) {
@@ -215,7 +217,7 @@ function exportToExcel($data, $report_type, $start_date, $end_date) {
     }
 
     $writer = new Xlsx($spreadsheet);
-    $filename = 'report_' . $report_type . '_' . date('YmdHis') . '.xlsx';
+    $filename = 'Laporan_' . $report_type . '_' . date('YmdHis') . '.xlsx';
 
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="' . $filename . '"');

@@ -96,65 +96,46 @@ $has_review = mysqli_num_rows($review_result) > 0;
                     </div>
                 </div>
             </div>
+              <div class="review">
+                      <h2>Berikan Review Anda</h2>
+                      <form action="review_process.php" method="POST">
+                          <input type="hidden" name="id_booking" value="<?php echo $id_booking; ?>">
 
-            <div class="review">
-                <?php if ($has_review): ?>
-                <?php $review_data = mysqli_fetch_assoc($review_result); ?>
-                <h2>Review Anda</h2>
-                <div class="existing-review">
-                    <div class="rating-display">
-                        Rating:
-                        <?php echo str_repeat('★', $review_data['rating']) . str_repeat('☆', 5 - $review_data['rating']); ?>
-                    </div>
-                    <div class="review-text">
-                        <p><?php echo htmlspecialchars($review_data['teks_review']); ?></p>
-                    </div>
-                    <div class="button-container">
-                        <a href="../aktivitas_detail.php?id_booking=<?php echo $id_booking; ?>"
-                            class="btn-kembali">Kembali</a>
-                    </div>
-                </div>
-                <?php else: ?>
-                <h2>Berikan Review Anda</h2>
-                    <form action="review_process.php" method="POST">
-                        <input type="hidden" name="id_booking" value="<?php echo $id_booking; ?>">
+                          <div class="form-group">
+                              <label for="rating">Rating:</label>
+                              <div class="stars">
+                                  <input type="radio" name="rating" value="5" id="star5" required>
+                                  <label for="star1"></label>
 
-                        <div class="form-group">
-                            <label for="rating">Rating:</label>
-                            <div class="stars">
-                                <input type="radio" name="rating" value="5" id="star5" required>
-                                <label for="star1"></label>
+                                  <input type="radio" name="rating" value="4" id="star4" required>
+                                  <label for="star2"></label>
 
-                                <input type="radio" name="rating" value="4" id="star4" required>
-                                <label for="star2"></label>
+                                  <input type="radio" name="rating" value="3" id="star3" required>
+                                  <label for="star3"></label>
 
-                                <input type="radio" name="rating" value="3" id="star3" required>
-                                <label for="star3"></label>
+                                  <input type="radio" name="rating" value="2" id="star2" required>
+                                  <label for="star4"></label>
 
-                                <input type="radio" name="rating" value="2" id="star2" required>
-                                <label for="star4"></label>
+                                  <input type="radio" name="rating" value="1" id="star1" required>
+                                  <label for="star5"></label>
+                              </div>
 
-                                <input type="radio" name="rating" value="1" id="star1" required>
-                                <label for="star5"></label>
-                            </div>
-
-                        </div>
+                          </div>
 
 
-                        <div class="form-group">
-                            <label for="review_text">Komentar Anda:</label>
-                            <textarea id="review_text" name="review_text" rows="5" required
-                                placeholder="Tulis komentar Anda di sini"></textarea>
-                        </div>
+                          <div class="form-group">
+                              <label for="review_text">Komentar Anda:</label>
+                              <textarea id="review_text" name="review_text" rows="5" required
+                                  placeholder="Tulis komentar Anda di sini"></textarea>
+                          </div>
 
-                        <div class="button-container">
-                            <button type="submit" class="submit-btn">Kirim Review</button>
-                        </div>
+                          <div class="button-container">
+                              <button type="submit" class="submit-btn">Kirim Review</button>
+                          </div>
 
-                    </form>
-                    <?php endif; ?>
-            </div>
-        </div>
+                      </form>
+              </div>
+          </div>
     </div>
     <script>
     document.addEventListener('DOMContentLoaded', function() {

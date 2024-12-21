@@ -67,9 +67,7 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
                             ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
                             : '../../assets/img/default-profile.png';
                         ?>
-                        <img src="<?php echo $userPhoto; ?>"
-                            alt="User Profile Picture"
-                            class="user-img"
+                        <img src="<?php echo $userPhoto; ?>" alt="User Profile Picture" class="user-img"
                             onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
 
                         <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
@@ -93,15 +91,15 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
             </div>
 
 
-
-            <div class="view">
-                <!-- Error/Success Alerts -->
-                <?php if (isset($_GET['error'])): ?>
+            
+                <div class="view">
+                    <!-- Error/Success Alerts -->
+                    <?php if (isset($_GET['error'])): ?>
                     <div id="error-alert" class="error-alert">
                         <?php echo htmlspecialchars($_GET['error']); ?>
                     </div>
-                <?php endif; ?>
-                <?php if (isset($_GET['success'])): ?>
+                    <?php endif; ?>
+                    <?php if (isset($_GET['success'])): ?>
                     <div id="success-alert" class="success-alert">
                         <?php
                         switch ($_GET['success']) {
@@ -116,61 +114,65 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
                         }
                         ?>
                     </div>
-                <?php endif; ?>
+                    <?php endif; ?>
 
-                <div class="akun-view">
+                    <div class="akun-view">
                     <div class="cardHeader">
-                        <h2>Informasi Akun</h2>
-                    </div>
-                    <div class="view-informasi-akun">
-                        <div class="photo-upload-container">
-                            <img id="photoPreview"
-                                src="<?php echo $photo_url; ?>"
-                                alt="Profile preview"
-                                class="profile-img"
-                                onclick="showPhotoModal(this.src)">
-
-                            <form id="photoForm" action="upload_photo.php" method="post" enctype="multipart/form-data" class="upload-form">
-                                <div class="file-input-container">
-                                    <label for="photo">
-                                        <ion-icon name="camera"></ion-icon>
-                                        Pilih Foto
-                                    </label>
-                                    <span class="file-input-text">Tidak ada file dipilih</span>
-                                    <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/jpg" style="display:none;">
-                                </div>
-                                <div class="file-hints">
-                                    Format: JPG, JPEG, PNG (Maks. 2MB)
-                                </div>
-                                <button type="submit" name="upload" class="upload-btn" disabled>Upload Foto</button>
-                            </form>
+                            <h2>Informasi Akun</h2>
                         </div>
+                        <div class="view-informasi-akun">
+                            <div class="photo-upload-container">
+                                <img id="photoPreview" src="<?php echo $photo_url; ?>" alt="Profile preview"
+                                    class="profile-img" onclick="showPhotoModal(this.src)">
 
-                        <!-- Rest of your existing form fields -->
-                        <div class="form-group">
-                            <label for="name">Nama</label>
-                            <input type="text" id="name" class="input-field" value="<?php echo htmlspecialchars($user['name']); ?>" disabled>
-                        </div>
+                                <form id="photoForm" action="upload_photo.php" method="post"
+                                    enctype="multipart/form-data" class="upload-form">
+                                    <div class="file-input-container">
+                                        <label for="photo">
+                                            <ion-icon name="camera"></ion-icon>
+                                            Pilih Foto
+                                        </label>
+                                        <span class="file-input-text">Tidak ada file dipilih</span>
+                                        <input type="file" id="photo" name="photo"
+                                            accept="image/jpeg,image/png,image/jpg" style="display:none;">
+                                    </div>
+                                    <div class="file-hints">
+                                        Format: JPG, JPEG, PNG (Maks. 2MB)
+                                    </div>
+                                    <button type="submit" name="upload" class="upload-btn" disabled>Upload Foto</button>
+                                </form>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" id="email" class="input-field" value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
-                        </div>
+                            <!-- Rest of your existing form fields -->
+                            <div class="form-group">
+                                <label for="name">Nama</label>
+                                <input type="text" id="name" class="input-field"
+                                    value="<?php echo htmlspecialchars($user['name']); ?>" disabled>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="no_hp">No. HP</label>
-                            <input type="text" id="phone" class="input-field" value="<?php echo htmlspecialchars($user['no_hp']); ?>" disabled>
-                        </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" id="email" class="input-field"
+                                    value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
+                            </div>
 
-                        <div class="button-container">
-                            <button class="edit-akun" id="myBtn">Edit Akun</button>
-                            <form action="delete_account.php" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun?');">
-                                <button type="submit" class="delete-account-btn">Hapus Akun</button>
-                            </form>
+                            <div class="form-group">
+                                <label for="no_hp">No. HP</label>
+                                <input type="text" id="phone" class="input-field"
+                                    value="<?php echo htmlspecialchars($user['no_hp']); ?>" disabled>
+                            </div>
+
+                            <div class="button-container">
+                                <button class="edit-akun" id="myBtn">Edit Akun</button>
+                                <form action="delete_account.php" method="post"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun?');">
+                                    <button type="submit" class="delete-account-btn">Hapus Akun</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
 
             <!-- Photo Modal -->
             <div id="photoModal" class="modal">
