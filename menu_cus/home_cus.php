@@ -113,14 +113,14 @@ $status_bengkel_text = ($status_bengkel == 1) ? "Buka" : "Tutup";
                         </span></h3>
                 </div>
                 <div class="button">
-                    <a href="/Mechaban-Web/menu_cus/booking/booking.php">
+                    <a href="/booking/booking.php">
                         <button class="btn-reservasi">Booking Sekarang</button>
                     </a>
                 </div>
             </div>
 
             <div class="cardbox">
-                <div class="card" onclick="location.href='/Mechaban-Web/menu_cus/mobil/mobil.php'">
+                <div class="card" onclick="location.href='/mobil/mobil.php'">
                     <div>
                         <div class="angka">
                             <?php echo htmlspecialchars($jumlah_mobil); ?>
@@ -132,7 +132,7 @@ $status_bengkel_text = ($status_bengkel == 1) ? "Buka" : "Tutup";
                     </div>
                 </div>
 
-                <div class="card" onclick="location.href='/Mechaban-Web/menu_cus/aktivitas/aktivitas.php'">
+                <div class="card" onclick="location.href='/aktivitas/aktivitas.php'">
                     <div>
                         <div class="angka"><?php echo htmlspecialchars($sedang_proses); ?></div>
                         <div class="cardname">Sedang Diservis</div>
