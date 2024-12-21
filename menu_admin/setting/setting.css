@@ -225,8 +225,11 @@ select:focus {
 }
 
 .photo-upload-container {
-  text-align: center;
+  text-align: left;  /* Changed from center to left */
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  /* Changed from default to flex-start */
 }
 
 .profile-img {
@@ -239,7 +242,7 @@ select:focus {
 }
 
 .file-hints {
-  text-align: center;
+  text-align: left;  /* Changed from center to left */
   color: #666;
   font-size: 0.875rem;
   margin: 10px 0;
@@ -248,7 +251,7 @@ select:focus {
 .upload-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;  /* Changed from center to flex-start */
   gap: 10px;
 }
 

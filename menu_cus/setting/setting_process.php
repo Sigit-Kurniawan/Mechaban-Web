@@ -23,6 +23,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $no_hp = $_POST['no_hp'];
     $password = $_POST['password'];
 
+    // Check if new email already exists (skip current user's email)
+    if($email !== $email_customer) {
+        $check_email = "SELECT COUNT(*) FROM account WHERE email = ? AND email != ?";
+        $check_stmt = $conn->prepare($check_email);
+        $check_stmt->bind_param("ss", $email, $email_customer);
+        $check_stmt->execute();
+        $check_stmt->bind_result($email_count);
+        $check_stmt->fetch();
+        $check_stmt->close();
+
+        if($email_count > 0) {
+            header("Location: setting.php?error=email_exists");
+            exit();
+        }
+    }
+
     // Memeriksa apakah password diubah
     if (!empty($password)) {
         // Jika password diubah, hash password baru
@@ -37,14 +53,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ssss", $name, $email, $no_hp, $email_customer);
     }
+      if ($stmt->execute()) {
+          // Update email in car table
+          $update_car = "UPDATE car SET email_customer = ? WHERE email_customer = ?";
+          $car_stmt = $conn->prepare($update_car);
+          $car_stmt->bind_param("ss", $email, $email_customer);
+          $car_stmt->execute();
+          $car_stmt->close();
 
-    if ($stmt->execute()) {
-        // Update nama di session
-        $_SESSION["name"] = $name;
-        $_SESSION["email"] = $email; //update session ke email baru
+          // Update session
+          $_SESSION["name"] = $name;
+          $_SESSION["email"] = $email;
 
-        header("Location: setting.php?success=save");
-        exit();
+          header("Location: setting.php?success=save");
+          exit();
     } else {
         echo "Terjadi kesalahan saat memperbarui data akun.";
     }

@@ -88,3 +88,7 @@ function openEditModal(email, name, no_hp, photo) {
         '<?php echo UPLOAD_DIR ?>' + photo : 
         '../../assets/img/default-profile.png';
 }
+
+document.querySelector('.search ion-icon').addEventListener('click', function() {
+    this.closest('form').submit();
+});

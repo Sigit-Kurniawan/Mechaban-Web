@@ -65,7 +65,40 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
         <?php include '../sidebar.php'; ?>
 
         <div class="main">
-            <?php include '../header.php'; ?>
+            <div class="header">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+
+                <!-- ----user img---- -->
+                <div class="user">
+                    <div class="user-img-container">
+                        <?php
+                        // Determine the photo path
+                        $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
+                            ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
+                            : '../../assets/img/default-profile.png';
+                        ?>
+                        <img src="<?php echo $userPhoto; ?>" alt="User Profile Picture" class="user-img"
+                            onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
+
+                        <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
+                    </div>
+
+
+                    <div class="user-info">
+                        <div class="username">
+                            <span class="name">
+                                <?php echo isset($_SESSION["name"]) ? htmlspecialchars($_SESSION["name"]) : 'Guest'; ?>
+                            </span>
+                            <span class="role">
+                                <?php echo isset($_SESSION["role"]) ? htmlspecialchars($_SESSION["role"]) : 'Visitor'; ?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="view">
                 <!-- Sedang Proses -->
@@ -86,31 +119,31 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
                         </thead>
                         <tbody>
                             <?php while ($booking = mysqli_fetch_assoc($result_sedang_proses)): ?>
-                                <tr>
-                                    <td><?php echo date('d-m-Y', strtotime($booking['tgl_booking'])); ?></td>
-                                    <td><?php echo formatNopol($booking['nopol']); ?></td> <!-- Terapkan formatNopol -->
-                                    <td>
-                                        <?php
+                            <tr>
+                                <td><?php echo date('d-m-Y', strtotime($booking['tgl_booking'])); ?></td>
+                                <td><?php echo formatNopol($booking['nopol']); ?></td> <!-- Terapkan formatNopol -->
+                                <td>
+                                    <?php
                                         // Pastikan bahwa servis tidak null
                                         $servis = isset($booking['servis']) ? $booking['servis'] : '';
                                         $servis_array = explode(', ', $servis);
                                         $unique_servis = array_unique($servis_array); // Menghapus duplikasi
                                         echo implode(', ', $unique_servis); // Menampilkan servis yang unik
                                         ?>
-                                    </td>
-                                    <td class="status-<?php echo strtolower($booking['status']); ?>">
-                                        <?php echo ucwords($booking['status']); ?>
-                                    </td>
-                                    <td><?php echo number_format($booking['total_biaya'], 0, ',', '.'); ?></td>
-                                    <td>
-                                        <a href="aktivitas_detail.php?id_booking=<?php echo $booking['id_booking']; ?>"
-                                            class="btn-detail">Detail</a>
+                                </td>
+                                <td class="status-<?php echo strtolower($booking['status']); ?>">
+                                    <?php echo ucwords($booking['status']); ?>
+                                </td>
+                                <td><?php echo number_format($booking['total_biaya'], 0, ',', '.'); ?></td>
+                                <td>
+                                    <a href="aktivitas_detail.php?id_booking=<?php echo $booking['id_booking']; ?>"
+                                        class="btn-detail">Detail</a>
 
-                                        <a href="batal_booking.php?id_booking=<?php echo $booking['id_booking']; ?>"
-                                            class="btn-batal"
-                                            onclick="return confirm('Apakah Anda yakin ingin membatalkan servis ini?');">Batal</a>
-                                    </td>
-                                </tr>
+                                    <a href="batal_booking.php?id_booking=<?php echo $booking['id_booking']; ?>"
+                                        class="btn-batal"
+                                        onclick="return confirm('Apakah Anda yakin ingin membatalkan servis ini?');">Batal</a>
+                                </td>
+                            </tr>
                             <?php endwhile; ?>
                         </tbody>
                     </table>
@@ -134,30 +167,30 @@ $result_riwayat_selesai = mysqli_query($conn, $query_riwayat_selesai);
                         </thead>
                         <tbody>
                             <?php while ($booking = mysqli_fetch_assoc($result_riwayat_selesai)): ?>
-                                <tr>
-                                    <td><?php echo date('d-m-Y', strtotime($booking['tgl_booking'])); ?></td>
-                                    <td><?php echo formatNopol($booking['nopol']); ?></td> <!-- Terapkan formatNopol -->
-                                    <td>
-                                        <?php
+                            <tr>
+                                <td><?php echo date('d-m-Y', strtotime($booking['tgl_booking'])); ?></td>
+                                <td><?php echo formatNopol($booking['nopol']); ?></td> <!-- Terapkan formatNopol -->
+                                <td>
+                                    <?php
                                         // Pastikan bahwa servis tidak null
                                         $servis = isset($booking['servis']) ? $booking['servis'] : '';
                                         $servis_array = explode(', ', $servis);
                                         $unique_servis = array_unique($servis_array); // Menghapus duplikasi
                                         echo implode(', ', $unique_servis); // Menampilkan servis yang unik
                                         ?>
-                                    </td>
-                                    <td class="status-<?php echo strtolower($booking['status']); ?>">
-                                        <?php echo ucwords($booking['status']); ?>
-                                    </td>
-                                    <td><?php echo number_format($booking['total_biaya'], 0, ',', '.'); ?>
-                                    </td>
-                                    <td>
-                                        <a href="aktivitas_detail.php?id_booking=<?php echo $booking['id_booking']; ?>"
-                                            class="btn-detail">Detail</a>
+                                </td>
+                                <td class="status-<?php echo strtolower($booking['status']); ?>">
+                                    <?php echo ucwords($booking['status']); ?>
+                                </td>
+                                <td><?php echo number_format($booking['total_biaya'], 0, ',', '.'); ?>
+                                </td>
+                                <td>
+                                    <a href="aktivitas_detail.php?id_booking=<?php echo $booking['id_booking']; ?>"
+                                        class="btn-detail">Detail</a>
 
-                                    </td>
+                                </td>
 
-                                </tr>
+                            </tr>
                             <?php endwhile; ?>
                         </tbody>
                     </table>

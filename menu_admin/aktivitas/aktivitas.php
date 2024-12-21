@@ -30,11 +30,28 @@ if ($search) {
     $where_conditions[] = "(id_booking LIKE '%$search%' OR nopol LIKE '%$search%')";
 }
 if ($status_filter) {
-    $where_conditions[] = "status_pengerjaan = '$status_filter'";
+    $where_conditions[] = "status = '$status_filter'";
 }
 if ($date_from && $date_to) {
-    $where_conditions[] = "tgl_booking BETWEEN '$date_from' AND '$date_to'";
+    $where_conditions[] = "tgl_booking BETWEEN '$date_from' AND '$date_to 23:59:59'";
 }
+
+// Validate dates
+if ($date_from && $date_to) {
+    $date_from_obj = new DateTime($date_from);
+    $date_to_obj = new DateTime($date_to);
+    
+    if ($date_from_obj > $date_to_obj) {
+        $date_from = '';
+        $date_to = '';
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showAlert('Tanggal awal tidak boleh lebih besar dari tanggal akhir', 'error');
+            });
+        </script>";
+    }
+}
+
 
 $where_clause = !empty($where_conditions) ? 'WHERE ' . implode(' AND ', $where_conditions) : '';
 
@@ -58,9 +75,9 @@ $result = $conn->query($query);
     <link rel="icon" href="../../assets/img/logo.png" type="image/png">
     <title>Mechaban</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <!-- Add DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <link rel="stylesheet" href="aktivitas.css">
+
+
 </head>
 
 <body>
@@ -73,7 +90,7 @@ $result = $conn->query($query);
                     <ion-icon name="menu-outline"></ion-icon>
                 </div>
                 <!-- ----search---- -->
-                
+
                 <!-- ----user img---- -->
                 <div class="user">
                     <div class="user-img-container">
@@ -81,11 +98,9 @@ $result = $conn->query($query);
                         // Determine the photo path
                         $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
                             ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
-                            : '../assets/img/default-profile.png';
+                            : '../../assets/img/default-profile.png';
                         ?>
-                        <img src="<?php echo $userPhoto; ?>"
-                            alt="User Profile Picture"
-                            class="user-img"
+                        <img src="<?php echo $userPhoto; ?>" alt="User Profile Picture" class="user-img"
                             onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
 
                         <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
@@ -111,21 +126,37 @@ $result = $conn->query($query);
             <div class="view">
                 <div class="cardheader">
                     <h2>MANAJEMEN BOOKING</h2>
-                    <!-- <button class="export-btn" onclick="exportToExcel()">Export to Excel</button> -->
+                </div>
+
+                <div class="container">
+                    <!-- Add this alert container -->
+                    <div id="alert-container" class="alert-container"></div>
+                    <!-- Rest of your existing content -->
                 </div>
 
                 <!-- Search and Filter Section -->
                 <div class="filters">
                     <form method="GET" action="">
-                        <input type="text" name="search" placeholder="Search ID or NOPOL" value="<?php echo htmlspecialchars($search); ?>">
+                        <input type="text" name="search" placeholder="Search ID or NOPOL"
+                            value="<?php echo htmlspecialchars($search); ?>">
                         <select name="status">
-                            <option value="">All Status</option>
-                            <option value="Pending" <?php echo $status_filter === 'Pending' ? 'selected' : ''; ?>>Pending</option>
-                            <option value="In Progress" <?php echo $status_filter === 'In Progress' ? 'selected' : ''; ?>>In Progress</option>
-                            <option value="Completed" <?php echo $status_filter === 'Completed' ? 'selected' : ''; ?>>Completed</option>
+                            <option value="">Semua status</option>
+                            <option value="Pending" <?php echo $status_filter === 'Pending' ? 'selected' : ''; ?>>
+                                Pending</option>
+                            <option value="In Progress" <?php echo $status_filter === 'diterima' ? 'selected' : ''; ?>>
+                                Diterima</option>
+                            <option value="selesai" <?php echo $status_filter === 'selesai' ? 'selected' : ''; ?>>
+                                Selesai</option>
+                            <option value="batal" <?php echo $status_filter === 'selesai' ? 'selected' : ''; ?>>
+                                Batal</option>
+                            <option value="dikerjakan" <?php echo $status_filter === 'selesai' ? 'selected' : ''; ?>>
+                                Dikerjakan</option>
                         </select>
-                        <input type="date" name="date_from" value="<?php echo $date_from; ?>">
-                        <input type="date" name="date_to" value="<?php echo $date_to; ?>">
+                        <input type="date" name="date_from" value="<?php echo $date_from; ?>"
+                            max="<?php echo $date_to; ?>">
+                        <input type="date" name="date_to" value="<?php echo $date_to; ?>"
+                            min="<?php echo $date_from; ?>">
+
                         <button type="submit">Filter</button>
                         <button type="button" onclick="window.location.href='aktivitas.php'">Reset</button>
                     </form>
@@ -139,9 +170,7 @@ $result = $conn->query($query);
                             <th>TGL BOOKING</th>
                             <th>NOPOL</th>
                             <th>TOTAL BIAYA</th>
-                            <th>METODE BAYAR</th>
-                            <th>STATUS BAYAR</th>
-                            <th>STATUS PENGERJAAN</th>
+                            <th>STATUS</th>
                             <th>AKSI</th>
                         </tr>
                     </thead>
@@ -149,41 +178,86 @@ $result = $conn->query($query);
                         <?php
                         $no = $offset + 1;
                         while ($row = $result->fetch_assoc()):
-                            $status_class = strtolower(str_replace(' ', '', $row['status_pengerjaan']));
+                            $status_class = strtolower(str_replace(' ', '', $row['status']));
                         ?>
-                            <tr>
-                                <td><?php echo $no++; ?></td>
-                                <td><?php echo htmlspecialchars($row['id_booking']); ?></td>
-                                <td><?php echo date('d/m/Y', strtotime($row['tgl_booking'])); ?></td>
-                                <td><?php echo htmlspecialchars($row['nopol']); ?></td>
-                                <td>Rp <?php echo number_format($row['total_biaya'], 0, ',', '.'); ?></td>
-                                <td><?php echo htmlspecialchars($row['metode_bayar']); ?></td>
-                                <td><?php echo htmlspecialchars($row['status_bayar']); ?></td>
-                                <td>
-                                    <span class="status-badge status-<?php echo $status_class; ?>">
-                                        <?php echo htmlspecialchars($row['status_pengerjaan']); ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <button onclick="viewDetails('<?php echo $row['id_booking']; ?>')" title="View Details">
-                                        <ion-icon name="eye-outline"></ion-icon>
-                                    </button>
-                                    <button onclick="updateStatus('<?php echo $row['id_booking']; ?>')" title="Update Status">
-                                        <ion-icon name="create-outline"></ion-icon>
-                                    </button>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td><?php echo $no++; ?></td>
+                            <td><?php echo htmlspecialchars($row['id_booking']); ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($row['tgl_booking'])); ?></td>
+                            <td><?php echo htmlspecialchars($row['nopol']); ?></td>
+                            <td>Rp <?php echo number_format($row['total_biaya'], 0, ',', '.'); ?></td>
+                            <td>
+                                <span class="status-badge status-<?php echo $status_class; ?>">
+                                    <?php echo htmlspecialchars($row['status']); ?>
+                                </span>
+                            </td>
+                            <td>
+                                <button onclick="viewDetails('<?php echo $row['id_booking']; ?>')" title="View Details">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button onclick="updateStatus('<?php echo $row['id_booking']; ?>')"
+                                    title="Update Status">
+                                    <ion-icon name="create-outline"></ion-icon>
+                                </button>
+                            </td>
+                        </tr>
                         <?php endwhile; ?>
                     </tbody>
                 </table>
 
+                <!-- View Details Modal -->
+                <div id="viewDetailsModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>  
+                        <h2>Booking Details</h2>
+                        <div id="bookingDetails">
+                            <?php
+                                // The query will be executed when a specific booking is selected
+                                $query = "SELECT * FROM view_rincian_booking WHERE id_booking = :id_booking";
+                                ?>
+                            <div class="booking-info">
+                                <p><strong>ID Booking:</strong> <span id="modal-id-booking"></span></p>
+                                <p><strong>Tanggal Booking:</strong> <span id="modal-tgl-booking"></span></p>
+                                <p><strong>Email Customer:</strong> <span id="modal-email-customer"></span></p>
+                                <p><strong>Nomor Polisi:</strong> <span id="modal-nopol"></span></p>
+                                <p><strong>Servis:</strong> <span id="modal-servis"></span></p>
+                                <p><strong>Total Biaya:</strong> <span id="modal-total-biaya"></span></p>
+                                <p><strong>Status:</strong> <span id="modal-status"></span></p>
+                                <p><strong>Ketua Montir:</strong> <span id="modal-ketua-montir"></span></p>
+                                <p><strong>Anggota Montir:</strong> <span id="modal-anggota-montir"></span></p>
+                                <p><strong>Lokasi:</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Update Status Modal -->
+                <div id="updateStatusModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Update Status</h2>
+                        <form id="updateStatusForm">
+                            <input type="hidden" id="bookingId" name="bookingId">
+                            <select name="status" id="status">
+                                <option value="Pending">Pending</option>
+                                <option value="diterima">Diterima</option>
+                                <option value="batal">Batal</option>
+                                <option value="dikerjakan">Dikerjakan</option>
+                                <option value="selesai">Selesai</option>
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- Pagination -->
                 <div class="pagination">
                     <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                        <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&status=<?php echo urlencode($status_filter); ?>&date_from=<?php echo urlencode($date_from); ?>&date_to=<?php echo urlencode($date_to); ?>"
-                            class="<?php echo $page === $i ? 'active' : ''; ?>">
-                            <?php echo $i; ?>
-                        </a>
+                    <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&status=<?php echo urlencode($status_filter); ?>&date_from=<?php echo urlencode($date_from); ?>&date_to=<?php echo urlencode($date_to); ?>"
+                        class="<?php echo $page === $i ? 'active' : ''; ?>">
+                        <?php echo $i; ?>
+                    </a>
                     <?php endfor; ?>
                 </div>
             </div>
@@ -192,11 +266,15 @@ $result = $conn->query($query);
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js">
+    </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="../../assets/js/main.js"></script>
     <script src="aktivitas.js"></script>
+
+    </script>
+
 </body>
 
 </html>

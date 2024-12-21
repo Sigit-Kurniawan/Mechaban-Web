@@ -66,13 +66,13 @@ if (isset($_POST['submit_booking'])) {
 
             mysqli_stmt_close($stmt);
             // Redirect with success message
-            echo "<script>alert('Booking berhasil'); window.location.href = 'booking.php';</script>";
+            header("Location: booking.php?success=booking");
             exit();
         }
     }
 
     // Display failure message if booking fails
-    echo "<script>alert('Gagal booking'); window.location.href = 'booking.php';</script>";
+    header("Location: booking.php?error=booking");
     exit();
 }
 ?>

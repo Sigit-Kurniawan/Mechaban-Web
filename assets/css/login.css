@@ -129,3 +129,24 @@ button:hover {
 .verify-btn:hover {
   background-color: #45a049;
 }
+
+.phone-input-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.phone-prefix {
+  color: #666;
+  padding: 0 5px;
+  border-right: 1px solid #ddd;
+  margin-right: 5px;
+}
+
+.phone-input-container input {
+  border: none;
+  outline: none;
+  width: 100%;
+}

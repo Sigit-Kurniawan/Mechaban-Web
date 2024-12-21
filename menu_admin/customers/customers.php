@@ -219,14 +219,12 @@ $table_photo_column = '
 $table_row_photo = '
 <td>
     <?php if (!empty($row["photo"])): ?>
-        <img src="' . UPLOAD_DIR . '<?php echo htmlspecialchars($row["photo"]); ?>" 
-             alt="Profile photo" 
-             style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
-    <?php else: ?>
-        <img src="../../assets/img/default-profile.png" 
-             alt="Default profile" 
-             style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
-    <?php endif; ?>
+<img src="' . UPLOAD_DIR . '<?php echo htmlspecialchars($row["photo"]); ?>" alt="Profile photo"
+    style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+<?php else: ?>
+<img src="../../assets/img/default-profile.png" alt="Default profile"
+    style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+<?php endif; ?>
 </td>
 ';
 
@@ -251,7 +249,21 @@ $form_enctype = 'enctype="multipart/form-data"';
     <div class="container">
         <?php include '../sidebar.php'; ?>
         <div class="main">
-            <?php include '../header.php'; ?>
+            <?php include '../header.php';
+            
+                // Modify the existing search handling code in customers.php
+                $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
+
+                // Prepare the query with search functionality
+                $query = "SELECT * FROM account WHERE role = 'customer'";
+                if (!empty($search)) {
+                    $query .= " AND (name LIKE '%$search%' OR email LIKE '%$search%' OR no_hp LIKE '%$search%')";
+                }
+                $query .= " ORDER BY name";
+
+                // Execute the query
+                $result = $conn->query($query);
+                ?>
 
             <div class="view">
                 <!-- <button id="myBtn" class="tambah-cus">Tambah Customers</button> -->
@@ -263,11 +275,11 @@ $form_enctype = 'enctype="multipart/form-data"';
                         <div class="cus-tambah">
                             <h2 id="modalTitle">Form Tambah Customers</h2>
                             <?php if (!empty($errors)): ?>
-                                <div class="errors">
-                                    <?php foreach ($errors as $error): ?>
-                                        <p><?php echo htmlspecialchars($error); ?></p>
-                                    <?php endforeach; ?>
-                                </div>
+                            <div class="errors">
+                                <?php foreach ($errors as $error): ?>
+                                <p><?php echo htmlspecialchars($error); ?></p>
+                                <?php endforeach; ?>
+                            </div>
                             <?php endif; ?>
                             <div class="form">
                                 <form id="formCustomer" action="" method="post" enctype="multipart/form-data">
@@ -330,15 +342,14 @@ $form_enctype = 'enctype="multipart/form-data"';
                                 <th>Nama</th>
                                 <th>No. HP</th>
                                 <th>Photo</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $query = "SELECT * FROM account WHERE role = 'customer' ORDER BY name";
-                            $result = $conn->query($query);
                             $no = 1;
-                            while ($row = $result->fetch_assoc()):
+                            // Check if there are any results
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()):
                             ?>
                                 <tr>
                                     <td><?php echo $no++; ?></td>
@@ -357,12 +368,14 @@ $form_enctype = 'enctype="multipart/form-data"';
                                                 class="customer-photo">
                                         <?php endif; ?>
                                     </td>
-                                    <td>
-                                        <a href="javascript:void(0);" onclick="openEditModal('<?php echo htmlspecialchars($row['email']); ?>', '<?php echo htmlspecialchars($row['name']); ?>', '<?php echo htmlspecialchars($row['no_hp']); ?>')" class="btn-edit">Edit</a>
-                                        <a href="?delete=<?php echo urlencode($row['email']); ?>" class="btn-hapus" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
-                                    </td>
                                 </tr>
-                            <?php endwhile; ?>
+                            <?php 
+                                endwhile;
+                            } else {
+                                // Display a message if no results found
+                                echo '<tr><td colspan="6" style="text-align:center;">Tidak ada data ditemukan.</td></tr>';
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>

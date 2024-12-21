@@ -4,13 +4,22 @@
     </div>
     <!-- ----search---- -->
     <div class="search">
-        <form action="montir.php" method="get"></form>
-        <label>
-            <input type="text" name="search" placeholder="Search here....."
-                value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-            <ion-icon name="search-outline"></ion-icon>
-        </label>
-    </div> 
+        <form action="" method="get">
+            <label>
+                <input type="text" name="search" placeholder="Search here....."
+                    value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
+                    autocomplete="off">
+                <button type="submit" class="search-button">
+                </button>
+                <?php if (!empty($_GET['search'])): ?>
+                <a href="<?php echo strtok($_SERVER['REQUEST_URI'], '?'); ?>" class="clear-search">
+                    &times;
+                </a>
+                <?php endif; ?>
+            </label>
+        </form>
+    </div>
+
     <!-- ----user img---- -->
     <div class="user">
         <div class="user-img-container">
@@ -18,11 +27,9 @@
             // Determine the photo path
             $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
                 ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
-                : '../assets/img/default-profile.png';
+                : '../../assets/img/default-profile.png';
             ?>
-            <img src="<?php echo $userPhoto; ?>"
-                alt="User Profile Picture"
-                class="user-img"
+            <img src="<?php echo $userPhoto; ?>" alt="User Profile Picture" class="user-img"
                 onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
 
             <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>

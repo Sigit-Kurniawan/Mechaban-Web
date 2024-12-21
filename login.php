@@ -32,9 +32,16 @@ if (isset($_SESSION["login"])) {
                 <!-- Tampilkan pesan error jika terjadi kesalahan -->
                 <?php
                 if (isset($_GET['error'])):
-                    $error = intval($_GET['error']);
-                    if ($error === 1) {
-                        echo '<div class="alert">Email atau password salah.</div>';
+                    $errorMessages = [
+                        1 => "Montir hanya bisa login melalui aplikasi mobile Android.",
+                        2 => "Email atau password salah.",
+                        3 => "Role tidak sesuai.",
+                        4 => "Terjadi kesalahan pada server. Silakan coba lagi nanti."
+                    ];
+
+                    // Check if the error code exists in the messages array
+                    if (array_key_exists($_GET['error'], $errorMessages)) {
+                        echo '<div class="alert">' . htmlspecialchars($errorMessages[$_GET['error']], ENT_QUOTES, 'UTF-8') . '</div>';
                     }
                 endif;
                 ?>
@@ -54,6 +61,8 @@ if (isset($_SESSION["login"])) {
 
                     <div class="teks">
                         <p>Belum punya akun? <a href="register.php"> Register</a></p>
+                        <p>Anda lupa password? <a href="/Mechaban-Web/lupa_password/lupa_password.php"> Lupa
+                                Password</a></p>
                     </div>
                 </form>
 
@@ -62,15 +71,15 @@ if (isset($_SESSION["login"])) {
     </div>
 
     <script>
-        // Menghilangkan elemen dengan class "alert" setelah 3 detik
-        setTimeout(() => {
-            const alertElement = document.querySelector('.alert');
-            if (alertElement) {
-                alertElement.style.transition = 'opacity 0.5s';
-                alertElement.style.opacity = '0';
-                setTimeout(() => alertElement.remove(), 500); // Menghapus elemen setelah transisi selesai
-            }
-        }, 3000);
+    // Menghilangkan elemen dengan class "alert" setelah 3 detik
+    setTimeout(() => {
+        const alertElement = document.querySelector('.alert');
+        if (alertElement) {
+            alertElement.style.transition = 'opacity 0.5s';
+            alertElement.style.opacity = '0';
+            setTimeout(() => alertElement.remove(), 500); // Menghapus elemen setelah transisi selesai
+        }
+    }, 3000);
     </script>
 
 

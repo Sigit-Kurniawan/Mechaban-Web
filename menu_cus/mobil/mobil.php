@@ -88,7 +88,21 @@ if (isset($_POST['simpan'])) {
 //hapus data mobil
 if (isset($_GET['delete_nopol'])) {
     $nopol_to_delete = $_GET['delete_nopol'];
-
+    
+    // Check booking status first
+    $check_status = "SELECT status FROM booking WHERE nopol = ? ORDER BY tgl_booking DESC LIMIT 1";
+    $check_stmt = $conn->prepare($check_status);
+    $check_stmt->bind_param("s", $nopol_to_delete);
+    $check_stmt->execute();
+    $status_result = $check_stmt->get_result();
+    $status_row = $status_result->fetch_assoc();
+    
+    if ($status_row && in_array($status_row['status'], ['pending', 'diterima', 'dikerjakan'])) {
+        header("Location: mobil.php?error=cannot_delete_active");
+        exit();
+    }
+    
+    // Prepare and execute delete statement
     $delete_query = "DELETE FROM car WHERE nopol=? AND email_customer=?";
     $delete_stmt = $conn->prepare($delete_query);
     $delete_stmt->bind_param("ss", $nopol_to_delete, $email_customer);
@@ -97,11 +111,11 @@ if (isset($_GET['delete_nopol'])) {
         header("Location: mobil.php?success=delete");
         exit();
     } else {
-        echo "<script>alert('Gagal menghapus data: " . $delete_stmt->error . "');</script>";
+        header("Location: mobil.php?error=delete_failed");
+        exit();
     }
     $delete_stmt->close();
 }
-
 // Query untuk menampilkan data mobil berdasarkan email customer yang login
 $query = "SELECT nopol, merk, type, transmition, year
 FROM car
@@ -119,7 +133,11 @@ $result = $stmt->get_result();
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 // Query dasar
-$query = "SELECT * FROM car WHERE email_customer = ?";
+$query = "SELECT c.*, COALESCE(b.status, 'available') as booking_status 
+          FROM car c 
+          LEFT JOIN booking b ON c.nopol = b.nopol 
+          WHERE c.email_customer = ?";
+
 
 // Tambahkan kondisi pencarian jika parameter 'search' ada
 if (!empty($search)) {
@@ -169,7 +187,41 @@ $result = $stmt->get_result();
     <div class="container">
         <?php include '../sidebar.php'; ?>
         <div class="main">
-            <?php include '../header.php'; ?>
+        <div class="header">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+
+                <!-- ----user img---- -->
+                <div class="user">
+
+                    <div class="user-img-container">
+                        <?php
+                        // Determine the photo path
+                        $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
+                            ? '../../uploads/' . htmlspecialchars($_SESSION["photo"])
+                            : '../../assets/img/default-profile.png';
+                        ?>
+                        <img src="<?php echo $userPhoto; ?>" alt="User Profile Picture" class="user-img"
+                            onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
+
+                        <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
+                    </div>
+
+
+                    <div class="user-info">
+                        <div class="username">
+                            <span class="name">
+                                <?php echo isset($_SESSION["name"]) ? htmlspecialchars($_SESSION["name"]) : 'Guest'; ?>
+                            </span>
+                            <span class="role">
+                                <?php echo isset($_SESSION["role"]) ? htmlspecialchars($_SESSION["role"]) : 'Visitor'; ?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="view">
                 <div class="head-mobil">
@@ -251,19 +303,26 @@ $result = $stmt->get_result();
                         <tbody>
                             <?php while ($row = $result->fetch_assoc()): ?>
                                 <tr>
-                                    <td><?php echo formatNopol($row['nopol']); ?> <!-- Terapkan formatNopol --></td>
+                                    <td><?php echo formatNopol($row['nopol']); ?></td>
                                     <td><?php echo htmlspecialchars($row['merk']); ?></td>
                                     <td><?php echo htmlspecialchars($row['type']); ?></td>
                                     <td><?php echo htmlspecialchars($row['transmition']); ?></td>
                                     <td><?php echo htmlspecialchars($row['year']); ?></td>
-                                    <td class="table-action-buttons">
-                                        <a href="javascript:void(0);"
-                                            onclick="openEditModal('<?php echo htmlspecialchars($row['nopol']); ?>', '<?php echo htmlspecialchars($row['merk']); ?>', '<?php echo htmlspecialchars($row['type']); ?>', '<?php echo htmlspecialchars($row['transmition']); ?>', '<?php echo htmlspecialchars($row['year']); ?>')"
-                                            class="btn btn-edit">Edit</a>
+                                     <td class="table-action-buttons">
+                                        <?php 
+                                        $status = $row['booking_status'];
+                                        if ($status == 'available' || $status == 'selesai' || $status == 'batal'): 
+                                        ?>
+                                            <a href="javascript:void(0);" 
+                                                onclick="openEditModal('<?php echo htmlspecialchars($row['nopol']); ?>', '<?php echo htmlspecialchars($row['merk']); ?>', '<?php echo htmlspecialchars($row['type']); ?>', '<?php echo htmlspecialchars($row['transmition']); ?>', '<?php echo htmlspecialchars($row['year']); ?>')" 
+                                                class="btn btn-edit">Edit</a>
 
-                                        <a href="?delete_nopol=<?php echo htmlspecialchars($row['nopol']); ?>"
-                                            class="btn btn-hapus"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">Hapus</a>
+                                            <a href="?delete_nopol=<?php echo htmlspecialchars($row['nopol']); ?>" 
+                                                class="btn btn-hapus" 
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">Hapus</a>
+                                        <?php else: ?>
+                                            <span class="table-action-buttons">Sedang dalam proses servis</span>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>

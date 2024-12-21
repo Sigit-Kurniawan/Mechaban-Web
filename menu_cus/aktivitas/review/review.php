@@ -29,6 +29,20 @@ mysqli_stmt_bind_param($stmt, "ss", $email_customer, $id_booking);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
+
+// Add this after the existing query
+$check_review_query = "
+    SELECT * FROM review_customer
+    WHERE id_booking = ? 
+    AND teks_review IS NOT NULL
+";
+
+$check_stmt = mysqli_prepare($conn, $check_review_query);
+mysqli_stmt_bind_param($check_stmt, "s", $id_booking);
+mysqli_stmt_execute($check_stmt);
+$review_result = mysqli_stmt_get_result($check_stmt);
+$has_review = mysqli_num_rows($review_result) > 0;
+
 ?>
 
 <!DOCTYPE html>
@@ -46,102 +60,100 @@ $result = mysqli_stmt_get_result($stmt);
 <body>
     <div class="container">
         <?php include '../../sidebar.php'; ?>
-
         <div class="main">
-            <?php include '../../header.php'; ?>
-
-            <div class="review">
-                <h2>Berikan Review Anda</h2>
-
-
-                <form action="review_process.php" method="POST">
-                    <input type="hidden" name="id_booking" value="<?php echo $id_booking; ?>">
-
-                    <div class="form-group">
-                        <label for="rating">Rating:</label>
-                        <div class="stars">
-
-                            <input type="radio" name="rating" value="1" id="star1" required>
-                            <label for="star1"></label>
-                            <span>1</span>
-
-                            <input type="radio" name="rating" value="2" id="star2" required>
-                            <label for="star2"></label>
-                            <span>2</span>
+            <div class="header">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
 
 
-                            <input type="radio" name="rating" value="3" id="star3" required>
-                            <label for="star3"></label>
-                            <span>3</span>
+                <!-- ----user img---- -->
+                <div class="user">
+
+                    <div class="user-img-container">
+                        <?php
+                        // Determine the photo path
+                        $userPhoto = isset($_SESSION["photo"]) && !empty($_SESSION["photo"])
+                            ? '../../../uploads/' . htmlspecialchars($_SESSION["photo"])
+                            : '../../../assets/img/default-profile.png';
+                        ?>
+                        <img src="<?php echo $userPhoto; ?>" alt="User Profile Picture" class="user-img"
+                            onclick="showPhotoModal('<?php echo $userPhoto; ?>')">
+
+                        <div class="user-status <?php echo ($_SESSION["is_online"]) ? 'online' : 'offline'; ?>"></div>
+                    </div>
 
 
-
-                            <input type="radio" name="rating" value="4" id="star4" required>
-                            <label for="star4"></label>
-                            <span>4</span>
-
-
-
-                            <input type="radio" name="rating" value="5" id="star5" required>
-                            <label for="star5"></label>
-                            <span>5</span>
-
-
-
-
+                    <div class="user-info">
+                        <div class="username">
+                            <span class="name">
+                                <?php echo isset($_SESSION["name"]) ? htmlspecialchars($_SESSION["name"]) : 'Guest'; ?>
+                            </span>
+                            <span class="role">
+                                <?php echo isset($_SESSION["role"]) ? htmlspecialchars($_SESSION["role"]) : 'Visitor'; ?>
+                            </span>
                         </div>
                     </div>
-
-
-                    <div class="form-group">
-                        <label for="review_text">Komentar Anda:</label>
-                        <textarea id="review_text" name="review_text" rows="5" required
-                            placeholder="Tulis komentar Anda di sini"></textarea>
-                    </div>
-
-                    <div class="button-container">
-                        <button type="submit" class="submit-btn">Kirim Review</button>
-                        <a href="../aktivitas_detail.php?id_booking=<?php echo $id_booking; ?>"
-                            class="btn-kembali">Kembali</a>
-                    </div>
-
-                </form>
-
-
-
-
-
-
-
-
+                </div>
             </div>
-        </div>
+              <div class="review">
+                      <h2>Berikan Review Anda</h2>
+                      <form action="review_process.php" method="POST">
+                          <input type="hidden" name="id_booking" value="<?php echo $id_booking; ?>">
+
+                          <div class="form-group">
+                              <label for="rating">Rating:</label>
+                              <div class="stars">
+                                  <input type="radio" name="rating" value="5" id="star5" required>
+                                  <label for="star1"></label>
+
+                                  <input type="radio" name="rating" value="4" id="star4" required>
+                                  <label for="star2"></label>
+
+                                  <input type="radio" name="rating" value="3" id="star3" required>
+                                  <label for="star3"></label>
+
+                                  <input type="radio" name="rating" value="2" id="star2" required>
+                                  <label for="star4"></label>
+
+                                  <input type="radio" name="rating" value="1" id="star1" required>
+                                  <label for="star5"></label>
+                              </div>
+
+                          </div>
+
+
+                          <div class="form-group">
+                              <label for="review_text">Komentar Anda:</label>
+                              <textarea id="review_text" name="review_text" rows="5" required
+                                  placeholder="Tulis komentar Anda di sini"></textarea>
+                          </div>
+
+                          <div class="button-container">
+                              <button type="submit" class="submit-btn">Kirim Review</button>
+                          </div>
+
+                      </form>
+              </div>
+          </div>
     </div>
-    <script>document.addEventListener('DOMContentLoaded', function () {
-            const form = document.querySelector('form');
-            const ratingInputs = document.querySelectorAll('input[name="rating"]');
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const stars = document.querySelectorAll('.stars input');
 
-            // Ketika form disubmit, pastikan hanya rating tertinggi yang dikirimkan
-            form.addEventListener('submit', function (event) {
-                let highestRating = 0;
-
-                // Menentukan rating tertinggi
-                ratingInputs.forEach(input => {
-                    if (input.checked) {
-                        highestRating = Math.max(highestRating, parseInt(input.value));
-                    }
-                });
-
-                // Menyimpan rating tertinggi ke dalam input tersembunyi
-                const hiddenRatingInput = document.createElement('input');
-                hiddenRatingInput.type = 'hidden';
-                hiddenRatingInput.name = 'rating';
-                hiddenRatingInput.value = highestRating;
-
-                // Menambahkan input tersembunyi ke form
-                form.appendChild(hiddenRatingInput);
+        stars.forEach((star, index) => {
+            star.addEventListener('change', function() {
+                const rating = this.value;
+                // Clear all stars
+                stars.forEach(s => s.checked = false);
+                // Fill stars up to selected rating
+                for (let i = 0; i < rating; i++) {
+                    stars[i].checked = true;
+                }
             });
         });
+    });
     </script>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
