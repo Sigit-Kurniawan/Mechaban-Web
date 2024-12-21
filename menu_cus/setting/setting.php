@@ -43,7 +43,7 @@ $photo_url = !empty($user['photo']) ? UPLOAD_DIR . htmlspecialchars($user['photo
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="http://localhost/Mechaban-Web/assets/img/logo.png" type="image/png">
+    <link rel="icon" href="../../assets/img/logo.png" type="image/png">
     <title>Mechaban - Edit Profil</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="setting.css">
