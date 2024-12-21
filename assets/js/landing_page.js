@@ -1,3 +1,65 @@
+// JS UNTUK NAVBAR
+const hamburger = document.getElementById("hamburger");
+const drawer = document.getElementById("drawer");
+const closeDrawer = document.getElementById("close-drawer");
+
+hamburger.addEventListener("click", () => {
+  drawer.classList.remove("translate-x-full");
+});
+
+closeDrawer.addEventListener("click", () => {
+  drawer.classList.add("translate-x-full");
+});
+
+const drawerLinks = drawer.querySelectorAll("a");
+drawerLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    drawer.classList.add("translate-x-full");
+  });
+});
+
+const navbar = document.getElementById("navbar");
+const logo = navbar.querySelector("img");
+const links = navbar.querySelectorAll("a");
+const title = document.getElementById("title");
+const login = document.getElementById("login");
+const filteredLinks = Array.from(links).filter((link) => link.id !== "login");
+
+window.addEventListener("scroll", () => {
+  const scrollY = window.scrollY;
+  const changePoint = 700; // Jarak scroll di mana warna berubah
+
+  if (scrollY > changePoint) {
+    navbar.classList.remove("bg-opacity-20");
+    navbar.classList.remove("backdrop-blur-md");
+    navbar.classList.add("bg-white");
+    logo.srcset = "assets/img/logo2.png";
+    title.classList.remove("text-white");
+    title.classList.add("text-primary");
+    filteredLinks.forEach((link) => link.classList.add("text-primary"));
+    login.classList.remove("text-primary");
+    login.classList.add("text-white");
+    login.classList.remove("bg-white");
+    login.classList.add("bg-primary");
+    hamburger.classList.add("text-primary");
+    hamburger.classList.remove("text-white");
+  } else {
+    navbar.classList.add("bg-opacity-20");
+    navbar.classList.add("backdrop-blur-md");
+    navbar.classList.remove("bg-white");
+    logo.srcset = "assets/img/logo.png";
+    title.classList.add("text-white");
+    title.classList.remove("text-primary");
+    filteredLinks.forEach((link) => link.classList.remove("text-primary"));
+    login.classList.add("text-primary");
+    login.classList.remove("text-white");
+    login.classList.add("bg-white");
+    login.classList.remove("bg-primary");
+    hamburger.classList.remove("text-primary");
+    hamburger.classList.add("text-white");
+  }
+});
+
 // JS UNTUK SLIDE
 let slideIndex = 0;
 
@@ -27,6 +89,36 @@ function changeSlide(n) {
   }
   slides[slideIndex - 1].style.display = "block";
 }
+
+// JS UNTUK SWIPER
+var swiper = new Swiper(".mySwiper", {
+  slidesPerView: 1,
+  spaceBetween: 16,
+  loop: true,
+  centeredSlides: true,
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+  breakpoints: {
+    640: {
+      // Tablet portrait
+      slidesPerView: 2,
+      spaceBetween: 20,
+    },
+    768: {
+      // Tablet landscape
+      slidesPerView: 3,
+      spaceBetween: 24,
+    },
+    1024: {
+      // Desktop
+      slidesPerView: 5,
+      spaceBetween: 12,
+      centeredSlides: true,
+    },
+  },
+});
 
 // JS UNTUK ACCORDION
 document.addEventListener("DOMContentLoaded", () => {
